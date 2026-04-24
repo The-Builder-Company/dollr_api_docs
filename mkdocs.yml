@@ -1,0 +1,86 @@
+site_name: Dollr Developer Docs
+site_description: Official API documentation for integrating Dollr into your application or project.
+site_author: Dollr
+site_url: https://docs.heydollr.app
+
+docs_dir: docs
+site_dir: site
+
+theme:
+  name: material
+  logo: assets/logo.png
+  favicon: assets/favicon.png
+  features:
+    - content.code.copy
+    - content.tabs.link
+    - navigation.instant
+    - navigation.tracking
+    - navigation.sections
+    - navigation.top
+    - search.highlight
+    - search.suggest
+    - search.share
+    - toc.follow
+  generator: false
+  palette:
+    - scheme: default
+      primary: custom
+      accent: custom
+      toggle:
+        icon: material/brightness-7
+        name: Switch to dark mode
+    - scheme: slate
+      primary: custom
+      accent: custom
+      toggle:
+        icon: material/brightness-4
+        name: Switch to light mode
+
+extra_css:
+  - assets/stylesheets/dollr.css
+
+extra_javascript:
+  - assets/javascripts/method-badges.js
+
+extra:
+  version: "v1.0"
+
+markdown_extensions:
+  - admonition
+  - pymdownx.details
+  - pymdownx.superfences
+  - pymdownx.tabbed:
+      alternate_style: true
+  - pymdownx.highlight:
+      use_pygments: true
+  - pymdownx.inlinehilite
+  - attr_list
+  - toc:
+      permalink: true
+      toc_depth: 3
+  - tables
+
+nav:
+  - Getting Started:
+    - Overview & Introduction: index.md
+    - Quick Start: quickstart.md
+  - API Reference:
+    - Parties: api/parties.md
+    - Counterparties: api/counterparties.md
+    - Invoices: api/invoices.md
+    - Orders: api/orders.md
+    - Checkouts: api/checkouts.md
+    - Sessions: api/sessions.md
+    - Executions: api/executions.md
+    - Transaction Status: api/status.md
+    - Payment Accounts: api/payment-accounts.md
+    - Payment Links: api/links.md
+    - Predictions: api/predictions.md
+    - Fees: api/fees.md
+    - Merchants: api/merchants.md
+    - Realtime Keys: api/realtime-keys.md
+  - Guides:
+    - Integration Guide: guides/integration.md
+    - Error Handling: guides/error-handling.md
+  - Reference:
+    - Glossary: reference/glossary.md

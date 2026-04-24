@@ -1,0 +1,174 @@
+/* ─── Dollr Brand Colors ──────────────────────────────────────────────────── */
+:root,
+[data-md-color-scheme="default"] {
+  --dollr-primary: #082255;
+  --dollr-orange:  #f98b00;
+  --dollr-light:   #e8edf5;
+  --dollr-dark:    #051840;
+
+  --md-primary-fg-color:             #082255;
+  --md-primary-fg-color--light:      #1a4080;
+  --md-primary-fg-color--dark:       #051840;
+  --md-accent-fg-color:              #f98b00;
+  --md-accent-fg-color--transparent: rgba(249, 139, 0, 0.1);
+  --md-typeset-a-color:              #082255;
+}
+
+[data-md-color-scheme="slate"] {
+  --dollr-primary: #082255;
+  --dollr-orange:  #f98b00;
+  --dollr-light:   rgba(8, 34, 85, 0.2);
+  --dollr-dark:    #051840;
+
+  --md-primary-fg-color:             #082255;
+  --md-primary-fg-color--light:      #1a4080;
+  --md-primary-fg-color--dark:       #051840;
+  --md-accent-fg-color:              #f98b00;
+  --md-accent-fg-color--transparent: rgba(249, 139, 0, 0.1);
+  --md-typeset-a-color:              #7fa8e0;
+}
+
+/* ─── Headings ───────────────────────────────────────────────────────────── */
+.md-typeset h1 {
+  border-bottom: 3px solid var(--dollr-orange);
+  padding-bottom: 0.3em;
+}
+
+.md-typeset h2 {
+  border-bottom: 1px solid rgba(8, 34, 85, 0.15);
+  padding-bottom: 0.2em;
+}
+
+[data-md-color-scheme="slate"] .md-typeset h2 {
+  border-bottom-color: rgba(255, 255, 255, 0.1);
+}
+
+/* ─── Tables ─────────────────────────────────────────────────────────────── */
+.md-typeset table:not([class]) {
+  border: 1px solid #d0daea;
+  border-radius: 4px;
+  overflow: hidden;
+  display: table;
+  width: 100%;
+}
+
+.md-typeset table:not([class]) th {
+  background-color: var(--dollr-primary);
+  color: #ffffff;
+  min-width: 80px;
+  white-space: nowrap;
+  padding: 8px 12px;
+}
+
+.md-typeset table:not([class]) tr:nth-child(even) td {
+  background-color: var(--dollr-light);
+}
+
+/* Bold the Required column value */
+.md-typeset table:not([class]) td:nth-child(3) {
+  font-weight: 600;
+}
+
+/* ─── Code blocks ────────────────────────────────────────────────────────── */
+.md-typeset .highlight,
+.md-typeset pre {
+  border-left: 3px solid var(--dollr-orange);
+  border-radius: 0 4px 4px 0;
+}
+
+/* ─── Inline code ────────────────────────────────────────────────────────── */
+.md-typeset :not(pre) > code {
+  background-color: #fdf5f5;
+  border: 1px solid #f2d9dc;
+  color: #c7254e;
+  border-radius: 3px;
+  padding: 1px 5px;
+}
+
+[data-md-color-scheme="slate"] .md-typeset :not(pre) > code {
+  background-color: rgba(199, 37, 78, 0.12);
+  border-color: rgba(199, 37, 78, 0.3);
+  color: #e88ea5;
+}
+
+/* ─── Tabs (code language switcher) ─────────────────────────────────────── */
+.md-typeset .tabbed-labels > label {
+  font-size: 0.75rem;
+  font-weight: 600;
+}
+
+.md-typeset .tabbed-labels > label:hover {
+  color: var(--dollr-orange);
+}
+
+.md-typeset .tabbed-labels > [data-md-state=active] {
+  color: var(--dollr-primary);
+  border-color: var(--dollr-orange);
+}
+
+[data-md-color-scheme="slate"] .md-typeset .tabbed-labels > [data-md-state=active] {
+  color: #e8edf5;
+  border-color: var(--dollr-orange);
+}
+
+/* ─── Admonitions ────────────────────────────────────────────────────────── */
+.md-typeset .admonition.note,
+.md-typeset details.note {
+  border-color: var(--dollr-primary);
+}
+
+.md-typeset .note > .admonition-title,
+.md-typeset .note > summary {
+  background-color: rgba(8, 34, 85, 0.1);
+}
+
+.md-typeset .note > .admonition-title::before,
+.md-typeset .note > summary::before {
+  background-color: var(--dollr-primary);
+}
+
+.md-typeset .admonition.warning,
+.md-typeset details.warning {
+  border-color: var(--dollr-orange);
+}
+
+.md-typeset .warning > .admonition-title,
+.md-typeset .warning > summary {
+  background-color: rgba(249, 139, 0, 0.1);
+}
+
+.md-typeset .warning > .admonition-title::before,
+.md-typeset .warning > summary::before {
+  background-color: var(--dollr-orange);
+}
+
+/* ─── HTTP Method Badges ─────────────────────────────────────────────────── */
+.method-badge {
+  display:       inline-block;
+  padding:       0.15em 0.55em;
+  border-radius: 4px;
+  font-weight:   700;
+  font-size:     0.78em;
+  letter-spacing: 0.04em;
+  font-family:   var(--md-code-font-family);
+  vertical-align: middle;
+  margin-right:  0.4em;
+  color:         #fff;
+}
+
+.method-get    { background-color: #0a7c42; }
+.method-post   { background-color: #0054a6; }
+.method-put    { background-color: #c56b00; }
+.method-patch  { background-color: #7d3c98; }
+.method-delete { background-color: #b91c1c; }
+
+/* ─── Footer ─────────────────────────────────────────────────────────────── */
+.md-footer {
+  background-color: var(--dollr-dark);
+}
+
+/* ─── Scrollbar (webkit) ─────────────────────────────────────────────────── */
+::-webkit-scrollbar-thumb {
+  background: rgba(249, 139, 0, 0.4);
+  border-radius: 3px;
+}
