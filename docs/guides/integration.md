@@ -109,9 +109,10 @@ Poll for status, or use a Realtime Key (`POST /v1/realtime-keys/collection`) for
 
 ```http
 GET /v1/invoices/receipt/{id}
+GET /v1/orders/receipt/{id}
 ```
 
-Retrieve the receipt once the collection execution is successful and the source status is `PAID`. The receipt includes amounts, fees, FX rate, provider, and line items.
+Retrieve the receipt once the collection execution is successful and the source status is `PAID`. The receipt includes amounts, fees, FX rate, provider, and line items. Use `/v1/invoices/receipt/{id}` for invoices and `/v1/orders/receipt/{id}` for orders.
 
 ---
 

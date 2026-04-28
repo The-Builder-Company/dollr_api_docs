@@ -81,7 +81,7 @@ After submitting your documents, your account enters a compliance review. The ty
 Once your account is approved:
 
 1. Log in at [https://merchant.heydollr.app](https://merchant.heydollr.app)
-2. Navigate to **Settings > Developer > API Keys**
+2. Navigate to **API Keys** in the sidebar
 3. Generate a new **Client ID** and **Client Secret**
 4. Store your Client Secret securely — it is only shown once
 

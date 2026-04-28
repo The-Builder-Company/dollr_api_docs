@@ -1,7 +1,6 @@
 site_name: Dollr Developer Docs
 site_description: Official API documentation for integrating Dollr into your application or project.
 site_author: Dollr
-site_url: https://docs.heydollr.app
 
 docs_dir: docs
 site_dir: site

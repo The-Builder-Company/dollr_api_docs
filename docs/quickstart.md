@@ -465,6 +465,17 @@ GET /v1/status/collection/{reference_id}
 
 ---
 
+## Retrieve Receipt
+
+After a successful collection (source status `PAID`), retrieve the receipt for the matching source family:
+
+```http
+GET /v1/invoices/receipt/{id}
+GET /v1/orders/receipt/{id}
+```
+
+Use `/v1/invoices/receipt/{id}` for invoices and `/v1/orders/receipt/{id}` for orders.
+
 ## What's Next
 
 | Task | Where to go |

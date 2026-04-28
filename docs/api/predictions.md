@@ -189,7 +189,7 @@ GET /v1/predictions/payment-source/amount-and-fees
 | `payment_method` | enum | Yes | `MTN_MOMO_LBR`, `ORANGE_MONEY_LBR`, `AIRTEL_RWA`, `MTN_MOMO_RWA`, `ORANGE_MONEY_RWA`, `CREDIT_CARD`, or `WALLET` |
 | `provider` | enum | Yes | `PAWAPAY`, `STRIPE`, or `PLATFORM` |
 | `source_type` | enum | Yes | `INVOICE` or `ORDER` |
-| `source_id` | integer | Yes | ID of the invoice, order, or subscription |
+| `source_id` | integer | Yes | ID of the invoice or order |
 
 ## Predict MMO Provider Info
 
@@ -211,7 +211,7 @@ GET /v1/predictions/mmo-provider-info
 | `currencies` | string[] | Supported ISO 4217 currency codes for this carrier |
 | `phone` | string | The queried phone number |
 | `payment_method` | string | Recommended payment method identifier |
-| `gateway_provider` | string | Recommended gateway provider |
+| `gateway_provider` | string | Recommended gateway provider — the routing network or gateway that will process the payment (for example `PAWAPAY`, `STRIPE`, or `PLATFORM`). |
 | `operation_type` | string | The operation type used in the query |
 
 #### Code Examples
