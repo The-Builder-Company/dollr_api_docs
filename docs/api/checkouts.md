@@ -2,6 +2,8 @@
 
 The Checkout API is a single-call shortcut that creates a counterparty, a payment source (invoice or order), and a hosted checkout session in one request. Use it when you want Dollr to manage the checkout flow without manually wiring together parties, counterparties, invoices/orders, and sessions.
 
+Note: this page uses the request field name `source_kind`; other pages in the docs use `source_type` for the same concept. Supported public source kinds are `INVOICE` and `ORDER`. Checkout source creation can create or match the payer `Party` and `Counterparty` automatically and returns `party_id` and `counterparty_id` in the response when applicable.
+
 ## Create Checkout Source
 
 ```http

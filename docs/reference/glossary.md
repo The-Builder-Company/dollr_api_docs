@@ -29,7 +29,7 @@ A `client_id` and `client_secret` pair generated in the Merchant Portal under **
 An operation type where funds flow *into* your merchant wallet from a customer. Initiated via a checkout session and executed via `POST /v1/executions/collection`.
 
 <span id="counterparty">**Counterparty**</span>
-A record that links an existing [Party](#party) to your merchant account with a defined [relationship type](#relationship-type). Required before creating invoices or orders. A counterparty answers "who is this party to me?" (customer, supplier, employee, etc.).
+A record that links an existing [Party](#party) to your merchant account with a defined [relationship type](#relationship-type). For the direct invoice and order flows in these docs, a counterparty is required before creating invoices or orders. Checkout-source creation (`POST /v1/checkouts/create`) can create or match the Party and Counterparty automatically. A counterparty answers "who is this party to me?" (customer, supplier, employee, etc.).
 
 **CREDIT_CARD**
 Payment method identifier for international card payments processed via Stripe.
@@ -179,7 +179,7 @@ Provider identifier for internal Dollr wallet transfers. No external gateway inv
 An intermediate document or execution status. Funds movement has been initiated but the payment provider has not yet confirmed the result. Mobile money transactions may remain in this state for several minutes. Do not cancel or retry during this window.
 
 <span id="provider">**Provider**</span>
-The payment network or gateway routing the transaction:
+The payment network or gateway routing the transaction. Note: `provider` identifies the routing network (for example `PAWAPAY`, `STRIPE`, `PLATFORM`), while `payment_method` identifies the instrument used (for example `MTN_MOMO_LBR`, `ORANGE_MONEY_RWA`, `CREDIT_CARD`). Keep these concepts distinct when mapping examples and request fields.
 
 | Provider | Description |
 |---|---|
@@ -220,7 +220,7 @@ Specifies the type of document backing a checkout session or prediction:
 
 - `INVOICE` — Session is backed by an invoice
 - `ORDER` — Session is backed by an order
-- `SUBSCRIPTION` — Session is backed by a subscription
+- `SUBSCRIPTION` — Reserved for future support; not currently documented as a public source family
 
 **STRIPE**
 Provider identifier for international card payments. Dollr uses Stripe for `CREDIT_CARD` transactions.

@@ -133,7 +133,7 @@ GET /v1/status/source
 
 | Param | Type | Required | Description |
 |---|---|---|---|
-| `source_type` | enum | Yes | `INVOICE`, `ORDER`, or `SUBSCRIPTION` |
+| `source_type` | enum | Yes | `INVOICE` or `ORDER` |
 | `source_id` | integer | Yes | ID of the invoice or order |
 
 #### Response — `PaymentSourceStatusResponse`
@@ -141,7 +141,7 @@ GET /v1/status/source
 | Field | Type | Description |
 |---|---|---|
 | `source_id` | integer | ID of the invoice or order |
-| `source_type` | enum | `INVOICE`, `ORDER`, or `SUBSCRIPTION` |
+| `source_type` | enum | `INVOICE` or `ORDER` |
 | `source_number` | string | Auto-generated source number (e.g. `INV-2025-00042`) |
 | `status` | string | Current payment status (`IDLE`, `ACTIVE`, `PROCESSING`, `PAID`, `CANCELED`) |
 | `currency` | string | ISO 4217 currency code |
@@ -263,5 +263,7 @@ GET /v1/status/source
         fmt.Println(string(data))
     }
     ```
+
+    Note: The `GET /v1/status/source` endpoint returns the payment source (invoice/order) lifecycle status. Execution endpoints such as `GET /v1/status/collection/{reference_id}` return an `ExecutionResponse` that reflects funds-movement status. Treat source status and execution status as separate state models.
 
 ---

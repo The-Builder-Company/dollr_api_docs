@@ -12,8 +12,8 @@ GET /v1/links/pay
 
 | Param | Type | Required | Description |
 |---|---|---|---|
-| `source_type` | enum | Yes | `INVOICE`, `ORDER`, or `SUBSCRIPTION` |
-| `source_number` | string | Yes | The invoice/order number (e.g. `INV-2025-00042`) |
+| `source_type` | enum | Yes | `INVOICE` or `ORDER` |
+| `source_number` | string | Yes | The invoice or order number (e.g. `INV-2025-00042`). If subscriptions are supported publicly in the future, subscription numbering semantics will be documented here. |
 
 #### Response — `LinkResponse`
 
@@ -134,6 +134,8 @@ GET /v1/links/pay
         fmt.Println(string(data))
     }
     ```
+
+    Note: Use these endpoints to generate the public URL for a link-enabled invoice or order (for example, when an invoice was created with `as_payment_link: true`).
 
 ---
 

@@ -324,7 +324,7 @@ Future breaking changes will be introduced under a new version prefix.
 
 **Counterparty** — Links a Party to your merchant account with a defined relationship type, describing the nature of the association (e.g., `CUSTOMER`, `SUPPLIER`, `EMPLOYEE`).
 
-You must create a Counterparty before creating invoices or orders, because those documents require a `counterparty_id`.
+For direct invoice and order endpoints (the document-first flow), create a Counterparty before creating invoices or orders because those documents require a `counterparty_id`. If you use the checkout-source shortcut (`POST /v1/checkouts/create`), Dollr can create or match the Party and Counterparty automatically from the payer details.
 
 ## Invoices vs. Orders
 
@@ -341,6 +341,8 @@ You must create a Counterparty before creating invoices or orders, because those
 
 **Execution** — Submits an active session for processing. Pass the `session_id` and a unique `reference_id` (a version-4 UUID you generate) to trigger the actual movement of funds.
 
+Execution status tracks the movement of funds (execution lifecycle). Source status (invoice/order) tracks the document lifecycle (IDLE, ACTIVE, PROCESSING, PAID, CANCELED). Keep these state models distinct when building polling or receipt logic.
+
 !!! warning "Idempotency"
     Always generate a unique `reference_id` per execution attempt. This is your idempotency key. If a network error occurs, query the transaction status using this `reference_id` before retrying.
 
@@ -350,6 +352,10 @@ You must create a Counterparty before creating invoices or orders, because those
 - **`PAYEE`** — The merchant absorbs the fees. The customer pays the invoice total and the merchant receives less after fees are deducted.
 
 ## Payment Methods and Providers
+
+provider = routing network or gateway (e.g. `PAWAPAY`, `STRIPE`, `PLATFORM`)
+
+method = payment instrument identifier (e.g. `MTN_MOMO_LBR`, `ORANGE_MONEY_RWA`, `CREDIT_CARD`, `WALLET`)
 
 | Payment Method | Provider | Notes |
 |---|---|---|

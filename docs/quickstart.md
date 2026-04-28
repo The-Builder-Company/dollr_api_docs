@@ -2,6 +2,8 @@
 
 Get from zero to your first successful payment collection in under 10 minutes.
 
+This quick start shows the document-first (invoice/order) collection flow. The public API also supports creating a checkout source directly from payer details via the Checkouts API (`POST /v1/checkouts/create`). See API Reference → Checkouts for the direct checkout-source flow.
+
 **Base URL:** `https://api.heydollr.app`
 
 ---
@@ -188,6 +190,8 @@ POST /v1/counterparties/create
     }).then(r => r.json());
 
     const counterpartyId = cp.id;
+
+Note: This step is required for the direct invoice flow shown here. If you use the checkout-source shortcut (`POST /v1/checkouts/create`), Dollr can create or match the Party and Counterparty automatically from payer details.
     ```
 
 ---

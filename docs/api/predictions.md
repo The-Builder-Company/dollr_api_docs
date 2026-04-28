@@ -17,7 +17,7 @@ GET /v1/predictions/amount-and-fees
 | `target_currency` | string | Yes | ISO 4217 currency code the payee will receive |
 | `payment_method` | enum | Yes | `MTN_MOMO_LBR`, `ORANGE_MONEY_LBR`, `AIRTEL_RWA`, `MTN_MOMO_RWA`, `ORANGE_MONEY_RWA`, `CREDIT_CARD`, or `WALLET` |
 | `operation_type` | enum | Yes | `COLLECTION`, `PAYOUT`, `TRANSFER`, or `REFUND` |
-| `provider` | enum | Yes | `MTN_MOMO_LBR`, `ORANGE_MONEY_LBR`, `PAWAPAY`, `STRIPE`, or `PLATFORM` |
+| `provider` | enum | Yes | `PAWAPAY`, `STRIPE`, or `PLATFORM` |
 | `fee_bearer` | enum | Yes | `PAYER` or `PAYEE` |
 | `owner_type` | enum \| null | No | `USER`, `MICRO_ORGANIZATION`, or `ORGANIZATION` |
 | `owner_id` | integer \| null | No | ID of the owner entity |
@@ -187,8 +187,8 @@ GET /v1/predictions/payment-source/amount-and-fees
 |---|---|---|---|
 | `target_currency` | string | Yes | ISO 4217 currency code the payee will receive |
 | `payment_method` | enum | Yes | `MTN_MOMO_LBR`, `ORANGE_MONEY_LBR`, `AIRTEL_RWA`, `MTN_MOMO_RWA`, `ORANGE_MONEY_RWA`, `CREDIT_CARD`, or `WALLET` |
-| `provider` | enum | Yes | `MTN_MOMO_LBR`, `ORANGE_MONEY_LBR`, `PAWAPAY`, `STRIPE`, or `PLATFORM` |
-| `source_type` | enum | Yes | `INVOICE`, `ORDER`, or `SUBSCRIPTION` |
+| `provider` | enum | Yes | `PAWAPAY`, `STRIPE`, or `PLATFORM` |
+| `source_type` | enum | Yes | `INVOICE` or `ORDER` |
 | `source_id` | integer | Yes | ID of the invoice, order, or subscription |
 
 ## Predict MMO Provider Info

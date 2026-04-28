@@ -2,6 +2,8 @@
 
 ## Collect Payment via Invoice
 
+This guide covers the document-first collection flow (party → counterparty → invoice → session → payment account → execution). To create a checkout source directly from payer details, see API Reference → Checkouts.
+
 The standard flow for invoicing a customer and collecting payment via mobile money.
 
 ### Step 1 — Authenticate
@@ -109,7 +111,7 @@ Poll for status, or use a Realtime Key (`POST /v1/realtime-keys/collection`) for
 GET /v1/invoices/receipt/{id}
 ```
 
-Available once status is `COMPLETED`. Includes amounts, fees, FX rate, provider, and line items.
+Retrieve the receipt once the collection execution is successful and the source status is `PAID`. The receipt includes amounts, fees, FX rate, provider, and line items.
 
 ---
 

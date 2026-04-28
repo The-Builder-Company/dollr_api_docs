@@ -4,6 +4,8 @@ Payment Accounts represent the specific account numbers (mobile wallets, card ac
 
 ## Create Payment Account
 
+Note: `provider` identifies the routing network or gateway (e.g. `PAWAPAY`, `STRIPE`, `PLATFORM`). `method` identifies the payment instrument or method identifier (e.g. `MTN_MOMO_LBR`, `ORANGE_MONEY_RWA`, `CREDIT_CARD`, `WALLET`). Keep these concepts distinct when selecting values for requests and examples.
+
 ```http
 POST /v1/payment-accounts/create?operation_type={type}
 ```
@@ -19,7 +21,7 @@ POST /v1/payment-accounts/create?operation_type={type}
 | Field | Type | Required | Description |
 |---|---|---|---|
 | `account_name` | string | Yes | Display name for this payment account |
-| `provider` | enum | Yes | `MTN_MOMO_LBR`, `ORANGE_MONEY_LBR`, `PAWAPAY`, `STRIPE`, or `PLATFORM` |
+| `provider` | enum | Yes | `PAWAPAY`, `STRIPE`, or `PLATFORM` |
 | `method` | enum | Yes | `MTN_MOMO_LBR`, `ORANGE_MONEY_LBR`, `AIRTEL_RWA`, `MTN_MOMO_RWA`, `ORANGE_MONEY_RWA`, `CREDIT_CARD`, or `WALLET` |
 | `party_id` | integer | Yes | ID of the Party this account belongs to |
 | `country_code` | string \| null | No | ISO 3166-1 alpha-2 country code |
@@ -29,19 +31,19 @@ POST /v1/payment-accounts/create?operation_type={type}
 
 === "cURL"
 
-    ```bash
-    curl -X POST "https://api.heydollr.app/v1/payment-accounts/create?operation_type=COLLECTION" \
-      -H "Authorization: Bearer YOUR_ACCESS_TOKEN" \
-      -H "Content-Type: application/json" \
-      -d '{
-        "account_name":               "Amara MTN Wallet",
-        "provider":                   "MTN_MOMO_LBR",
-        "method":                     "MTN_MOMO_LBR",
-        "party_id":                   42,
-        "country_code":               "LR",
-        "insensitive_account_number": "231771234567"
-      }'
-    ```
+        ```bash
+        curl -X POST "https://api.heydollr.app/v1/payment-accounts/create?operation_type=COLLECTION" \
+            -H "Authorization: Bearer YOUR_ACCESS_TOKEN" \
+            -H "Content-Type: application/json" \
+            -d '{
+                "account_name":               "Amara MTN Wallet",
+                "provider":                   "PAWAPAY",
+                "method":                     "MTN_MOMO_LBR",
+                "party_id":                   42,
+                "country_code":               "LR",
+                "insensitive_account_number": "231771234567"
+            }'
+        ```
 
 === "Python"
 
@@ -57,7 +59,7 @@ POST /v1/payment-accounts/create?operation_type={type}
         params={"operation_type": "COLLECTION"},
         json={
             "account_name":               "Amara MTN Wallet",
-            "provider":                   "MTN_MOMO_LBR",
+            "provider":                   "PAWAPAY",
             "method":                     "MTN_MOMO_LBR",
             "party_id":                   42,
             "country_code":               "LR",
@@ -135,7 +137,7 @@ POST /v1/payment-accounts/create?operation_type={type}
     String body = """
         {
           "account_name":               "Amara MTN Wallet",
-          "provider":                   "MTN_MOMO_LBR",
+          "provider":                   "PAWAPAY",
           "method":                     "MTN_MOMO_LBR",
           "party_id":                   42,
           "country_code":               "LR",
@@ -172,7 +174,7 @@ POST /v1/payment-accounts/create?operation_type={type}
     func main() {
         payload := map[string]interface{}{
             "account_name":               "Amara MTN Wallet",
-            "provider":                   "MTN_MOMO_LBR",
+            "provider":                   "PAWAPAY",
             "method":                     "MTN_MOMO_LBR",
             "party_id":                   42,
             "country_code":               "LR",
