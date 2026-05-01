@@ -28,13 +28,17 @@
       "type": "button",
       "label": "Merchant Dashboard",
       "href": "https://merchant.heydollr.app"
+    }
+  },
+  "api": {
+    "openapi": "https://api.heydollr.app/openapi.json",
+    "playground": {
+      "display": "interactive",
+      "proxy": false
     },
-    "links": [
-      {
-        "label": "Support",
-        "href": "mailto:dev@heydollr.app"
-      }
-    ]
+    "examples": {
+      "languages": ["bash", "python", "javascript", "php"]
+    }
   },
   "navigation": {
     "anchors": [
@@ -54,47 +58,61 @@
         "url": "https://api.heydollr.app/openapi.json"
       }
     ],
-    "groups": [
+    "tabs": [
       {
-        "group": "Getting Started",
-        "icon": "rocket",
-        "pages": ["docs/index", "docs/quickstart"]
-      },
-      {
-        "group": "API Reference",
-        "icon": "square-terminal",
-        "pages": [
-          "docs/api/parties",
-          "docs/api/counterparties",
-          "docs/api/invoices",
-          "docs/api/orders",
-          "docs/api/checkouts",
-          "docs/api/sessions",
-          "docs/api/executions",
-          "docs/api/status",
-          "docs/api/payment-accounts",
-          "docs/api/links",
-          "docs/api/predictions",
-          "docs/api/fees",
-          "docs/api/merchants",
-          "docs/api/realtime-keys"
+        "tab": "Documentation",
+        "groups": [
+          {
+            "group": "Getting Started",
+            "icon": "rocket",
+            "pages": ["docs/index", "docs/quickstart"]
+          },
+          {
+            "group": "API Guide",
+            "icon": "square-terminal",
+            "pages": [
+              "docs/api/parties",
+              "docs/api/counterparties",
+              "docs/api/invoices",
+              "docs/api/orders",
+              "docs/api/checkouts",
+              "docs/api/sessions",
+              "docs/api/executions",
+              "docs/api/status",
+              "docs/api/payment-accounts",
+              "docs/api/links",
+              "docs/api/predictions",
+              "docs/api/fees",
+              "docs/api/merchants",
+              "docs/api/realtime-keys"
+            ]
+          },
+          {
+            "group": "Guides",
+            "icon": "map",
+            "pages": [
+              "docs/guides/integration",
+              "docs/guides/error-handling"
+            ]
+          },
+          {
+            "group": "Resources",
+            "icon": "book-open",
+            "pages": [
+              "docs/reference/sdks",
+              "docs/reference/glossary",
+              "docs/reference/support"
+            ]
+          }
         ]
       },
       {
-        "group": "Guides",
-        "icon": "map",
-        "pages": [
-          "docs/guides/integration",
-          "docs/guides/error-handling"
-        ]
-      },
-      {
-        "group": "Reference",
-        "icon": "book-open",
-        "pages": [
-          "docs/reference/sdks",
-          "docs/reference/glossary",
-          "docs/reference/support"
+        "tab": "API Reference",
+        "groups": [
+          {
+            "group": "Endpoints",
+            "openapi": "https://api.heydollr.app/openapi.json"
+          }
         ]
       }
     ]
@@ -130,6 +148,9 @@
       "og:site_name": "Dollr Developer Docs"
     }
   },
+  "redirects": [
+    { "source": "/", "destination": "/docs/index" }
+  ],
   "errors": {
     "404": {
       "redirect": false,

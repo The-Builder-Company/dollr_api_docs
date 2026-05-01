@@ -1,6 +1,6 @@
 ---
-title: "Dollr Open API"
-description: "Official REST API reference for Dollr — payments, payouts, and transfers across Africa."
+mode: "wide"
+sidebarTitle: "Overview"
 ---
 
 # Dollr Open API
