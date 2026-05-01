@@ -12,11 +12,7 @@
   "colors": {
     "primary": "#082255",
     "light": "#1a4080",
-    "dark": "#051840",
-    "anchors": {
-      "from": "#082255",
-      "to": "#f98b00"
-    }
+    "dark": "#051840"
   },
   "appearance": {
     "default": "system"
@@ -29,13 +25,14 @@
   },
   "navbar": {
     "primary": {
-      "name": "Merchant Dashboard",
-      "url": "https://merchant.heydollr.app"
+      "type": "button",
+      "label": "Merchant Dashboard",
+      "href": "https://merchant.heydollr.app"
     },
     "links": [
       {
-        "name": "Support",
-        "url": "mailto:dev@heydollr.app"
+        "label": "Support",
+        "href": "mailto:dev@heydollr.app"
       }
     ]
   },
@@ -110,16 +107,16 @@
       {
         "header": "Product",
         "items": [
-          { "label": "Merchant Dashboard", "url": "https://merchant.heydollr.app" },
-          { "label": "Help Center", "url": "https://dollr.tawk.help" }
+          { "label": "Merchant Dashboard", "href": "https://merchant.heydollr.app" },
+          { "label": "Help Center", "href": "https://dollr.tawk.help" }
         ]
       },
       {
         "header": "Developers",
         "items": [
-          { "label": "Quick Start", "url": "/docs/quickstart" },
-          { "label": "Integration Guide", "url": "/docs/guides/integration" },
-          { "label": "OpenAPI Spec", "url": "https://api.heydollr.app/openapi.json" }
+          { "label": "Quick Start", "href": "/docs/quickstart" },
+          { "label": "Integration Guide", "href": "/docs/guides/integration" },
+          { "label": "OpenAPI Spec", "href": "https://api.heydollr.app/openapi.json" }
         ]
       }
     ]
