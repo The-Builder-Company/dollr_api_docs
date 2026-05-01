@@ -1,3 +1,8 @@
+---
+title: "Parties"
+description: "Create and manage contact records for people or entities you transact with."
+---
+
 # Parties
 
 Parties are contact records representing the people and entities your business transacts with.
@@ -45,159 +50,151 @@ POST /v1/parties/create
 
 #### Code Examples
 
-=== "cURL"
+<CodeGroup>
 
-    ```bash
-    curl -X POST "https://api.heydollr.app/v1/parties/create" \
-      -H "Authorization: Bearer YOUR_ACCESS_TOKEN" \
-      -H "Content-Type: application/json" \
-      -d '{
+```bash cURL
+curl -X POST "https://api.heydollr.app/v1/parties/create" \
+  -H "Authorization: Bearer YOUR_ACCESS_TOKEN" \
+  -H "Content-Type: application/json" \
+  -d '{
+    "fullname":     "Amara Kamara",
+    "phone":        "231771234567",
+    "email":        "amara@example.com",
+    "country_code": "LR"
+  }'
+```
+
+```python Python
+import requests
+
+BASE_URL = "https://api.heydollr.app"
+headers  = {
+    "Authorization": "Bearer YOUR_ACCESS_TOKEN",
+    "Content-Type":  "application/json",
+}
+
+response = requests.post(
+    f"{BASE_URL}/v1/parties/create",
+    headers=headers,
+    json={
         "fullname":     "Amara Kamara",
         "phone":        "231771234567",
         "email":        "amara@example.com",
-        "country_code": "LR"
-      }'
-    ```
+        "country_code": "LR",
+    },
+)
+party = response.json()
+print("Party ID:", party["id"])
+```
 
-=== "Python"
+```javascript Node.js
+const BASE_URL = "https://api.heydollr.app";
+const TOKEN    = "YOUR_ACCESS_TOKEN";
 
-    ```python
-    import requests
+const response = await fetch(`${BASE_URL}/v1/parties/create`, {
+  method: "POST",
+  headers: {
+    Authorization:  `Bearer ${TOKEN}`,
+    "Content-Type": "application/json",
+  },
+  body: JSON.stringify({
+    fullname:     "Amara Kamara",
+    phone:        "231771234567",
+    email:        "amara@example.com",
+    country_code: "LR",
+  }),
+});
+const party = await response.json();
+console.log("Party ID:", party.id);
+```
 
-    BASE_URL = "https://api.heydollr.app"
-    headers  = {
-        "Authorization": "Bearer YOUR_ACCESS_TOKEN",
-        "Content-Type":  "application/json",
+```php PHP
+$ch = curl_init("https://api.heydollr.app/v1/parties/create");
+curl_setopt_array($ch, [
+    CURLOPT_RETURNTRANSFER => true,
+    CURLOPT_POST           => true,
+    CURLOPT_HTTPHEADER     => [
+        "Authorization: Bearer YOUR_ACCESS_TOKEN",
+        "Content-Type: application/json",
+    ],
+    CURLOPT_POSTFIELDS => json_encode([
+        "fullname"     => "Amara Kamara",
+        "phone"        => "231771234567",
+        "email"        => "amara@example.com",
+        "country_code" => "LR",
+    ]),
+]);
+$party = json_decode(curl_exec($ch), true);
+curl_close($ch);
+echo "Party ID: " . $party["id"];
+```
+
+```java Java
+import java.net.URI;
+import java.net.http.*;
+import java.net.http.HttpRequest.BodyPublishers;
+
+HttpClient client = HttpClient.newHttpClient();
+
+String body = """
+    {
+      "fullname":     "Amara Kamara",
+      "phone":        "231771234567",
+      "email":        "amara@example.com",
+      "country_code": "LR"
     }
+    """;
 
-    response = requests.post(
-        f"{BASE_URL}/v1/parties/create",
-        headers=headers,
-        json={
-            "fullname":     "Amara Kamara",
-            "phone":        "231771234567",
-            "email":        "amara@example.com",
-            "country_code": "LR",
-        },
-    )
-    party = response.json()
-    print("Party ID:", party["id"])
-    ```
+HttpRequest request = HttpRequest.newBuilder()
+    .uri(URI.create("https://api.heydollr.app/v1/parties/create"))
+    .header("Authorization", "Bearer YOUR_ACCESS_TOKEN")
+    .header("Content-Type", "application/json")
+    .POST(BodyPublishers.ofString(body))
+    .build();
 
-=== "Node.js"
+HttpResponse<String> response = client.send(request, HttpResponse.BodyHandlers.ofString());
+System.out.println(response.body());
+```
 
-    ```javascript
-    const BASE_URL = "https://api.heydollr.app";
-    const TOKEN    = "YOUR_ACCESS_TOKEN";
+```go Go
+package main
 
-    const response = await fetch(`${BASE_URL}/v1/parties/create`, {
-      method: "POST",
-      headers: {
-        Authorization:  `Bearer ${TOKEN}`,
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({
-        fullname:     "Amara Kamara",
-        phone:        "231771234567",
-        email:        "amara@example.com",
-        country_code: "LR",
-      }),
-    });
-    const party = await response.json();
-    console.log("Party ID:", party.id);
-    ```
+import (
+    "bytes"
+    "encoding/json"
+    "fmt"
+    "io"
+    "net/http"
+)
 
-=== "PHP"
-
-    ```php
-    $ch = curl_init("https://api.heydollr.app/v1/parties/create");
-    curl_setopt_array($ch, [
-        CURLOPT_RETURNTRANSFER => true,
-        CURLOPT_POST           => true,
-        CURLOPT_HTTPHEADER     => [
-            "Authorization: Bearer YOUR_ACCESS_TOKEN",
-            "Content-Type: application/json",
-        ],
-        CURLOPT_POSTFIELDS => json_encode([
-            "fullname"     => "Amara Kamara",
-            "phone"        => "231771234567",
-            "email"        => "amara@example.com",
-            "country_code" => "LR",
-        ]),
-    ]);
-    $party = json_decode(curl_exec($ch), true);
-    curl_close($ch);
-    echo "Party ID: " . $party["id"];
-    ```
-
-=== "Java"
-
-    ```java
-    import java.net.URI;
-    import java.net.http.*;
-    import java.net.http.HttpRequest.BodyPublishers;
-
-    HttpClient client = HttpClient.newHttpClient();
-
-    String body = """
-        {
-          "fullname":     "Amara Kamara",
-          "phone":        "231771234567",
-          "email":        "amara@example.com",
-          "country_code": "LR"
-        }
-        """;
-
-    HttpRequest request = HttpRequest.newBuilder()
-        .uri(URI.create("https://api.heydollr.app/v1/parties/create"))
-        .header("Authorization", "Bearer YOUR_ACCESS_TOKEN")
-        .header("Content-Type", "application/json")
-        .POST(BodyPublishers.ofString(body))
-        .build();
-
-    HttpResponse<String> response = client.send(request, HttpResponse.BodyHandlers.ofString());
-    System.out.println(response.body());
-    ```
-
-=== "Go"
-
-    ```go
-    package main
-
-    import (
-        "bytes"
-        "encoding/json"
-        "fmt"
-        "io"
-        "net/http"
-    )
-
-    func main() {
-        payload := map[string]string{
-            "fullname":     "Amara Kamara",
-            "phone":        "231771234567",
-            "email":        "amara@example.com",
-            "country_code": "LR",
-        }
-        body, _ := json.Marshal(payload)
-
-        req, _ := http.NewRequest("POST",
-            "https://api.heydollr.app/v1/parties/create",
-            bytes.NewBuffer(body),
-        )
-        req.Header.Set("Authorization", "Bearer YOUR_ACCESS_TOKEN")
-        req.Header.Set("Content-Type", "application/json")
-
-        client := &http.Client{}
-        resp, _ := client.Do(req)
-        defer resp.Body.Close()
-
-        var result map[string]interface{}
-        data, _ := io.ReadAll(resp.Body)
-        json.Unmarshal(data, &result)
-        fmt.Println("Party ID:", result["id"])
+func main() {
+    payload := map[string]string{
+        "fullname":     "Amara Kamara",
+        "phone":        "231771234567",
+        "email":        "amara@example.com",
+        "country_code": "LR",
     }
-    ```
+    body, _ := json.Marshal(payload)
+
+    req, _ := http.NewRequest("POST",
+        "https://api.heydollr.app/v1/parties/create",
+        bytes.NewBuffer(body),
+    )
+    req.Header.Set("Authorization", "Bearer YOUR_ACCESS_TOKEN")
+    req.Header.Set("Content-Type", "application/json")
+
+    client := &http.Client{}
+    resp, _ := client.Do(req)
+    defer resp.Body.Close()
+
+    var result map[string]interface{}
+    data, _ := io.ReadAll(resp.Body)
+    json.Unmarshal(data, &result)
+    fmt.Println("Party ID:", result["id"])
+}
+```
+
+</CodeGroup>
 
 ## List Parties
 

@@ -1,9 +1,17 @@
+---
+title: "Executions"
+description: "Submit an active session to trigger the movement of funds."
+---
+
 # Executions
 
 An Execution submits a Session for payment processing. All execution endpoints return an `ExecutionResponse`.
 
-!!! warning "Idempotency"
-    The `reference_id` you provide is your idempotency key. If you are uncertain whether a request was received (e.g., due to a network timeout), do not generate a new `reference_id`. Query the transaction status with the original one before retrying.
+<Warning>
+**Idempotency**
+
+The `reference_id` you provide is your idempotency key. If you are uncertain whether a request was received (e.g., due to a network timeout), do not generate a new `reference_id`. Query the transaction status with the original one before retrying.
+</Warning>
 
 ## Collect
 
@@ -20,176 +28,168 @@ POST /v1/executions/collection
 
 #### Code Examples
 
-=== "cURL"
+<CodeGroup>
 
-    ```bash
-    curl -X POST "https://api.heydollr.app/v1/executions/collection" \
-      -H "Authorization: Bearer YOUR_ACCESS_TOKEN" \
-      -H "Content-Type: application/json" \
-      -d '{
+```bash cURL
+curl -X POST "https://api.heydollr.app/v1/executions/collection" \
+  -H "Authorization: Bearer YOUR_ACCESS_TOKEN" \
+  -H "Content-Type: application/json" \
+  -d '{
+    "session_id":         "55",
+    "payment_account_id": "18",
+    "currency":           "USD",
+    "reference_id":       "550e8400-e29b-41d4-a716-446655440000"
+  }'
+```
+
+```python Python
+import uuid
+import requests
+
+BASE_URL = "https://api.heydollr.app"
+headers  = {"Authorization": "Bearer YOUR_ACCESS_TOKEN", "Content-Type": "application/json"}
+
+reference_id = str(uuid.uuid4())  # store this before calling
+response = requests.post(
+    f"{BASE_URL}/v1/executions/collection",
+    headers=headers,
+    json={
         "session_id":         "55",
         "payment_account_id": "18",
         "currency":           "USD",
-        "reference_id":       "550e8400-e29b-41d4-a716-446655440000"
-      }'
-    ```
+        "reference_id":       reference_id,
+    },
+)
+execution = response.json()
+print("Status:", execution["status"])
+print("Reference:", execution["reference_id"])
+```
 
-=== "Python"
+```javascript Node.js
+import { randomUUID } from "crypto";
 
-    ```python
-    import uuid
-    import requests
+const BASE_URL = "https://api.heydollr.app";
+const TOKEN    = "YOUR_ACCESS_TOKEN";
 
-    BASE_URL = "https://api.heydollr.app"
-    headers  = {"Authorization": "Bearer YOUR_ACCESS_TOKEN", "Content-Type": "application/json"}
+const referenceId = randomUUID(); // store this before calling
+const response = await fetch(`${BASE_URL}/v1/executions/collection`, {
+  method: "POST",
+  headers: {
+    Authorization:  `Bearer ${TOKEN}`,
+    "Content-Type": "application/json",
+  },
+  body: JSON.stringify({
+    session_id:         "55",
+    payment_account_id: "18",
+    currency:           "USD",
+    reference_id:       referenceId,
+  }),
+});
+const execution = await response.json();
+console.log("Status:", execution.status);
+```
 
-    reference_id = str(uuid.uuid4())  # store this before calling
-    response = requests.post(
-        f"{BASE_URL}/v1/executions/collection",
-        headers=headers,
-        json={
-            "session_id":         "55",
-            "payment_account_id": "18",
-            "currency":           "USD",
-            "reference_id":       reference_id,
-        },
-    )
-    execution = response.json()
-    print("Status:", execution["status"])
-    print("Reference:", execution["reference_id"])
-    ```
+```php PHP
+// Generate a UUID v4
+$referenceId = sprintf(
+    '%04x%04x-%04x-%04x-%04x-%04x%04x%04x',
+    mt_rand(0, 0xffff), mt_rand(0, 0xffff),
+    mt_rand(0, 0xffff),
+    mt_rand(0, 0x0fff) | 0x4000,
+    mt_rand(0, 0x3fff) | 0x8000,
+    mt_rand(0, 0xffff), mt_rand(0, 0xffff), mt_rand(0, 0xffff)
+);
 
-=== "Node.js"
+$ch = curl_init("https://api.heydollr.app/v1/executions/collection");
+curl_setopt_array($ch, [
+    CURLOPT_RETURNTRANSFER => true,
+    CURLOPT_POST           => true,
+    CURLOPT_HTTPHEADER     => [
+        "Authorization: Bearer YOUR_ACCESS_TOKEN",
+        "Content-Type: application/json",
+    ],
+    CURLOPT_POSTFIELDS => json_encode([
+        "session_id"         => "55",
+        "payment_account_id" => "18",
+        "currency"           => "USD",
+        "reference_id"       => $referenceId,
+    ]),
+]);
+$execution = json_decode(curl_exec($ch), true);
+curl_close($ch);
+echo "Status: " . $execution["status"];
+```
 
-    ```javascript
-    import { randomUUID } from "crypto";
+```java Java
+import java.util.UUID;
+import java.net.URI;
+import java.net.http.*;
+import java.net.http.HttpRequest.BodyPublishers;
 
-    const BASE_URL = "https://api.heydollr.app";
-    const TOKEN    = "YOUR_ACCESS_TOKEN";
-
-    const referenceId = randomUUID(); // store this before calling
-    const response = await fetch(`${BASE_URL}/v1/executions/collection`, {
-      method: "POST",
-      headers: {
-        Authorization:  `Bearer ${TOKEN}`,
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({
-        session_id:         "55",
-        payment_account_id: "18",
-        currency:           "USD",
-        reference_id:       referenceId,
-      }),
-    });
-    const execution = await response.json();
-    console.log("Status:", execution.status);
-    ```
-
-=== "PHP"
-
-    ```php
-    // Generate a UUID v4
-    $referenceId = sprintf(
-        '%04x%04x-%04x-%04x-%04x-%04x%04x%04x',
-        mt_rand(0, 0xffff), mt_rand(0, 0xffff),
-        mt_rand(0, 0xffff),
-        mt_rand(0, 0x0fff) | 0x4000,
-        mt_rand(0, 0x3fff) | 0x8000,
-        mt_rand(0, 0xffff), mt_rand(0, 0xffff), mt_rand(0, 0xffff)
-    );
-
-    $ch = curl_init("https://api.heydollr.app/v1/executions/collection");
-    curl_setopt_array($ch, [
-        CURLOPT_RETURNTRANSFER => true,
-        CURLOPT_POST           => true,
-        CURLOPT_HTTPHEADER     => [
-            "Authorization: Bearer YOUR_ACCESS_TOKEN",
-            "Content-Type: application/json",
-        ],
-        CURLOPT_POSTFIELDS => json_encode([
-            "session_id"         => "55",
-            "payment_account_id" => "18",
-            "currency"           => "USD",
-            "reference_id"       => $referenceId,
-        ]),
-    ]);
-    $execution = json_decode(curl_exec($ch), true);
-    curl_close($ch);
-    echo "Status: " . $execution["status"];
-    ```
-
-=== "Java"
-
-    ```java
-    import java.util.UUID;
-    import java.net.URI;
-    import java.net.http.*;
-    import java.net.http.HttpRequest.BodyPublishers;
-
-    String referenceId = UUID.randomUUID().toString(); // store before calling
-    String body = String.format("""
-        {
-          "session_id":         "55",
-          "payment_account_id": "18",
-          "currency":           "USD",
-          "reference_id":       "%s"
-        }
-        """, referenceId);
-
-    HttpClient client = HttpClient.newHttpClient();
-    HttpRequest request = HttpRequest.newBuilder()
-        .uri(URI.create("https://api.heydollr.app/v1/executions/collection"))
-        .header("Authorization", "Bearer YOUR_ACCESS_TOKEN")
-        .header("Content-Type", "application/json")
-        .POST(BodyPublishers.ofString(body))
-        .build();
-
-    HttpResponse<String> response = client.send(request, HttpResponse.BodyHandlers.ofString());
-    System.out.println(response.body());
-    ```
-
-=== "Go"
-
-    ```go
-    // go get github.com/google/uuid
-    package main
-
-    import (
-        "bytes"
-        "encoding/json"
-        "fmt"
-        "io"
-        "net/http"
-
-        "github.com/google/uuid"
-    )
-
-    func main() {
-        referenceId := uuid.New().String() // store before calling
-
-        payload := map[string]string{
-            "session_id":         "55",
-            "payment_account_id": "18",
-            "currency":           "USD",
-            "reference_id":       referenceId,
-        }
-        body, _ := json.Marshal(payload)
-
-        req, _ := http.NewRequest("POST",
-            "https://api.heydollr.app/v1/executions/collection",
-            bytes.NewBuffer(body),
-        )
-        req.Header.Set("Authorization", "Bearer YOUR_ACCESS_TOKEN")
-        req.Header.Set("Content-Type", "application/json")
-
-        client := &http.Client{}
-        resp, _ := client.Do(req)
-        defer resp.Body.Close()
-
-        data, _ := io.ReadAll(resp.Body)
-        fmt.Println(string(data))
+String referenceId = UUID.randomUUID().toString(); // store before calling
+String body = String.format("""
+    {
+      "session_id":         "55",
+      "payment_account_id": "18",
+      "currency":           "USD",
+      "reference_id":       "%s"
     }
-    ```
+    """, referenceId);
+
+HttpClient client = HttpClient.newHttpClient();
+HttpRequest request = HttpRequest.newBuilder()
+    .uri(URI.create("https://api.heydollr.app/v1/executions/collection"))
+    .header("Authorization", "Bearer YOUR_ACCESS_TOKEN")
+    .header("Content-Type", "application/json")
+    .POST(BodyPublishers.ofString(body))
+    .build();
+
+HttpResponse<String> response = client.send(request, HttpResponse.BodyHandlers.ofString());
+System.out.println(response.body());
+```
+
+```go Go
+// go get github.com/google/uuid
+package main
+
+import (
+    "bytes"
+    "encoding/json"
+    "fmt"
+    "io"
+    "net/http"
+
+    "github.com/google/uuid"
+)
+
+func main() {
+    referenceId := uuid.New().String() // store before calling
+
+    payload := map[string]string{
+        "session_id":         "55",
+        "payment_account_id": "18",
+        "currency":           "USD",
+        "reference_id":       referenceId,
+    }
+    body, _ := json.Marshal(payload)
+
+    req, _ := http.NewRequest("POST",
+        "https://api.heydollr.app/v1/executions/collection",
+        bytes.NewBuffer(body),
+    )
+    req.Header.Set("Authorization", "Bearer YOUR_ACCESS_TOKEN")
+    req.Header.Set("Content-Type", "application/json")
+
+    client := &http.Client{}
+    resp, _ := client.Do(req)
+    defer resp.Body.Close()
+
+    data, _ := io.ReadAll(resp.Body)
+    fmt.Println(string(data))
+}
+```
+
+</CodeGroup>
 
 ## Payout
 
@@ -204,114 +204,106 @@ POST /v1/executions/payout
 
 #### Code Examples
 
-=== "cURL"
+<CodeGroup>
 
-    ```bash
-    curl -X POST "https://api.heydollr.app/v1/executions/payout" \
-      -H "Authorization: Bearer YOUR_ACCESS_TOKEN" \
-      -H "Content-Type: application/json" \
-      -d '{
+```bash cURL
+curl -X POST "https://api.heydollr.app/v1/executions/payout" \
+  -H "Authorization: Bearer YOUR_ACCESS_TOKEN" \
+  -H "Content-Type: application/json" \
+  -d '{
+    "session_id":   "88",
+    "reference_id": "660e8400-e29b-41d4-a716-446655440111"
+  }'
+```
+
+```python Python
+response = requests.post(
+    f"{BASE_URL}/v1/executions/payout",
+    headers=headers,
+    json={
         "session_id":   "88",
-        "reference_id": "660e8400-e29b-41d4-a716-446655440111"
-      }'
-    ```
+        "reference_id": str(uuid.uuid4()),
+    },
+)
+print(response.json())
+```
 
-=== "Python"
+```javascript Node.js
+const response = await fetch(`${BASE_URL}/v1/executions/payout`, {
+  method: "POST",
+  headers: {
+    Authorization:  `Bearer ${TOKEN}`,
+    "Content-Type": "application/json",
+  },
+  body: JSON.stringify({
+    session_id:   "88",
+    reference_id: randomUUID(),
+  }),
+});
+console.log(await response.json());
+```
 
-    ```python
-    response = requests.post(
-        f"{BASE_URL}/v1/executions/payout",
-        headers=headers,
-        json={
-            "session_id":   "88",
-            "reference_id": str(uuid.uuid4()),
-        },
-    )
-    print(response.json())
-    ```
+```php PHP
+$ch = curl_init("https://api.heydollr.app/v1/executions/payout");
+curl_setopt_array($ch, [
+    CURLOPT_RETURNTRANSFER => true,
+    CURLOPT_POST           => true,
+    CURLOPT_HTTPHEADER     => [
+        "Authorization: Bearer YOUR_ACCESS_TOKEN",
+        "Content-Type: application/json",
+    ],
+    CURLOPT_POSTFIELDS => json_encode([
+        "session_id"   => "88",
+        "reference_id" => $referenceId,
+    ]),
+]);
+$result = json_decode(curl_exec($ch), true);
+curl_close($ch);
+print_r($result);
+```
 
-=== "Node.js"
-
-    ```javascript
-    const response = await fetch(`${BASE_URL}/v1/executions/payout`, {
-      method: "POST",
-      headers: {
-        Authorization:  `Bearer ${TOKEN}`,
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({
-        session_id:   "88",
-        reference_id: randomUUID(),
-      }),
-    });
-    console.log(await response.json());
-    ```
-
-=== "PHP"
-
-    ```php
-    $ch = curl_init("https://api.heydollr.app/v1/executions/payout");
-    curl_setopt_array($ch, [
-        CURLOPT_RETURNTRANSFER => true,
-        CURLOPT_POST           => true,
-        CURLOPT_HTTPHEADER     => [
-            "Authorization: Bearer YOUR_ACCESS_TOKEN",
-            "Content-Type: application/json",
-        ],
-        CURLOPT_POSTFIELDS => json_encode([
-            "session_id"   => "88",
-            "reference_id" => $referenceId,
-        ]),
-    ]);
-    $result = json_decode(curl_exec($ch), true);
-    curl_close($ch);
-    print_r($result);
-    ```
-
-=== "Java"
-
-    ```java
-    String body = String.format("""
-        {
-          "session_id":   "88",
-          "reference_id": "%s"
-        }
-        """, UUID.randomUUID().toString());
-
-    HttpRequest request = HttpRequest.newBuilder()
-        .uri(URI.create("https://api.heydollr.app/v1/executions/payout"))
-        .header("Authorization", "Bearer YOUR_ACCESS_TOKEN")
-        .header("Content-Type", "application/json")
-        .POST(BodyPublishers.ofString(body))
-        .build();
-
-    HttpResponse<String> response = client.send(request, HttpResponse.BodyHandlers.ofString());
-    System.out.println(response.body());
-    ```
-
-=== "Go"
-
-    ```go
-    payload := map[string]string{
-        "session_id":   "88",
-        "reference_id": uuid.New().String(),
+```java Java
+String body = String.format("""
+    {
+      "session_id":   "88",
+      "reference_id": "%s"
     }
-    body, _ := json.Marshal(payload)
+    """, UUID.randomUUID().toString());
 
-    req, _ := http.NewRequest("POST",
-        "https://api.heydollr.app/v1/executions/payout",
-        bytes.NewBuffer(body),
-    )
-    req.Header.Set("Authorization", "Bearer YOUR_ACCESS_TOKEN")
-    req.Header.Set("Content-Type", "application/json")
+HttpRequest request = HttpRequest.newBuilder()
+    .uri(URI.create("https://api.heydollr.app/v1/executions/payout"))
+    .header("Authorization", "Bearer YOUR_ACCESS_TOKEN")
+    .header("Content-Type", "application/json")
+    .POST(BodyPublishers.ofString(body))
+    .build();
 
-    client := &http.Client{}
-    resp, _ := client.Do(req)
-    defer resp.Body.Close()
+HttpResponse<String> response = client.send(request, HttpResponse.BodyHandlers.ofString());
+System.out.println(response.body());
+```
 
-    data, _ := io.ReadAll(resp.Body)
-    fmt.Println(string(data))
-    ```
+```go Go
+payload := map[string]string{
+    "session_id":   "88",
+    "reference_id": uuid.New().String(),
+}
+body, _ := json.Marshal(payload)
+
+req, _ := http.NewRequest("POST",
+    "https://api.heydollr.app/v1/executions/payout",
+    bytes.NewBuffer(body),
+)
+req.Header.Set("Authorization", "Bearer YOUR_ACCESS_TOKEN")
+req.Header.Set("Content-Type", "application/json")
+
+client := &http.Client{}
+resp, _ := client.Do(req)
+defer resp.Body.Close()
+
+data, _ := io.ReadAll(resp.Body)
+fmt.Println(string(data))
+```
+
+</CodeGroup>
 
 ## Transfer
 

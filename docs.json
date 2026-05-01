@@ -1,0 +1,143 @@
+{
+  "$schema": "https://mintlify.com/schema.json",
+  "name": "Dollr Developer Docs",
+  "description": "Official API documentation for Dollr — accept payments, send payouts, and move money across Africa with a single unified API.",
+  "theme": "mint",
+  "logo": {
+    "light": "/docs/assets/logo.png",
+    "dark": "/docs/assets/logo.png",
+    "href": "https://heydollr.app"
+  },
+  "favicon": "/docs/assets/favicon.png",
+  "colors": {
+    "primary": "#082255",
+    "light": "#1a4080",
+    "dark": "#051840",
+    "anchors": {
+      "from": "#082255",
+      "to": "#f98b00"
+    }
+  },
+  "appearance": {
+    "default": "system"
+  },
+  "background": {
+    "decoration": "gradient"
+  },
+  "banner": {
+    "content": "Dollr v1 is live — mobile money and card payments. [Get your API keys →](https://merchant.heydollr.app)"
+  },
+  "navbar": {
+    "primary": {
+      "name": "Merchant Dashboard",
+      "url": "https://merchant.heydollr.app"
+    },
+    "links": [
+      {
+        "name": "Support",
+        "url": "mailto:dev@heydollr.app"
+      }
+    ]
+  },
+  "navigation": {
+    "anchors": [
+      {
+        "anchor": "Merchant Dashboard",
+        "icon": "gauge",
+        "url": "https://merchant.heydollr.app"
+      },
+      {
+        "anchor": "Help Center",
+        "icon": "life-ring",
+        "url": "https://dollr.tawk.help"
+      },
+      {
+        "anchor": "OpenAPI Spec",
+        "icon": "braces",
+        "url": "https://api.heydollr.app/openapi.json"
+      }
+    ],
+    "groups": [
+      {
+        "group": "Getting Started",
+        "icon": "rocket",
+        "pages": ["docs/index", "docs/quickstart"]
+      },
+      {
+        "group": "API Reference",
+        "icon": "square-terminal",
+        "pages": [
+          "docs/api/parties",
+          "docs/api/counterparties",
+          "docs/api/invoices",
+          "docs/api/orders",
+          "docs/api/checkouts",
+          "docs/api/sessions",
+          "docs/api/executions",
+          "docs/api/status",
+          "docs/api/payment-accounts",
+          "docs/api/links",
+          "docs/api/predictions",
+          "docs/api/fees",
+          "docs/api/merchants",
+          "docs/api/realtime-keys"
+        ]
+      },
+      {
+        "group": "Guides",
+        "icon": "map",
+        "pages": [
+          "docs/guides/integration",
+          "docs/guides/error-handling"
+        ]
+      },
+      {
+        "group": "Reference",
+        "icon": "book-open",
+        "pages": [
+          "docs/reference/sdks",
+          "docs/reference/glossary",
+          "docs/reference/support"
+        ]
+      }
+    ]
+  },
+  "footer": {
+    "socials": {
+      "website": "https://heydollr.app"
+    },
+    "links": [
+      {
+        "header": "Product",
+        "items": [
+          { "label": "Merchant Dashboard", "url": "https://merchant.heydollr.app" },
+          { "label": "Help Center", "url": "https://dollr.tawk.help" }
+        ]
+      },
+      {
+        "header": "Developers",
+        "items": [
+          { "label": "Quick Start", "url": "/docs/quickstart" },
+          { "label": "Integration Guide", "url": "/docs/guides/integration" },
+          { "label": "OpenAPI Spec", "url": "https://api.heydollr.app/openapi.json" }
+        ]
+      }
+    ]
+  },
+  "search": {
+    "prompt": "Search the docs..."
+  },
+  "seo": {
+    "indexing": "navigable",
+    "metatags": {
+      "og:site_name": "Dollr Developer Docs"
+    }
+  },
+  "errors": {
+    "404": {
+      "redirect": false,
+      "title": "Page not found",
+      "description": "This page doesn't exist. Head to the [overview](/docs/index) or [quick start](/docs/quickstart)."
+    }
+  }
+}

@@ -1,3 +1,8 @@
+---
+title: "Transaction Status"
+description: "Query the status of any transaction by reference ID."
+---
+
 # Transaction Status
 
 Use these endpoints to check the current status of any transaction using the `reference_id` supplied at execution time, or to poll the payment status of a specific invoice or order.
@@ -15,109 +20,101 @@ To poll the payment status of an invoice or order directly, use [Check Payment S
 
 #### Code Examples
 
-=== "cURL"
+<CodeGroup>
 
-    ```bash
-    curl "https://api.heydollr.app/v1/status/collection/550e8400-e29b-41d4-a716-446655440000" \
-      -H "Authorization: Bearer YOUR_ACCESS_TOKEN"
-    ```
+```bash cURL
+curl "https://api.heydollr.app/v1/status/collection/550e8400-e29b-41d4-a716-446655440000" \
+  -H "Authorization: Bearer YOUR_ACCESS_TOKEN"
+```
 
-=== "Python"
+```python Python
+import requests
 
-    ```python
-    import requests
+BASE_URL     = "https://api.heydollr.app"
+headers      = {"Authorization": "Bearer YOUR_ACCESS_TOKEN"}
+reference_id = "550e8400-e29b-41d4-a716-446655440000"
 
-    BASE_URL     = "https://api.heydollr.app"
-    headers      = {"Authorization": "Bearer YOUR_ACCESS_TOKEN"}
-    reference_id = "550e8400-e29b-41d4-a716-446655440000"
+response = requests.get(
+    f"{BASE_URL}/v1/status/collection/{reference_id}",
+    headers=headers,
+)
+result = response.json()
+print("Status:", result["status"])
+```
 
-    response = requests.get(
-        f"{BASE_URL}/v1/status/collection/{reference_id}",
-        headers=headers,
+```javascript Node.js
+const BASE_URL     = "https://api.heydollr.app";
+const TOKEN        = "YOUR_ACCESS_TOKEN";
+const referenceId  = "550e8400-e29b-41d4-a716-446655440000";
+
+const response = await fetch(`${BASE_URL}/v1/status/collection/${referenceId}`, {
+  headers: { Authorization: `Bearer ${TOKEN}` },
+});
+const result = await response.json();
+console.log("Status:", result.status);
+```
+
+```php PHP
+$referenceId = "550e8400-e29b-41d4-a716-446655440000";
+$ch = curl_init(
+    "https://api.heydollr.app/v1/status/collection/{$referenceId}"
+);
+curl_setopt_array($ch, [
+    CURLOPT_RETURNTRANSFER => true,
+    CURLOPT_HTTPHEADER     => ["Authorization: Bearer YOUR_ACCESS_TOKEN"],
+]);
+$result = json_decode(curl_exec($ch), true);
+curl_close($ch);
+echo "Status: " . $result["status"];
+```
+
+```java Java
+import java.net.URI;
+import java.net.http.*;
+
+String referenceId = "550e8400-e29b-41d4-a716-446655440000";
+
+HttpClient client = HttpClient.newHttpClient();
+HttpRequest request = HttpRequest.newBuilder()
+    .uri(URI.create(
+        "https://api.heydollr.app/v1/status/collection/" + referenceId
+    ))
+    .header("Authorization", "Bearer YOUR_ACCESS_TOKEN")
+    .GET()
+    .build();
+
+HttpResponse<String> response = client.send(request, HttpResponse.BodyHandlers.ofString());
+System.out.println(response.body());
+```
+
+```go Go
+package main
+
+import (
+    "fmt"
+    "io"
+    "net/http"
+)
+
+func main() {
+    referenceId := "550e8400-e29b-41d4-a716-446655440000"
+
+    req, _ := http.NewRequest("GET",
+        "https://api.heydollr.app/v1/status/collection/"+referenceId,
+        nil,
     )
-    result = response.json()
-    print("Status:", result["status"])
-    ```
+    req.Header.Set("Authorization", "Bearer YOUR_ACCESS_TOKEN")
 
-=== "Node.js"
+    client := &http.Client{}
+    resp, _ := client.Do(req)
+    defer resp.Body.Close()
 
-    ```javascript
-    const BASE_URL     = "https://api.heydollr.app";
-    const TOKEN        = "YOUR_ACCESS_TOKEN";
-    const referenceId  = "550e8400-e29b-41d4-a716-446655440000";
+    data, _ := io.ReadAll(resp.Body)
+    fmt.Println(string(data))
+}
+```
 
-    const response = await fetch(`${BASE_URL}/v1/status/collection/${referenceId}`, {
-      headers: { Authorization: `Bearer ${TOKEN}` },
-    });
-    const result = await response.json();
-    console.log("Status:", result.status);
-    ```
-
-=== "PHP"
-
-    ```php
-    $referenceId = "550e8400-e29b-41d4-a716-446655440000";
-    $ch = curl_init(
-        "https://api.heydollr.app/v1/status/collection/{$referenceId}"
-    );
-    curl_setopt_array($ch, [
-        CURLOPT_RETURNTRANSFER => true,
-        CURLOPT_HTTPHEADER     => ["Authorization: Bearer YOUR_ACCESS_TOKEN"],
-    ]);
-    $result = json_decode(curl_exec($ch), true);
-    curl_close($ch);
-    echo "Status: " . $result["status"];
-    ```
-
-=== "Java"
-
-    ```java
-    import java.net.URI;
-    import java.net.http.*;
-
-    String referenceId = "550e8400-e29b-41d4-a716-446655440000";
-
-    HttpClient client = HttpClient.newHttpClient();
-    HttpRequest request = HttpRequest.newBuilder()
-        .uri(URI.create(
-            "https://api.heydollr.app/v1/status/collection/" + referenceId
-        ))
-        .header("Authorization", "Bearer YOUR_ACCESS_TOKEN")
-        .GET()
-        .build();
-
-    HttpResponse<String> response = client.send(request, HttpResponse.BodyHandlers.ofString());
-    System.out.println(response.body());
-    ```
-
-=== "Go"
-
-    ```go
-    package main
-
-    import (
-        "fmt"
-        "io"
-        "net/http"
-    )
-
-    func main() {
-        referenceId := "550e8400-e29b-41d4-a716-446655440000"
-
-        req, _ := http.NewRequest("GET",
-            "https://api.heydollr.app/v1/status/collection/"+referenceId,
-            nil,
-        )
-        req.Header.Set("Authorization", "Bearer YOUR_ACCESS_TOKEN")
-
-        client := &http.Client{}
-        resp, _ := client.Do(req)
-        defer resp.Body.Close()
-
-        data, _ := io.ReadAll(resp.Body)
-        fmt.Println(string(data))
-    }
-    ```
+</CodeGroup>
 
 ---
 
@@ -150,120 +147,112 @@ GET /v1/status/source
 
 #### Code Examples
 
-=== "cURL"
+<CodeGroup>
 
-    ```bash
-    curl "https://api.heydollr.app/v1/status/source?source_type=INVOICE&source_id=101" \
-      -H "Authorization: Bearer YOUR_ACCESS_TOKEN"
-    ```
+```bash cURL
+curl "https://api.heydollr.app/v1/status/source?source_type=INVOICE&source_id=101" \
+  -H "Authorization: Bearer YOUR_ACCESS_TOKEN"
+```
 
-=== "Python"
+```python Python
+import requests
 
-    ```python
-    import requests
+BASE_URL = "https://api.heydollr.app"
+headers  = {"Authorization": "Bearer YOUR_ACCESS_TOKEN"}
 
-    BASE_URL = "https://api.heydollr.app"
-    headers  = {"Authorization": "Bearer YOUR_ACCESS_TOKEN"}
+response = requests.get(
+    f"{BASE_URL}/v1/status/source",
+    headers=headers,
+    params={
+        "source_type": "INVOICE",
+        "source_id":   101,
+    },
+)
+result = response.json()
+print("Status:", result["status"])
+print("Paid at:", result["paid_at"])
+```
 
-    response = requests.get(
-        f"{BASE_URL}/v1/status/source",
-        headers=headers,
-        params={
-            "source_type": "INVOICE",
-            "source_id":   101,
-        },
+```javascript Node.js
+const BASE_URL = "https://api.heydollr.app";
+const TOKEN    = "YOUR_ACCESS_TOKEN";
+
+const params = new URLSearchParams({
+  source_type: "INVOICE",
+  source_id:   "101",
+});
+
+const response = await fetch(`${BASE_URL}/v1/status/source?${params}`, {
+  headers: { Authorization: `Bearer ${TOKEN}` },
+});
+const result = await response.json();
+console.log("Status:", result.status);
+console.log("Paid at:", result.paid_at);
+```
+
+```php PHP
+$params = http_build_query([
+    "source_type" => "INVOICE",
+    "source_id"   => 101,
+]);
+$ch = curl_init("https://api.heydollr.app/v1/status/source?{$params}");
+curl_setopt_array($ch, [
+    CURLOPT_RETURNTRANSFER => true,
+    CURLOPT_HTTPHEADER     => ["Authorization: Bearer YOUR_ACCESS_TOKEN"],
+]);
+$result = json_decode(curl_exec($ch), true);
+curl_close($ch);
+echo "Status: " . $result["status"];
+```
+
+```java Java
+import java.net.URI;
+import java.net.http.*;
+
+HttpClient client = HttpClient.newHttpClient();
+HttpRequest request = HttpRequest.newBuilder()
+    .uri(URI.create(
+        "https://api.heydollr.app/v1/status/source?source_type=INVOICE&source_id=101"
+    ))
+    .header("Authorization", "Bearer YOUR_ACCESS_TOKEN")
+    .GET()
+    .build();
+
+HttpResponse<String> response = client.send(request, HttpResponse.BodyHandlers.ofString());
+System.out.println(response.body());
+```
+
+```go Go
+package main
+
+import (
+    "fmt"
+    "io"
+    "net/http"
+)
+
+func main() {
+    req, _ := http.NewRequest("GET",
+        "https://api.heydollr.app/v1/status/source",
+        nil,
     )
-    result = response.json()
-    print("Status:", result["status"])
-    print("Paid at:", result["paid_at"])
-    ```
+    q := req.URL.Query()
+    q.Add("source_type", "INVOICE")
+    q.Add("source_id",   "101")
+    req.URL.RawQuery = q.Encode()
+    req.Header.Set("Authorization", "Bearer YOUR_ACCESS_TOKEN")
 
-=== "Node.js"
+    client := &http.Client{}
+    resp, _ := client.Do(req)
+    defer resp.Body.Close()
 
-    ```javascript
-    const BASE_URL = "https://api.heydollr.app";
-    const TOKEN    = "YOUR_ACCESS_TOKEN";
+    data, _ := io.ReadAll(resp.Body)
+    fmt.Println(string(data))
+}
+```
 
-    const params = new URLSearchParams({
-      source_type: "INVOICE",
-      source_id:   "101",
-    });
+Note: The `GET /v1/status/source` endpoint returns the payment source (invoice/order) lifecycle status. Execution endpoints such as `GET /v1/status/collection/{reference_id}` return an `ExecutionResponse` that reflects funds-movement status. Treat source status and execution status as separate state models.
 
-    const response = await fetch(`${BASE_URL}/v1/status/source?${params}`, {
-      headers: { Authorization: `Bearer ${TOKEN}` },
-    });
-    const result = await response.json();
-    console.log("Status:", result.status);
-    console.log("Paid at:", result.paid_at);
-    ```
-
-=== "PHP"
-
-    ```php
-    $params = http_build_query([
-        "source_type" => "INVOICE",
-        "source_id"   => 101,
-    ]);
-    $ch = curl_init("https://api.heydollr.app/v1/status/source?{$params}");
-    curl_setopt_array($ch, [
-        CURLOPT_RETURNTRANSFER => true,
-        CURLOPT_HTTPHEADER     => ["Authorization: Bearer YOUR_ACCESS_TOKEN"],
-    ]);
-    $result = json_decode(curl_exec($ch), true);
-    curl_close($ch);
-    echo "Status: " . $result["status"];
-    ```
-
-=== "Java"
-
-    ```java
-    import java.net.URI;
-    import java.net.http.*;
-
-    HttpClient client = HttpClient.newHttpClient();
-    HttpRequest request = HttpRequest.newBuilder()
-        .uri(URI.create(
-            "https://api.heydollr.app/v1/status/source?source_type=INVOICE&source_id=101"
-        ))
-        .header("Authorization", "Bearer YOUR_ACCESS_TOKEN")
-        .GET()
-        .build();
-
-    HttpResponse<String> response = client.send(request, HttpResponse.BodyHandlers.ofString());
-    System.out.println(response.body());
-    ```
-
-=== "Go"
-
-    ```go
-    package main
-
-    import (
-        "fmt"
-        "io"
-        "net/http"
-    )
-
-    func main() {
-        req, _ := http.NewRequest("GET",
-            "https://api.heydollr.app/v1/status/source",
-            nil,
-        )
-        q := req.URL.Query()
-        q.Add("source_type", "INVOICE")
-        q.Add("source_id",   "101")
-        req.URL.RawQuery = q.Encode()
-        req.Header.Set("Authorization", "Bearer YOUR_ACCESS_TOKEN")
-
-        client := &http.Client{}
-        resp, _ := client.Do(req)
-        defer resp.Body.Close()
-
-        data, _ := io.ReadAll(resp.Body)
-        fmt.Println(string(data))
-    }
-    ```
-
-    Note: The `GET /v1/status/source` endpoint returns the payment source (invoice/order) lifecycle status. Execution endpoints such as `GET /v1/status/collection/{reference_id}` return an `ExecutionResponse` that reflects funds-movement status. Treat source status and execution status as separate state models.
+</CodeGroup>
 
 ---

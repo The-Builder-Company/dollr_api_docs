@@ -1,3 +1,8 @@
+---
+title: "Fees"
+description: "Retrieve fee schedules for your merchant account."
+---
+
 # Fees
 
 The Fees endpoints give programmatic access to Dollr's fee structures.
@@ -45,122 +50,114 @@ Returns an array of `FeeTierResponse` objects. Use the `name` field when queryin
 
 #### Code Examples
 
-=== "cURL"
+<CodeGroup>
 
-    ```bash
-    # Gateway fees
-    curl "https://api.heydollr.app/v1/fees/gateway?payment_method=MTN_MOMO_LBR&operation_type=COLLECTION" \
-      -H "Authorization: Bearer YOUR_ACCESS_TOKEN"
+```bash cURL
+# Gateway fees
+curl "https://api.heydollr.app/v1/fees/gateway?payment_method=MTN_MOMO_LBR&operation_type=COLLECTION" \
+  -H "Authorization: Bearer YOUR_ACCESS_TOKEN"
 
-    # List all fee tiers
-    curl "https://api.heydollr.app/v1/fees/tiers" \
-      -H "Authorization: Bearer YOUR_ACCESS_TOKEN"
-    ```
+# List all fee tiers
+curl "https://api.heydollr.app/v1/fees/tiers" \
+  -H "Authorization: Bearer YOUR_ACCESS_TOKEN"
+```
 
-=== "Python"
+```python Python
+import requests
 
-    ```python
-    import requests
+BASE_URL = "https://api.heydollr.app"
+headers  = {"Authorization": "Bearer YOUR_ACCESS_TOKEN"}
 
-    BASE_URL = "https://api.heydollr.app"
-    headers  = {"Authorization": "Bearer YOUR_ACCESS_TOKEN"}
+# Gateway fees
+response = requests.get(
+    f"{BASE_URL}/v1/fees/gateway",
+    headers=headers,
+    params={"payment_method": "MTN_MOMO_LBR", "operation_type": "COLLECTION"},
+)
+print(response.json())
 
-    # Gateway fees
-    response = requests.get(
-        f"{BASE_URL}/v1/fees/gateway",
-        headers=headers,
-        params={"payment_method": "MTN_MOMO_LBR", "operation_type": "COLLECTION"},
+# List all fee tiers
+tiers = requests.get(f"{BASE_URL}/v1/fees/tiers", headers=headers).json()
+for tier in tiers:
+    print(tier["name"], "— default:", tier["is_default"])
+```
+
+```javascript Node.js
+const BASE_URL = "https://api.heydollr.app";
+const TOKEN    = "YOUR_ACCESS_TOKEN";
+
+// Gateway fees
+const fees = await fetch(
+  `${BASE_URL}/v1/fees/gateway?payment_method=MTN_MOMO_LBR&operation_type=COLLECTION`,
+  { headers: { Authorization: `Bearer ${TOKEN}` } }
+).then(r => r.json());
+console.log(fees);
+
+// List all tiers
+const tiers = await fetch(`${BASE_URL}/v1/fees/tiers`, {
+  headers: { Authorization: `Bearer ${TOKEN}` },
+}).then(r => r.json());
+tiers.forEach(t => console.log(t.name, "| default:", t.is_default));
+```
+
+```php PHP
+// Gateway fees
+$ch = curl_init(
+    "https://api.heydollr.app/v1/fees/gateway?payment_method=MTN_MOMO_LBR&operation_type=COLLECTION"
+);
+curl_setopt_array($ch, [
+    CURLOPT_RETURNTRANSFER => true,
+    CURLOPT_HTTPHEADER     => ["Authorization: Bearer YOUR_ACCESS_TOKEN"],
+]);
+$fees = json_decode(curl_exec($ch), true);
+curl_close($ch);
+print_r($fees);
+```
+
+```java Java
+import java.net.URI;
+import java.net.http.*;
+
+HttpClient client = HttpClient.newHttpClient();
+
+HttpRequest request = HttpRequest.newBuilder()
+    .uri(URI.create(
+        "https://api.heydollr.app/v1/fees/gateway"
+        + "?payment_method=MTN_MOMO_LBR&operation_type=COLLECTION"
+    ))
+    .header("Authorization", "Bearer YOUR_ACCESS_TOKEN")
+    .GET()
+    .build();
+
+HttpResponse<String> response = client.send(request, HttpResponse.BodyHandlers.ofString());
+System.out.println(response.body());
+```
+
+```go Go
+package main
+
+import (
+    "fmt"
+    "io"
+    "net/http"
+)
+
+func main() {
+    req, _ := http.NewRequest("GET",
+        "https://api.heydollr.app/v1/fees/gateway?payment_method=MTN_MOMO_LBR&operation_type=COLLECTION",
+        nil,
     )
-    print(response.json())
+    req.Header.Set("Authorization", "Bearer YOUR_ACCESS_TOKEN")
 
-    # List all fee tiers
-    tiers = requests.get(f"{BASE_URL}/v1/fees/tiers", headers=headers).json()
-    for tier in tiers:
-        print(tier["name"], "— default:", tier["is_default"])
-    ```
+    client := &http.Client{}
+    resp, _ := client.Do(req)
+    defer resp.Body.Close()
 
-=== "Node.js"
+    data, _ := io.ReadAll(resp.Body)
+    fmt.Println(string(data))
+}
+```
 
-    ```javascript
-    const BASE_URL = "https://api.heydollr.app";
-    const TOKEN    = "YOUR_ACCESS_TOKEN";
-
-    // Gateway fees
-    const fees = await fetch(
-      `${BASE_URL}/v1/fees/gateway?payment_method=MTN_MOMO_LBR&operation_type=COLLECTION`,
-      { headers: { Authorization: `Bearer ${TOKEN}` } }
-    ).then(r => r.json());
-    console.log(fees);
-
-    // List all tiers
-    const tiers = await fetch(`${BASE_URL}/v1/fees/tiers`, {
-      headers: { Authorization: `Bearer ${TOKEN}` },
-    }).then(r => r.json());
-    tiers.forEach(t => console.log(t.name, "| default:", t.is_default));
-    ```
-
-=== "PHP"
-
-    ```php
-    // Gateway fees
-    $ch = curl_init(
-        "https://api.heydollr.app/v1/fees/gateway?payment_method=MTN_MOMO_LBR&operation_type=COLLECTION"
-    );
-    curl_setopt_array($ch, [
-        CURLOPT_RETURNTRANSFER => true,
-        CURLOPT_HTTPHEADER     => ["Authorization: Bearer YOUR_ACCESS_TOKEN"],
-    ]);
-    $fees = json_decode(curl_exec($ch), true);
-    curl_close($ch);
-    print_r($fees);
-    ```
-
-=== "Java"
-
-    ```java
-    import java.net.URI;
-    import java.net.http.*;
-
-    HttpClient client = HttpClient.newHttpClient();
-
-    HttpRequest request = HttpRequest.newBuilder()
-        .uri(URI.create(
-            "https://api.heydollr.app/v1/fees/gateway"
-            + "?payment_method=MTN_MOMO_LBR&operation_type=COLLECTION"
-        ))
-        .header("Authorization", "Bearer YOUR_ACCESS_TOKEN")
-        .GET()
-        .build();
-
-    HttpResponse<String> response = client.send(request, HttpResponse.BodyHandlers.ofString());
-    System.out.println(response.body());
-    ```
-
-=== "Go"
-
-    ```go
-    package main
-
-    import (
-        "fmt"
-        "io"
-        "net/http"
-    )
-
-    func main() {
-        req, _ := http.NewRequest("GET",
-            "https://api.heydollr.app/v1/fees/gateway?payment_method=MTN_MOMO_LBR&operation_type=COLLECTION",
-            nil,
-        )
-        req.Header.Set("Authorization", "Bearer YOUR_ACCESS_TOKEN")
-
-        client := &http.Client{}
-        resp, _ := client.Do(req)
-        defer resp.Body.Close()
-
-        data, _ := io.ReadAll(resp.Body)
-        fmt.Println(string(data))
-    }
-    ```
+</CodeGroup>
 
 ---

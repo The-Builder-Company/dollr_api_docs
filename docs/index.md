@@ -1,3 +1,8 @@
+---
+title: "Dollr Open API"
+description: "Official REST API reference for Dollr — payments, payouts, and transfers across Africa."
+---
+
 # Dollr Open API
 
 **Version:** v1.0 &nbsp;|&nbsp; **Base URL:** `https://api.heydollr.app`
@@ -30,7 +35,7 @@ The Dollr Open API is a RESTful HTTP API that returns JSON responses. It is desi
 | Airtel Money | `AIRTEL_RWA` | Rwanda |
 | MTN Mobile Money | `MTN_MOMO_RWA` | Rwanda |
 | Orange Money | `ORANGE_MONEY_RWA` | Rwanda |
-| Credit / Debit Card | `CREDIT_CARD` | International (via Stripe) |
+| Credit / Debit Card | `CREDIT_CARD` | International |
 | Dollr Wallet | `WALLET` | Internal platform transfers |
 
 ---
@@ -73,8 +78,9 @@ All uploaded documents must be JPG, PNG, or PDF, max 5 MB per document, and clea
 
 After submitting your documents, your account enters a compliance review. The typical turnaround is **1 to 72 hours**. You will receive an email notification when approved.
 
-!!! note
-    The following features are restricted until your account is fully verified: transfers, payouts, payment links, team member management, API key generation, and refund processing.
+<Note>
+The following features are restricted until your account is fully verified: transfers, payouts, payment links, team member management, API key generation, and refund processing.
+</Note>
 
 ### Generate API Credentials
 
@@ -85,8 +91,11 @@ Once your account is approved:
 3. Generate a new **Client ID** and **Client Secret**
 4. Store your Client Secret securely — it is only shown once
 
-!!! danger "Security Warning"
-    Never expose your Client Secret in client-side code, mobile app binaries, or public repositories. All API calls must be made server-side.
+<Warning>
+**Security Warning**
+
+Never expose your Client Secret in client-side code, mobile app binaries, or public repositories. All API calls must be made server-side.
+</Warning>
 
 ---
 
@@ -127,133 +136,125 @@ This endpoint does not require a prior Bearer token.
 
 #### Code Examples
 
-=== "cURL"
+<CodeGroup>
 
-    ```bash
-    curl -X POST "https://api.heydollr.app/v1/jwt/client/obtain/token" \
-      -H "Content-Type: application/json" \
-      -d '{
-        "client_id": "your-client-id",
-        "client_secret": "your-client-secret"
-      }'
-    ```
+```bash cURL
+curl -X POST "https://api.heydollr.app/v1/jwt/client/obtain/token" \
+  -H "Content-Type: application/json" \
+  -d '{
+    "client_id": "your-client-id",
+    "client_secret": "your-client-secret"
+  }'
+```
 
-=== "Python"
+```python Python
+import requests
 
-    ```python
-    import requests
+BASE_URL = "https://api.heydollr.app"
 
-    BASE_URL = "https://api.heydollr.app"
+response = requests.post(
+    f"{BASE_URL}/v1/jwt/client/obtain/token",
+    json={
+        "client_id":     "your-client-id",
+        "client_secret": "your-client-secret",
+    },
+)
+data = response.json()
+access_token = data["access_token"]
+expires_in   = data["expires_in"]  # minutes
+print(f"Token: {access_token}")
+```
 
-    response = requests.post(
-        f"{BASE_URL}/v1/jwt/client/obtain/token",
-        json={
-            "client_id":     "your-client-id",
-            "client_secret": "your-client-secret",
-        },
-    )
-    data = response.json()
-    access_token = data["access_token"]
-    expires_in   = data["expires_in"]  # minutes
-    print(f"Token: {access_token}")
-    ```
+```javascript Node.js
+const BASE_URL = "https://api.heydollr.app";
 
-=== "Node.js"
+const response = await fetch(`${BASE_URL}/v1/jwt/client/obtain/token`, {
+  method: "POST",
+  headers: { "Content-Type": "application/json" },
+  body: JSON.stringify({
+    client_id:     "your-client-id",
+    client_secret: "your-client-secret",
+  }),
+});
 
-    ```javascript
-    const BASE_URL = "https://api.heydollr.app";
+const { access_token, expires_in } = await response.json();
+console.log("Token:", access_token);
+```
 
-    const response = await fetch(`${BASE_URL}/v1/jwt/client/obtain/token`, {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({
-        client_id:     "your-client-id",
-        client_secret: "your-client-secret",
-      }),
-    });
+```php PHP
+$ch = curl_init("https://api.heydollr.app/v1/jwt/client/obtain/token");
+curl_setopt_array($ch, [
+    CURLOPT_RETURNTRANSFER => true,
+    CURLOPT_POST           => true,
+    CURLOPT_HTTPHEADER     => ["Content-Type: application/json"],
+    CURLOPT_POSTFIELDS     => json_encode([
+        "client_id"     => "your-client-id",
+        "client_secret" => "your-client-secret",
+    ]),
+]);
+$response    = json_decode(curl_exec($ch), true);
+$accessToken = $response["access_token"];
+$expiresIn   = $response["expires_in"]; // minutes
+curl_close($ch);
+```
 
-    const { access_token, expires_in } = await response.json();
-    console.log("Token:", access_token);
-    ```
+```java Java
+import java.net.URI;
+import java.net.http.*;
+import java.net.http.HttpRequest.BodyPublishers;
 
-=== "PHP"
+HttpClient client = HttpClient.newHttpClient();
 
-    ```php
-    $ch = curl_init("https://api.heydollr.app/v1/jwt/client/obtain/token");
-    curl_setopt_array($ch, [
-        CURLOPT_RETURNTRANSFER => true,
-        CURLOPT_POST           => true,
-        CURLOPT_HTTPHEADER     => ["Content-Type: application/json"],
-        CURLOPT_POSTFIELDS     => json_encode([
-            "client_id"     => "your-client-id",
-            "client_secret" => "your-client-secret",
-        ]),
-    ]);
-    $response    = json_decode(curl_exec($ch), true);
-    $accessToken = $response["access_token"];
-    $expiresIn   = $response["expires_in"]; // minutes
-    curl_close($ch);
-    ```
-
-=== "Java"
-
-    ```java
-    import java.net.URI;
-    import java.net.http.*;
-    import java.net.http.HttpRequest.BodyPublishers;
-
-    HttpClient client = HttpClient.newHttpClient();
-
-    String body = """
-        {
-          "client_id":     "your-client-id",
-          "client_secret": "your-client-secret"
-        }
-        """;
-
-    HttpRequest request = HttpRequest.newBuilder()
-        .uri(URI.create("https://api.heydollr.app/v1/jwt/client/obtain/token"))
-        .header("Content-Type", "application/json")
-        .POST(BodyPublishers.ofString(body))
-        .build();
-
-    HttpResponse<String> response = client.send(request, HttpResponse.BodyHandlers.ofString());
-    System.out.println(response.body());
-    ```
-
-=== "Go"
-
-    ```go
-    package main
-
-    import (
-        "bytes"
-        "encoding/json"
-        "fmt"
-        "io"
-        "net/http"
-    )
-
-    func main() {
-        payload := map[string]string{
-            "client_id":     "your-client-id",
-            "client_secret": "your-client-secret",
-        }
-        body, _ := json.Marshal(payload)
-
-        resp, _ := http.Post(
-            "https://api.heydollr.app/v1/jwt/client/obtain/token",
-            "application/json",
-            bytes.NewBuffer(body),
-        )
-        defer resp.Body.Close()
-
-        var result map[string]interface{}
-        data, _ := io.ReadAll(resp.Body)
-        json.Unmarshal(data, &result)
-        fmt.Println("Token:", result["access_token"])
+String body = """
+    {
+      "client_id":     "your-client-id",
+      "client_secret": "your-client-secret"
     }
-    ```
+    """;
+
+HttpRequest request = HttpRequest.newBuilder()
+    .uri(URI.create("https://api.heydollr.app/v1/jwt/client/obtain/token"))
+    .header("Content-Type", "application/json")
+    .POST(BodyPublishers.ofString(body))
+    .build();
+
+HttpResponse<String> response = client.send(request, HttpResponse.BodyHandlers.ofString());
+System.out.println(response.body());
+```
+
+```go Go
+package main
+
+import (
+    "bytes"
+    "encoding/json"
+    "fmt"
+    "io"
+    "net/http"
+)
+
+func main() {
+    payload := map[string]string{
+        "client_id":     "your-client-id",
+        "client_secret": "your-client-secret",
+    }
+    body, _ := json.Marshal(payload)
+
+    resp, _ := http.Post(
+        "https://api.heydollr.app/v1/jwt/client/obtain/token",
+        "application/json",
+        bytes.NewBuffer(body),
+    )
+    defer resp.Body.Close()
+
+    var result map[string]interface{}
+    data, _ := io.ReadAll(resp.Body)
+    json.Unmarshal(data, &result)
+    fmt.Println("Token:", result["access_token"])
+}
+```
+
+</CodeGroup>
 
 ## Use the Bearer Token
 
@@ -332,8 +333,11 @@ For direct invoice and order endpoints (the document-first flow), create a Count
 
 **Order** — A payment document similar to an invoice but without a formal invoice number or due date. Suited for retail and e-commerce. Can also be shared as a payment link.
 
-!!! info "Key fact"
-    Customers do not need a Dollr account to pay via a payment link. Payment is completed directly in a browser using mobile money or a credit card.
+<Info>
+**Key fact**
+
+Customers do not need a Dollr account to pay via a payment link. Payment is completed directly in a browser using mobile money or a credit card.
+</Info>
 
 ## Sessions and Executions
 
@@ -343,8 +347,11 @@ For direct invoice and order endpoints (the document-first flow), create a Count
 
 Execution status tracks the movement of funds (execution lifecycle). Source status (invoice/order) tracks the document lifecycle (IDLE, ACTIVE, PROCESSING, PAID, CANCELED). Keep these state models distinct when building polling or receipt logic.
 
-!!! warning "Idempotency"
-    Always generate a unique `reference_id` per execution attempt. This is your idempotency key. If a network error occurs, query the transaction status using this `reference_id` before retrying.
+<Warning>
+**Idempotency**
+
+Always generate a unique `reference_id` per execution attempt. This is your idempotency key. If a network error occurs, query the transaction status using this `reference_id` before retrying.
+</Warning>
 
 ## Fee Bearers
 

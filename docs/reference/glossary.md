@@ -1,3 +1,8 @@
+---
+title: "Glossary"
+description: "Definitions for key terms used throughout the Dollr API."
+---
+
 # Glossary
 
 Definitions for all key terms used across the Dollr API.
@@ -32,7 +37,7 @@ An operation type where funds flow *into* your merchant wallet from a customer. 
 A record that links an existing [Party](#party) to your merchant account with a defined [relationship type](#relationship-type). For the direct invoice and order flows in these docs, a counterparty is required before creating invoices or orders. Checkout-source creation (`POST /v1/checkouts/create`) can create or match the Party and Counterparty automatically. A counterparty answers "who is this party to me?" (customer, supplier, employee, etc.).
 
 **CREDIT_CARD**
-Payment method identifier for international card payments processed via Stripe.
+Payment method identifier for international credit and debit card payments.
 
 **Currency**
 All currency codes follow ISO 4217 — three uppercase letters (e.g., `USD`, `LRD`, `RWF`). Liberian Dollar (`LRD`) and US Dollar (`USD`) are the primary currencies in Liberia. Rwandan Franc (`RWF`) is used in Rwanda.
@@ -68,7 +73,7 @@ A foreign exchange conversion fee charged when the payer's currency differs from
 ## G
 
 **Gateway Fee**
-A fee charged by the payment gateway (PawaPay or Stripe) per transaction. Varies by payment method and operation type. Query current rates via `GET /v1/fees/gateway`.
+A fee charged by the payment gateway per transaction. Varies by payment method and operation type. Query current rates via `GET /v1/fees/gateway`.
 
 **Gateway Provider**
 The underlying payment network that processes a transaction. See [Provider](#provider) below.
@@ -223,7 +228,7 @@ Specifies the type of document backing a checkout session or prediction:
 - `SUBSCRIPTION` — Reserved for future support; not currently documented as a public source family
 
 **STRIPE**
-Provider identifier for international card payments. Dollr uses Stripe for `CREDIT_CARD` transactions.
+Provider identifier for international credit and debit card payments.
 
 ---
 

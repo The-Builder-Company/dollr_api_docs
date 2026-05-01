@@ -1,3 +1,8 @@
+---
+title: "Integration Guide"
+description: "End-to-end walkthrough of collection, payout, transfer, and refund flows."
+---
+
 # Integration Guide
 
 ## Collect Payment via Invoice
@@ -92,8 +97,11 @@ Register the customer's mobile wallet. Store the returned `payment_account.id`.
 POST /v1/executions/collection
 ```
 
-!!! danger "Store your reference_id first"
-    Generate a UUID v4 and persist it **before** calling this endpoint. If the HTTP response is lost due to a network error, you will need this ID to query the transaction status before retrying.
+<Warning>
+**Store your reference_id first**
+
+Generate a UUID v4 and persist it **before** calling this endpoint. If the HTTP response is lost due to a network error, you will need this ID to query the transaction status before retrying.
+</Warning>
 
 Pass `session_id`, `payment_account_id`, `currency`, and your pre-generated `reference_id`.
 

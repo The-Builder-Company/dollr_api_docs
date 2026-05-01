@@ -1,3 +1,8 @@
+---
+title: "Orders"
+description: "Create and manage payment orders for retail and e-commerce flows."
+---
+
 # Orders
 
 Orders are informal payment documents — similar to invoices but without a formal invoice number or due date. They follow the same `IDLE > ACTIVE > PROCESSING > PAID / CANCELED` lifecycle.
@@ -36,160 +41,152 @@ POST /v1/orders/create
 
 #### Code Examples
 
-=== "cURL"
+<CodeGroup>
 
-    ```bash
-    curl -X POST "https://api.heydollr.app/v1/orders/create" \
-      -H "Authorization: Bearer YOUR_ACCESS_TOKEN" \
-      -H "Content-Type: application/json" \
-      -d '{
+```bash cURL
+curl -X POST "https://api.heydollr.app/v1/orders/create" \
+  -H "Authorization: Bearer YOUR_ACCESS_TOKEN" \
+  -H "Content-Type: application/json" \
+  -d '{
+    "counterparty_id": 7,
+    "currency":        "LRD",
+    "note":            "Market goods – Order #1042",
+    "fee_bearer":      "PAYEE",
+    "as_payment_link": true
+  }'
+```
+
+```python Python
+import requests
+
+BASE_URL = "https://api.heydollr.app"
+headers  = {"Authorization": "Bearer YOUR_ACCESS_TOKEN", "Content-Type": "application/json"}
+
+response = requests.post(
+    f"{BASE_URL}/v1/orders/create",
+    headers=headers,
+    json={
         "counterparty_id": 7,
         "currency":        "LRD",
         "note":            "Market goods – Order #1042",
         "fee_bearer":      "PAYEE",
-        "as_payment_link": true
-      }'
-    ```
+        "as_payment_link": True,
+    },
+)
+order = response.json()
+print("Order ID:", order["id"])
+```
 
-=== "Python"
+```javascript Node.js
+const BASE_URL = "https://api.heydollr.app";
+const TOKEN    = "YOUR_ACCESS_TOKEN";
 
-    ```python
-    import requests
+const response = await fetch(`${BASE_URL}/v1/orders/create`, {
+  method: "POST",
+  headers: {
+    Authorization:  `Bearer ${TOKEN}`,
+    "Content-Type": "application/json",
+  },
+  body: JSON.stringify({
+    counterparty_id: 7,
+    currency:        "LRD",
+    note:            "Market goods – Order #1042",
+    fee_bearer:      "PAYEE",
+    as_payment_link: true,
+  }),
+});
+const order = await response.json();
+console.log("Order ID:", order.id);
+```
 
-    BASE_URL = "https://api.heydollr.app"
-    headers  = {"Authorization": "Bearer YOUR_ACCESS_TOKEN", "Content-Type": "application/json"}
+```php PHP
+$ch = curl_init("https://api.heydollr.app/v1/orders/create");
+curl_setopt_array($ch, [
+    CURLOPT_RETURNTRANSFER => true,
+    CURLOPT_POST           => true,
+    CURLOPT_HTTPHEADER     => [
+        "Authorization: Bearer YOUR_ACCESS_TOKEN",
+        "Content-Type: application/json",
+    ],
+    CURLOPT_POSTFIELDS => json_encode([
+        "counterparty_id" => 7,
+        "currency"        => "LRD",
+        "note"            => "Market goods – Order #1042",
+        "fee_bearer"      => "PAYEE",
+        "as_payment_link" => true,
+    ]),
+]);
+$order = json_decode(curl_exec($ch), true);
+curl_close($ch);
+echo "Order ID: " . $order["id"];
+```
 
-    response = requests.post(
-        f"{BASE_URL}/v1/orders/create",
-        headers=headers,
-        json={
-            "counterparty_id": 7,
-            "currency":        "LRD",
-            "note":            "Market goods – Order #1042",
-            "fee_bearer":      "PAYEE",
-            "as_payment_link": True,
-        },
-    )
-    order = response.json()
-    print("Order ID:", order["id"])
-    ```
+```java Java
+import java.net.URI;
+import java.net.http.*;
+import java.net.http.HttpRequest.BodyPublishers;
 
-=== "Node.js"
+HttpClient client = HttpClient.newHttpClient();
 
-    ```javascript
-    const BASE_URL = "https://api.heydollr.app";
-    const TOKEN    = "YOUR_ACCESS_TOKEN";
-
-    const response = await fetch(`${BASE_URL}/v1/orders/create`, {
-      method: "POST",
-      headers: {
-        Authorization:  `Bearer ${TOKEN}`,
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({
-        counterparty_id: 7,
-        currency:        "LRD",
-        note:            "Market goods – Order #1042",
-        fee_bearer:      "PAYEE",
-        as_payment_link: true,
-      }),
-    });
-    const order = await response.json();
-    console.log("Order ID:", order.id);
-    ```
-
-=== "PHP"
-
-    ```php
-    $ch = curl_init("https://api.heydollr.app/v1/orders/create");
-    curl_setopt_array($ch, [
-        CURLOPT_RETURNTRANSFER => true,
-        CURLOPT_POST           => true,
-        CURLOPT_HTTPHEADER     => [
-            "Authorization: Bearer YOUR_ACCESS_TOKEN",
-            "Content-Type: application/json",
-        ],
-        CURLOPT_POSTFIELDS => json_encode([
-            "counterparty_id" => 7,
-            "currency"        => "LRD",
-            "note"            => "Market goods – Order #1042",
-            "fee_bearer"      => "PAYEE",
-            "as_payment_link" => true,
-        ]),
-    ]);
-    $order = json_decode(curl_exec($ch), true);
-    curl_close($ch);
-    echo "Order ID: " . $order["id"];
-    ```
-
-=== "Java"
-
-    ```java
-    import java.net.URI;
-    import java.net.http.*;
-    import java.net.http.HttpRequest.BodyPublishers;
-
-    HttpClient client = HttpClient.newHttpClient();
-
-    String body = """
-        {
-          "counterparty_id": 7,
-          "currency":        "LRD",
-          "note":            "Market goods – Order #1042",
-          "fee_bearer":      "PAYEE",
-          "as_payment_link": true
-        }
-        """;
-
-    HttpRequest request = HttpRequest.newBuilder()
-        .uri(URI.create("https://api.heydollr.app/v1/orders/create"))
-        .header("Authorization", "Bearer YOUR_ACCESS_TOKEN")
-        .header("Content-Type", "application/json")
-        .POST(BodyPublishers.ofString(body))
-        .build();
-
-    HttpResponse<String> response = client.send(request, HttpResponse.BodyHandlers.ofString());
-    System.out.println(response.body());
-    ```
-
-=== "Go"
-
-    ```go
-    package main
-
-    import (
-        "bytes"
-        "encoding/json"
-        "fmt"
-        "io"
-        "net/http"
-    )
-
-    func main() {
-        payload := map[string]interface{}{
-            "counterparty_id": 7,
-            "currency":        "LRD",
-            "note":            "Market goods – Order #1042",
-            "fee_bearer":      "PAYEE",
-            "as_payment_link": true,
-        }
-        body, _ := json.Marshal(payload)
-
-        req, _ := http.NewRequest("POST",
-            "https://api.heydollr.app/v1/orders/create",
-            bytes.NewBuffer(body),
-        )
-        req.Header.Set("Authorization", "Bearer YOUR_ACCESS_TOKEN")
-        req.Header.Set("Content-Type", "application/json")
-
-        client := &http.Client{}
-        resp, _ := client.Do(req)
-        defer resp.Body.Close()
-
-        data, _ := io.ReadAll(resp.Body)
-        fmt.Println(string(data))
+String body = """
+    {
+      "counterparty_id": 7,
+      "currency":        "LRD",
+      "note":            "Market goods – Order #1042",
+      "fee_bearer":      "PAYEE",
+      "as_payment_link": true
     }
-    ```
+    """;
+
+HttpRequest request = HttpRequest.newBuilder()
+    .uri(URI.create("https://api.heydollr.app/v1/orders/create"))
+    .header("Authorization", "Bearer YOUR_ACCESS_TOKEN")
+    .header("Content-Type", "application/json")
+    .POST(BodyPublishers.ofString(body))
+    .build();
+
+HttpResponse<String> response = client.send(request, HttpResponse.BodyHandlers.ofString());
+System.out.println(response.body());
+```
+
+```go Go
+package main
+
+import (
+    "bytes"
+    "encoding/json"
+    "fmt"
+    "io"
+    "net/http"
+)
+
+func main() {
+    payload := map[string]interface{}{
+        "counterparty_id": 7,
+        "currency":        "LRD",
+        "note":            "Market goods – Order #1042",
+        "fee_bearer":      "PAYEE",
+        "as_payment_link": true,
+    }
+    body, _ := json.Marshal(payload)
+
+    req, _ := http.NewRequest("POST",
+        "https://api.heydollr.app/v1/orders/create",
+        bytes.NewBuffer(body),
+    )
+    req.Header.Set("Authorization", "Bearer YOUR_ACCESS_TOKEN")
+    req.Header.Set("Content-Type", "application/json")
+
+    client := &http.Client{}
+    resp, _ := client.Do(req)
+    defer resp.Body.Close()
+
+    data, _ := io.ReadAll(resp.Body)
+    fmt.Println(string(data))
+}
+```
+
+</CodeGroup>
 
 ## Order Items
 
