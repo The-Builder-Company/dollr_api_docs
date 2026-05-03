@@ -1,0 +1,1565 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+        <meta name="description" content="Official API documentation for integrating Dollr into your application or project.">
+      
+      
+        <meta name="author" content="Dollr">
+      
+      
+      
+      
+        <link rel="next" href="quickstart/">
+      
+      
+        
+      
+      
+      <link rel="icon" href="assets/favicon.png">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.6">
+    
+    
+      
+        <title>Overview & Introduction - Dollr Developer Docs</title>
+      
+    
+    
+      <link rel="stylesheet" href="assets/stylesheets/main.484c7ddc.min.css">
+      
+        
+        <link rel="stylesheet" href="assets/stylesheets/palette.ab4e12ef.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+      <link rel="stylesheet" href="assets/stylesheets/dollr.css">
+    
+    <script>__md_scope=new URL(".",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+  </head>
+  
+  
+    
+    
+      
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="custom" data-md-color-accent="custom">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#dollr-open-api" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+      <div data-md-color-scheme="default" data-md-component="outdated" hidden>
+        
+      </div>
+    
+    
+      
+
+  
+
+<header class="md-header md-header--shadow" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href="." title="Dollr Developer Docs" class="md-header__button md-logo" aria-label="Dollr Developer Docs" data-md-component="logo">
+      
+  <img src="assets/logo.png" alt="logo">
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            Dollr Developer Docs
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              Overview & Introduction
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      
+        <form class="md-header__option" data-md-component="palette">
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="" data-md-color-scheme="default" data-md-color-primary="custom" data-md-color-accent="custom"  aria-label="Switch to dark mode"  type="radio" name="__palette" id="__palette_0">
+    
+      <label class="md-header__button md-icon" title="Switch to dark mode" for="__palette_1" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a4 4 0 0 0-4 4 4 4 0 0 0 4 4 4 4 0 0 0 4-4 4 4 0 0 0-4-4m0 10a6 6 0 0 1-6-6 6 6 0 0 1 6-6 6 6 0 0 1 6 6 6 6 0 0 1-6 6m8-9.31V4h-4.69L12 .69 8.69 4H4v4.69L.69 12 4 15.31V20h4.69L12 23.31 15.31 20H20v-4.69L23.31 12z"/></svg>
+      </label>
+    
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="" data-md-color-scheme="slate" data-md-color-primary="custom" data-md-color-accent="custom"  aria-label="Switch to light mode"  type="radio" name="__palette" id="__palette_1">
+    
+      <label class="md-header__button md-icon" title="Switch to light mode" for="__palette_0" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 18c-.89 0-1.74-.2-2.5-.55C11.56 16.5 13 14.42 13 12s-1.44-4.5-3.5-5.45C10.26 6.2 11.11 6 12 6a6 6 0 0 1 6 6 6 6 0 0 1-6 6m8-9.31V4h-4.69L12 .69 8.69 4H4v4.69L.69 12 4 15.31V20h4.69L12 23.31 15.31 20H20v-4.69L23.31 12z"/></svg>
+      </label>
+    
+  
+</form>
+      
+    
+    
+      <script>var palette=__md_get("__palette");if(palette&&palette.color){if("(prefers-color-scheme)"===palette.color.media){var media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']");palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent")}for(var[key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+    
+    
+    
+      
+      
+        <label class="md-header__button md-icon" for="__search">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        </label>
+        <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Search">
+        
+          <a href="javascript:void(0)" class="md-search__icon md-icon" title="Share" aria-label="Share" data-clipboard data-clipboard-text="" data-md-component="search-share" tabindex="-1">
+            
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M18 16.08c-.76 0-1.44.3-1.96.77L8.91 12.7c.05-.23.09-.46.09-.7s-.04-.47-.09-.7l7.05-4.11c.54.5 1.25.81 2.04.81a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3c0 .24.04.47.09.7L8.04 9.81C7.5 9.31 6.79 9 6 9a3 3 0 0 0-3 3 3 3 0 0 0 3 3c.79 0 1.5-.31 2.04-.81l7.12 4.15c-.05.21-.08.43-.08.66 0 1.61 1.31 2.91 2.92 2.91s2.92-1.3 2.92-2.91A2.92 2.92 0 0 0 18 16.08"/></svg>
+          </a>
+        
+        <button type="reset" class="md-search__icon md-icon" title="Clear" aria-label="Clear" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+        </button>
+      </nav>
+      
+        <div class="md-search__suggest" data-md-component="search-suggest"></div>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initializing search
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+      
+    
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+
+<nav class="md-nav md-nav--primary" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="." title="Dollr Developer Docs" class="md-nav__button md-logo" aria-label="Dollr Developer Docs" data-md-component="logo">
+      
+  <img src="assets/logo.png" alt="logo">
+
+    </a>
+    Dollr Developer Docs
+  </label>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+    
+  
+  
+  
+    
+    
+    
+    
+      
+        
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_1" checked>
+        
+          
+          <label class="md-nav__link" for="__nav_1" id="__nav_1_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Getting Started
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_1_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_1">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Getting Started
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+    
+  
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+      <a href="." class="md-nav__link md-nav__link--active">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Overview & Introduction
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="quickstart/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Quick Start
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+        
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2" >
+        
+          
+          <label class="md-nav__link" for="__nav_2" id="__nav_2_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    API Reference
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_2_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    API Reference
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="api/parties/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Parties
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="api/counterparties/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Counterparties
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="api/invoices/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Invoices
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="api/orders/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Orders
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="api/checkouts/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Checkouts
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="api/sessions/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Sessions
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="api/executions/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Executions
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="api/status/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Transaction Status
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="api/payment-accounts/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Payment Accounts
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="api/links/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Payment Links
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="api/predictions/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Predictions
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="api/fees/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Fees
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="api/merchants/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Merchants
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="api/realtime-keys/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Realtime Keys
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+        
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3" >
+        
+          
+          <label class="md-nav__link" for="__nav_3" id="__nav_3_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Guides
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_3_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_3">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Guides
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="guides/integration/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Integration Guide
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="guides/error-handling/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Error Handling
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+        
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4" >
+        
+          
+          <label class="md-nav__link" for="__nav_4" id="__nav_4_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Reference
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_4_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_4">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Reference
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="reference/glossary/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Glossary
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+
+<h1 id="dollr-open-api">Dollr Open API<a class="headerlink" href="#dollr-open-api" title="Permanent link">&para;</a></h1>
+<p><strong>Version:</strong> v1.0 &nbsp;|&nbsp; <strong>Base URL:</strong> <code>https://api.heydollr.app</code></p>
+<hr />
+<h1 id="overview">Overview<a class="headerlink" href="#overview" title="Permanent link">&para;</a></h1>
+<p>Dollr is a modern payment infrastructure platform built for businesses operating in Africa. It enables merchants to collect payments, send payouts, process transfers, and issue refunds through a single unified API — abstracting the complexity of mobile money operators and card networks into a clean, consistent interface.</p>
+<p>The Dollr Open API is a RESTful HTTP API that returns JSON responses. It is designed to be embedded in merchant applications, e-commerce storefronts, ERPs, and any software that needs to send or receive money in the markets Dollr supports.</p>
+<h3 id="what-you-can-build">What You Can Build<a class="headerlink" href="#what-you-can-build" title="Permanent link">&para;</a></h3>
+<ul>
+<li>Accept mobile money and card payments from customers (Collections)</li>
+<li>Send money out to mobile wallets or bank accounts (Payouts)</li>
+<li>Move funds between wallets within Dollr (Transfers)</li>
+<li>Issue partial or full refunds on prior transactions (Refunds)</li>
+<li>Generate invoices and payment orders with line items</li>
+<li>Share payment links that customers pay without a Dollr account</li>
+<li>Manage counterparties — customers, suppliers, employees, and more</li>
+<li>Preview fees and FX rates before committing to a transaction</li>
+</ul>
+<h3 id="supported-payment-methods">Supported Payment Methods<a class="headerlink" href="#supported-payment-methods" title="Permanent link">&para;</a></h3>
+<table>
+<thead>
+<tr>
+<th>Method</th>
+<th>Identifier</th>
+<th>Market</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>MTN Mobile Money</td>
+<td><code>MTN_MOMO_LBR</code></td>
+<td>Liberia</td>
+</tr>
+<tr>
+<td>Orange Money</td>
+<td><code>ORANGE_MONEY_LBR</code></td>
+<td>Liberia</td>
+</tr>
+<tr>
+<td>Airtel Money</td>
+<td><code>AIRTEL_RWA</code></td>
+<td>Rwanda</td>
+</tr>
+<tr>
+<td>MTN Mobile Money</td>
+<td><code>MTN_MOMO_RWA</code></td>
+<td>Rwanda</td>
+</tr>
+<tr>
+<td>Orange Money</td>
+<td><code>ORANGE_MONEY_RWA</code></td>
+<td>Rwanda</td>
+</tr>
+<tr>
+<td>Credit / Debit Card</td>
+<td><code>CREDIT_CARD</code></td>
+<td>International</td>
+</tr>
+<tr>
+<td>Dollr Wallet</td>
+<td><code>WALLET</code></td>
+<td>Internal platform transfers</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h1 id="prerequisites">Prerequisites<a class="headerlink" href="#prerequisites" title="Permanent link">&para;</a></h1>
+<p>Before making any API calls, you must have a verified Dollr merchant account.</p>
+<h3 id="create-a-merchant-account">Create a Merchant Account<a class="headerlink" href="#create-a-merchant-account" title="Permanent link">&para;</a></h3>
+<p>Register at <a href="https://merchant.heydollr.app">https://merchant.heydollr.app</a> and choose your account type during sign-up.</p>
+<p><strong>Sole Proprietorship / Unregistered Business</strong> — For individuals, freelancers, and informal businesses without official registration documents. This is the faster onboarding path, requiring only individual identity verification.</p>
+<p><strong>Registered Business / Organization</strong> — For officially registered companies, NGOs, and other formal entities. This requires both business verification (KYB) and a designated contact person verification (KYC), completed in two steps.</p>
+<h3 id="onboarding-requirements-liberia">Onboarding Requirements (Liberia)<a class="headerlink" href="#onboarding-requirements-liberia" title="Permanent link">&para;</a></h3>
+<h4 id="sole-proprietorship">Sole Proprietorship<a class="headerlink" href="#sole-proprietorship" title="Permanent link">&para;</a></h4>
+<table>
+<thead>
+<tr>
+<th>Requirement</th>
+<th>Details</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Business Name</td>
+<td>Name you operate under (min. 2 characters)</td>
+</tr>
+<tr>
+<td>Business Email</td>
+<td>A valid email address</td>
+</tr>
+<tr>
+<td>Phone Number</td>
+<td>Carried over from your Dollr account</td>
+</tr>
+<tr>
+<td>Government-Issued ID</td>
+<td>Passport, National ID, or Driver License</td>
+</tr>
+<tr>
+<td>ID Document Number</td>
+<td>Number on your chosen ID (min. 4 characters)</td>
+</tr>
+<tr>
+<td>Photo or Scan of ID</td>
+<td>JPG, PNG, or PDF — max 5 MB, clear and legible</td>
+</tr>
+<tr>
+<td>Business Description</td>
+<td>Optional. Min. 10 characters if provided</td>
+</tr>
+</tbody>
+</table>
+<h4 id="registered-business-organization">Registered Business / Organization<a class="headerlink" href="#registered-business-organization" title="Permanent link">&para;</a></h4>
+<p><strong>Step 1 — Business Information:</strong> Company name, registration number, country, business address, email, phone, business description (20–500 characters), and a copy of the registration certificate.</p>
+<p><strong>Step 2 — Contact Person:</strong> Full legal name, phone, email, government-issued ID (Passport, National ID, or Driver License), and acceptance of the Terms of Service.</p>
+<p>All uploaded documents must be JPG, PNG, or PDF, max 5 MB per document, and clearly legible.</p>
+<h3 id="verification-timeline">Verification Timeline<a class="headerlink" href="#verification-timeline" title="Permanent link">&para;</a></h3>
+<p>After submitting your documents, your account enters a compliance review. The typical turnaround is <strong>1 to 72 hours</strong>. You will receive an email notification when approved.</p>
+<p><Note>
+The following features are restricted until your account is fully verified: transfers, payouts, payment links, team member management, API key generation, and refund processing.
+</Note></p>
+<h3 id="generate-api-credentials">Generate API Credentials<a class="headerlink" href="#generate-api-credentials" title="Permanent link">&para;</a></h3>
+<p>Once your account is approved:</p>
+<ol>
+<li>Log in at <a href="https://merchant.heydollr.app">https://merchant.heydollr.app</a></li>
+<li>Navigate to <strong>API Keys</strong> in the sidebar</li>
+<li>Generate a new <strong>Client ID</strong> and <strong>Client Secret</strong></li>
+<li>Store your Client Secret securely — it is only shown once</li>
+</ol>
+<p><Warning>
+<strong>Security Warning</strong></p>
+<p>Never expose your Client Secret in client-side code, mobile app binaries, or public repositories. All API calls must be made server-side.
+</Warning></p>
+<hr />
+<h1 id="authentication">Authentication<a class="headerlink" href="#authentication" title="Permanent link">&para;</a></h1>
+<p>The Dollr API uses the <strong>OAuth 2.0 Client Credentials</strong> flow. You exchange your Client ID and Client Secret for a short-lived JWT Bearer token, then include that token in the <code>Authorization</code> header of all subsequent requests.</p>
+<h2 id="obtain-an-access-token">Obtain an Access Token<a class="headerlink" href="#obtain-an-access-token" title="Permanent link">&para;</a></h2>
+<div class="highlight"><pre><span></span><code><span class="err">POST /v1/jwt/client/obtain/token</span>
+</code></pre></div>
+<p>This endpoint does not require a prior Bearer token.</p>
+<h4 id="request-body">Request Body<a class="headerlink" href="#request-body" title="Permanent link">&para;</a></h4>
+<table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Type</th>
+<th>Required</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>client_id</code></td>
+<td>string</td>
+<td>Yes</td>
+<td>Your API Client ID from the Merchant Portal</td>
+</tr>
+<tr>
+<td><code>client_secret</code></td>
+<td>string</td>
+<td>Yes</td>
+<td>Your API Client Secret</td>
+</tr>
+</tbody>
+</table>
+<h4 id="response-fields">Response Fields<a class="headerlink" href="#response-fields" title="Permanent link">&para;</a></h4>
+<table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Type</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>access_token</code></td>
+<td>string</td>
+<td>JWT Bearer token for subsequent API requests</td>
+</tr>
+<tr>
+<td><code>expires_in</code></td>
+<td>integer</td>
+<td>Token validity in <strong>minutes</strong></td>
+</tr>
+</tbody>
+</table>
+<h4 id="example-response">Example Response<a class="headerlink" href="#example-response" title="Permanent link">&para;</a></h4>
+<div class="highlight"><pre><span></span><code><span class="p">{</span>
+<span class="w">  </span><span class="nt">&quot;access_token&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...&quot;</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">&quot;expires_in&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">60</span>
+<span class="p">}</span>
+</code></pre></div>
+<h4 id="code-examples">Code Examples<a class="headerlink" href="#code-examples" title="Permanent link">&para;</a></h4>
+<p><CodeGroup></p>
+<p>```bash cURL
+curl -X POST "https://api.heydollr.app/v1/jwt/client/obtain/token" \
+  -H "Content-Type: application/json" \
+  -d '{
+    "client_id": "your-client-id",
+    "client_secret": "your-client-secret"
+  }'
+<div class="highlight"><pre><span></span><code>```python Python
+import requests
+
+BASE_URL = &quot;https://api.heydollr.app&quot;
+
+response = requests.post(
+    f&quot;{BASE_URL}/v1/jwt/client/obtain/token&quot;,
+    json={
+        &quot;client_id&quot;:     &quot;your-client-id&quot;,
+        &quot;client_secret&quot;: &quot;your-client-secret&quot;,
+    },
+)
+data = response.json()
+access_token = data[&quot;access_token&quot;]
+expires_in   = data[&quot;expires_in&quot;]  # minutes
+print(f&quot;Token: {access_token}&quot;)
+</code></pre></div></p>
+<p>```javascript Node.js
+const BASE_URL = "https://api.heydollr.app";</p>
+<p>const response = await fetch(<code>${BASE_URL}/v1/jwt/client/obtain/token</code>, {
+  method: "POST",
+  headers: { "Content-Type": "application/json" },
+  body: JSON.stringify({
+    client_id:     "your-client-id",
+    client_secret: "your-client-secret",
+  }),
+});</p>
+<p>const { access_token, expires_in } = await response.json();
+console.log("Token:", access_token);
+<div class="highlight"><pre><span></span><code>```php PHP
+$ch = curl_init(&quot;https://api.heydollr.app/v1/jwt/client/obtain/token&quot;);
+curl_setopt_array($ch, [
+    CURLOPT_RETURNTRANSFER =&gt; true,
+    CURLOPT_POST           =&gt; true,
+    CURLOPT_HTTPHEADER     =&gt; [&quot;Content-Type: application/json&quot;],
+    CURLOPT_POSTFIELDS     =&gt; json_encode([
+        &quot;client_id&quot;     =&gt; &quot;your-client-id&quot;,
+        &quot;client_secret&quot; =&gt; &quot;your-client-secret&quot;,
+    ]),
+]);
+$response    = json_decode(curl_exec($ch), true);
+$accessToken = $response[&quot;access_token&quot;];
+$expiresIn   = $response[&quot;expires_in&quot;]; // minutes
+curl_close($ch);
+</code></pre></div></p>
+<p>```java Java
+import java.net.URI;
+import java.net.http.*;
+import java.net.http.HttpRequest.BodyPublishers;</p>
+<p>HttpClient client = HttpClient.newHttpClient();</p>
+<p>String body = """
+    {
+      "client_id":     "your-client-id",
+      "client_secret": "your-client-secret"
+    }
+    """;</p>
+<p>HttpRequest request = HttpRequest.newBuilder()
+    .uri(URI.create("https://api.heydollr.app/v1/jwt/client/obtain/token"))
+    .header("Content-Type", "application/json")
+    .POST(BodyPublishers.ofString(body))
+    .build();</p>
+<p>HttpResponse<String> response = client.send(request, HttpResponse.BodyHandlers.ofString());
+System.out.println(response.body());
+<div class="highlight"><pre><span></span><code>```go Go
+package main
+
+import (
+    &quot;bytes&quot;
+    &quot;encoding/json&quot;
+    &quot;fmt&quot;
+    &quot;io&quot;
+    &quot;net/http&quot;
+)
+
+func main() {
+    payload := map[string]string{
+        &quot;client_id&quot;:     &quot;your-client-id&quot;,
+        &quot;client_secret&quot;: &quot;your-client-secret&quot;,
+    }
+    body, _ := json.Marshal(payload)
+
+    resp, _ := http.Post(
+        &quot;https://api.heydollr.app/v1/jwt/client/obtain/token&quot;,
+        &quot;application/json&quot;,
+        bytes.NewBuffer(body),
+    )
+    defer resp.Body.Close()
+
+    var result map[string]interface{}
+    data, _ := io.ReadAll(resp.Body)
+    json.Unmarshal(data, &amp;result)
+    fmt.Println(&quot;Token:&quot;, result[&quot;access_token&quot;])
+}
+</code></pre></div></p>
+<p></CodeGroup></p>
+<h2 id="use-the-bearer-token">Use the Bearer Token<a class="headerlink" href="#use-the-bearer-token" title="Permanent link">&para;</a></h2>
+<p>Include the token in the <code>Authorization</code> header for every protected request:</p>
+<div class="highlight"><pre><span></span><code><span class="err">Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...</span>
+</code></pre></div>
+<p>Tokens expire after the period stated in <code>expires_in</code>. Implement proactive refresh logic to obtain a new token before the current one expires. Requests with an expired or invalid token return <code>HTTP 401</code>.</p>
+<hr />
+<h1 id="api-conventions">API Conventions<a class="headerlink" href="#api-conventions" title="Permanent link">&para;</a></h1>
+<h2 id="base-url-and-versioning">Base URL and Versioning<a class="headerlink" href="#base-url-and-versioning" title="Permanent link">&para;</a></h2>
+<p>All endpoints are prefixed with the API version. The current version is <code>v1</code>.</p>
+<div class="highlight"><pre><span></span><code>https://api.heydollr.app/v1/{resource}
+</code></pre></div>
+<p>Future breaking changes will be introduced under a new version prefix.</p>
+<h2 id="request-format">Request Format<a class="headerlink" href="#request-format" title="Permanent link">&para;</a></h2>
+<ul>
+<li>All requests and responses use JSON (<code>Content-Type: application/json</code>)</li>
+<li>Timestamps must be ISO 8601 format (e.g., <code>2025-06-01T14:30:00Z</code>)</li>
+<li>Currency codes must be 3-letter ISO 4217 codes in UPPERCASE (e.g., <code>USD</code>, <code>LRD</code>)</li>
+<li>Phone numbers must be E.164 format <strong>without</strong> the leading <code>+</code> (e.g., <code>231771234567</code>)</li>
+<li>Amount values are positive numbers; minimum is <code>0.01</code> for decimals, <code>1</code> for integers</li>
+<li><code>reference_id</code> values must be version-4 UUIDs</li>
+</ul>
+<h2 id="validation-errors-http-422">Validation Errors (HTTP 422)<a class="headerlink" href="#validation-errors-http-422" title="Permanent link">&para;</a></h2>
+<div class="highlight"><pre><span></span><code><span class="p">{</span>
+<span class="w">  </span><span class="nt">&quot;detail&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span>
+<span class="w">    </span><span class="p">{</span>
+<span class="w">      </span><span class="nt">&quot;loc&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="s2">&quot;body&quot;</span><span class="p">,</span><span class="w"> </span><span class="s2">&quot;currency&quot;</span><span class="p">],</span>
+<span class="w">      </span><span class="nt">&quot;msg&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;field required&quot;</span><span class="p">,</span>
+<span class="w">      </span><span class="nt">&quot;type&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;value_error.missing&quot;</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="w">  </span><span class="p">]</span>
+<span class="p">}</span>
+</code></pre></div>
+<h2 id="http-status-codes">HTTP Status Codes<a class="headerlink" href="#http-status-codes" title="Permanent link">&para;</a></h2>
+<table>
+<thead>
+<tr>
+<th>Code</th>
+<th>Status</th>
+<th>Meaning</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>200</code></td>
+<td>OK</td>
+<td>Request succeeded</td>
+</tr>
+<tr>
+<td><code>401</code></td>
+<td>Unauthorized</td>
+<td>Missing or invalid Bearer token</td>
+</tr>
+<tr>
+<td><code>403</code></td>
+<td>Forbidden</td>
+<td>Token valid but insufficient permissions</td>
+</tr>
+<tr>
+<td><code>404</code></td>
+<td>Not Found</td>
+<td>Resource does not exist</td>
+</tr>
+<tr>
+<td><code>422</code></td>
+<td>Unprocessable Entity</td>
+<td>Payload failed validation — see <code>detail</code> array</td>
+</tr>
+<tr>
+<td><code>429</code></td>
+<td>Too Many Requests</td>
+<td>Rate limit exceeded — back off and retry</td>
+</tr>
+<tr>
+<td><code>500</code></td>
+<td>Internal Server Error</td>
+<td>Unexpected server error</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h1 id="core-concepts">Core Concepts<a class="headerlink" href="#core-concepts" title="Permanent link">&para;</a></h1>
+<h2 id="parties-and-counterparties">Parties and Counterparties<a class="headerlink" href="#parties-and-counterparties" title="Permanent link">&para;</a></h2>
+<p><strong>Party</strong> — A contact record: a person or entity identified by name, phone number, and optionally email.</p>
+<p><strong>Counterparty</strong> — Links a Party to your merchant account with a defined relationship type, describing the nature of the association (e.g., <code>CUSTOMER</code>, <code>SUPPLIER</code>, <code>EMPLOYEE</code>).</p>
+<p>For direct invoice and order endpoints (the document-first flow), create a Counterparty before creating invoices or orders because those documents require a <code>counterparty_id</code>. If you use the checkout-source shortcut (<code>POST /v1/checkouts/create</code>), Dollr can create or match the Party and Counterparty automatically from the payer details.</p>
+<h2 id="invoices-vs-orders">Invoices vs. Orders<a class="headerlink" href="#invoices-vs-orders" title="Permanent link">&para;</a></h2>
+<p><strong>Invoice</strong> — A formal billing document with an auto-generated invoice number, due date, and optional line items. Can optionally be shared as a payment link.</p>
+<p><strong>Order</strong> — A payment document similar to an invoice but without a formal invoice number or due date. Suited for retail and e-commerce. Can also be shared as a payment link.</p>
+<p><Info>
+<strong>Key fact</strong></p>
+<p>Customers do not need a Dollr account to pay via a payment link. Payment is completed directly in a browser using mobile money or a credit card.
+</Info></p>
+<h2 id="sessions-and-executions">Sessions and Executions<a class="headerlink" href="#sessions-and-executions" title="Permanent link">&para;</a></h2>
+<p><strong>Session</strong> — Declares the intent to perform a payment operation (checkout, payout, transfer, or refund). Sessions expire if not executed within the time window.</p>
+<p><strong>Execution</strong> — Submits an active session for processing. Pass the <code>session_id</code> and a unique <code>reference_id</code> (a version-4 UUID you generate) to trigger the actual movement of funds.</p>
+<p>Execution status tracks the movement of funds (execution lifecycle). Source status (invoice/order) tracks the document lifecycle (IDLE, ACTIVE, PROCESSING, PAID, CANCELED). Keep these state models distinct when building polling or receipt logic.</p>
+<p><Warning>
+<strong>Idempotency</strong></p>
+<p>Always generate a unique <code>reference_id</code> per execution attempt. This is your idempotency key. If a network error occurs, query the transaction status using this <code>reference_id</code> before retrying.
+</Warning></p>
+<h2 id="fee-bearers">Fee Bearers<a class="headerlink" href="#fee-bearers" title="Permanent link">&para;</a></h2>
+<ul>
+<li><strong><code>PAYER</code></strong> — The customer pays fees on top of the invoice total. The merchant receives the full amount.</li>
+<li><strong><code>PAYEE</code></strong> — The merchant absorbs the fees. The customer pays the invoice total and the merchant receives less after fees are deducted.</li>
+</ul>
+<h2 id="payment-methods-and-providers">Payment Methods and Providers<a class="headerlink" href="#payment-methods-and-providers" title="Permanent link">&para;</a></h2>
+<p>provider = routing network or gateway (e.g. <code>PAWAPAY</code>, <code>STRIPE</code>, <code>PLATFORM</code>)</p>
+<p>method = payment instrument identifier (e.g. <code>MTN_MOMO_LBR</code>, <code>ORANGE_MONEY_RWA</code>, <code>CREDIT_CARD</code>, <code>WALLET</code>)</p>
+<table>
+<thead>
+<tr>
+<th>Payment Method</th>
+<th>Provider</th>
+<th>Notes</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>MTN_MOMO_LBR</code>, <code>MTN_MOMO_RWA</code></td>
+<td><code>PAWAPAY</code></td>
+<td>Routed via PawaPay</td>
+</tr>
+<tr>
+<td><code>ORANGE_MONEY_LBR</code>, <code>ORANGE_MONEY_RWA</code></td>
+<td><code>PAWAPAY</code></td>
+<td>Routed via PawaPay</td>
+</tr>
+<tr>
+<td><code>AIRTEL_RWA</code></td>
+<td><code>PAWAPAY</code></td>
+<td>Routed via PawaPay</td>
+</tr>
+<tr>
+<td><code>CREDIT_CARD</code></td>
+<td><code>STRIPE</code></td>
+<td>International card processing</td>
+</tr>
+<tr>
+<td><code>WALLET</code></td>
+<td><code>PLATFORM</code></td>
+<td>Internal Dollr wallet balance</td>
+</tr>
+</tbody>
+</table>
+
+
+
+
+
+
+
+  
+  
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+  <script>var tabs=__md_get("__tabs");if(Array.isArray(tabs))e:for(var set of document.querySelectorAll(".tabbed-set")){var labels=set.querySelector(".tabbed-labels");for(var tab of tabs)for(var label of labels.getElementsByTagName("label"))if(label.innerText.trim()===tab){var input=document.getElementById(label.htmlFor);input.checked=!0;continue e}}</script>
+
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+          <button type="button" class="md-top md-icon" data-md-component="top" hidden>
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8z"/></svg>
+  Back to top
+</button>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    
+      
+      
+      <script id="__config" type="application/json">{"annotate": null, "base": ".", "features": ["content.code.copy", "content.tabs.link", "navigation.instant", "navigation.tracking", "navigation.sections", "navigation.top", "search.highlight", "search.suggest", "search.share", "toc.follow"], "search": "assets/javascripts/workers/search.2c215733.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": "v1.0"}</script>
+    
+    
+      <script src="assets/javascripts/bundle.79ae519e.min.js"></script>
+      
+        <script src="assets/javascripts/method-badges.js"></script>
+      
+    
+  </body>
+</html>

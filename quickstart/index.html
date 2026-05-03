@@ -1,0 +1,1709 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+        <meta name="description" content="Go from zero to a successful payment collection in under 10 minutes.">
+      
+      
+        <meta name="author" content="Dollr">
+      
+      
+      
+        <link rel="prev" href="..">
+      
+      
+        <link rel="next" href="../api/parties/">
+      
+      
+        
+      
+      
+      <link rel="icon" href="../assets/favicon.png">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.6">
+    
+    
+      
+        <title>Quick Start - Dollr Developer Docs</title>
+      
+    
+    
+      <link rel="stylesheet" href="../assets/stylesheets/main.484c7ddc.min.css">
+      
+        
+        <link rel="stylesheet" href="../assets/stylesheets/palette.ab4e12ef.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+      <link rel="stylesheet" href="../assets/stylesheets/dollr.css">
+    
+    <script>__md_scope=new URL("..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+  </head>
+  
+  
+    
+    
+      
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="custom" data-md-color-accent="custom">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#quick-start" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+      <div data-md-color-scheme="default" data-md-component="outdated" hidden>
+        
+      </div>
+    
+    
+      
+
+  
+
+<header class="md-header md-header--shadow" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href=".." title="Dollr Developer Docs" class="md-header__button md-logo" aria-label="Dollr Developer Docs" data-md-component="logo">
+      
+  <img src="../assets/logo.png" alt="logo">
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            Dollr Developer Docs
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              Quick Start
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      
+        <form class="md-header__option" data-md-component="palette">
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="" data-md-color-scheme="default" data-md-color-primary="custom" data-md-color-accent="custom"  aria-label="Switch to dark mode"  type="radio" name="__palette" id="__palette_0">
+    
+      <label class="md-header__button md-icon" title="Switch to dark mode" for="__palette_1" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a4 4 0 0 0-4 4 4 4 0 0 0 4 4 4 4 0 0 0 4-4 4 4 0 0 0-4-4m0 10a6 6 0 0 1-6-6 6 6 0 0 1 6-6 6 6 0 0 1 6 6 6 6 0 0 1-6 6m8-9.31V4h-4.69L12 .69 8.69 4H4v4.69L.69 12 4 15.31V20h4.69L12 23.31 15.31 20H20v-4.69L23.31 12z"/></svg>
+      </label>
+    
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="" data-md-color-scheme="slate" data-md-color-primary="custom" data-md-color-accent="custom"  aria-label="Switch to light mode"  type="radio" name="__palette" id="__palette_1">
+    
+      <label class="md-header__button md-icon" title="Switch to light mode" for="__palette_0" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 18c-.89 0-1.74-.2-2.5-.55C11.56 16.5 13 14.42 13 12s-1.44-4.5-3.5-5.45C10.26 6.2 11.11 6 12 6a6 6 0 0 1 6 6 6 6 0 0 1-6 6m8-9.31V4h-4.69L12 .69 8.69 4H4v4.69L.69 12 4 15.31V20h4.69L12 23.31 15.31 20H20v-4.69L23.31 12z"/></svg>
+      </label>
+    
+  
+</form>
+      
+    
+    
+      <script>var palette=__md_get("__palette");if(palette&&palette.color){if("(prefers-color-scheme)"===palette.color.media){var media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']");palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent")}for(var[key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+    
+    
+    
+      
+      
+        <label class="md-header__button md-icon" for="__search">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        </label>
+        <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Search">
+        
+          <a href="javascript:void(0)" class="md-search__icon md-icon" title="Share" aria-label="Share" data-clipboard data-clipboard-text="" data-md-component="search-share" tabindex="-1">
+            
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M18 16.08c-.76 0-1.44.3-1.96.77L8.91 12.7c.05-.23.09-.46.09-.7s-.04-.47-.09-.7l7.05-4.11c.54.5 1.25.81 2.04.81a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3c0 .24.04.47.09.7L8.04 9.81C7.5 9.31 6.79 9 6 9a3 3 0 0 0-3 3 3 3 0 0 0 3 3c.79 0 1.5-.31 2.04-.81l7.12 4.15c-.05.21-.08.43-.08.66 0 1.61 1.31 2.91 2.92 2.91s2.92-1.3 2.92-2.91A2.92 2.92 0 0 0 18 16.08"/></svg>
+          </a>
+        
+        <button type="reset" class="md-search__icon md-icon" title="Clear" aria-label="Clear" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+        </button>
+      </nav>
+      
+        <div class="md-search__suggest" data-md-component="search-suggest"></div>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initializing search
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+      
+    
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+
+<nav class="md-nav md-nav--primary" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href=".." title="Dollr Developer Docs" class="md-nav__button md-logo" aria-label="Dollr Developer Docs" data-md-component="logo">
+      
+  <img src="../assets/logo.png" alt="logo">
+
+    </a>
+    Dollr Developer Docs
+  </label>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+    
+  
+  
+  
+    
+    
+    
+    
+      
+        
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_1" checked>
+        
+          
+          <label class="md-nav__link" for="__nav_1" id="__nav_1_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Getting Started
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_1_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_1">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Getting Started
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href=".." class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Overview & Introduction
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+    
+  
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Quick Start
+  
+
+    
+  </span>
+  
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Quick Start
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#before-you-begin" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Before You Begin
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#step-1-get-an-access-token" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Step 1 — Get an Access Token
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#step-2-create-a-party" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Step 2 — Create a Party
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#step-3-create-a-counterparty" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Step 3 — Create a Counterparty
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#step-4-create-and-publish-an-invoice" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Step 4 — Create and Publish an Invoice
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+        
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2" >
+        
+          
+          <label class="md-nav__link" for="__nav_2" id="__nav_2_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    API Reference
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_2_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    API Reference
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../api/parties/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Parties
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../api/counterparties/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Counterparties
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../api/invoices/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Invoices
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../api/orders/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Orders
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../api/checkouts/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Checkouts
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../api/sessions/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Sessions
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../api/executions/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Executions
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../api/status/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Transaction Status
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../api/payment-accounts/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Payment Accounts
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../api/links/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Payment Links
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../api/predictions/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Predictions
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../api/fees/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Fees
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../api/merchants/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Merchants
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../api/realtime-keys/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Realtime Keys
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+        
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3" >
+        
+          
+          <label class="md-nav__link" for="__nav_3" id="__nav_3_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Guides
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_3_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_3">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Guides
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../guides/integration/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Integration Guide
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../guides/error-handling/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Error Handling
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+        
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4" >
+        
+          
+          <label class="md-nav__link" for="__nav_4" id="__nav_4_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Reference
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_4_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_4">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Reference
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../reference/glossary/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Glossary
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#before-you-begin" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Before You Begin
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#step-1-get-an-access-token" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Step 1 — Get an Access Token
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#step-2-create-a-party" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Step 2 — Create a Party
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#step-3-create-a-counterparty" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Step 3 — Create a Counterparty
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#step-4-create-and-publish-an-invoice" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Step 4 — Create and Publish an Invoice
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+
+<h1 id="quick-start">Quick Start<a class="headerlink" href="#quick-start" title="Permanent link">&para;</a></h1>
+<p>Get from zero to your first successful payment collection in under 10 minutes.</p>
+<p>This quick start shows the document-first (invoice/order) collection flow. The public API also supports creating a checkout source directly from payer details via the Checkouts API (<code>POST /v1/checkouts/create</code>). See API Reference → Checkouts for the direct checkout-source flow.</p>
+<p><strong>Base URL:</strong> <code>https://api.heydollr.app</code></p>
+<hr />
+<h2 id="before-you-begin">Before You Begin<a class="headerlink" href="#before-you-begin" title="Permanent link">&para;</a></h2>
+<p>You need a verified Dollr merchant account with API credentials. If you haven't done this yet:</p>
+<ol>
+<li>Register at <a href="https://merchant.heydollr.app">merchant.heydollr.app</a></li>
+<li>Complete identity verification (1–72 hours)</li>
+<li>Go to <strong>Settings → Developer → API Keys</strong> and generate a <strong>Client ID</strong> and <strong>Client Secret</strong></li>
+</ol>
+<hr />
+<h2 id="step-1-get-an-access-token">Step 1 — Get an Access Token<a class="headerlink" href="#step-1-get-an-access-token" title="Permanent link">&para;</a></h2>
+<p>Exchange your credentials for a JWT Bearer token. Every API call requires this token in the <code>Authorization</code> header.</p>
+<div class="highlight"><pre><span></span><code><span class="err">POST /v1/jwt/client/obtain/token</span>
+</code></pre></div>
+<p><CodeGroup></p>
+<p>```bash cURL
+curl -X POST "https://api.heydollr.app/v1/jwt/client/obtain/token" \
+  -H "Content-Type: application/json" \
+  -d '{
+    "client_id":     "YOUR_CLIENT_ID",
+    "client_secret": "YOUR_CLIENT_SECRET"
+  }'
+<div class="highlight"><pre><span></span><code>```python Python
+import requests
+
+BASE_URL = &quot;https://api.heydollr.app&quot;
+
+res = requests.post(f&quot;{BASE_URL}/v1/jwt/client/obtain/token&quot;, json={
+    &quot;client_id&quot;:     &quot;YOUR_CLIENT_ID&quot;,
+    &quot;client_secret&quot;: &quot;YOUR_CLIENT_SECRET&quot;,
+})
+token = res.json()[&quot;access_token&quot;]
+headers = {&quot;Authorization&quot;: f&quot;Bearer {token}&quot;, &quot;Content-Type&quot;: &quot;application/json&quot;}
+</code></pre></div></p>
+<p>```javascript Node.js
+const BASE_URL = "https://api.heydollr.app";</p>
+<p>const { access_token } = await fetch(<code>${BASE_URL}/v1/jwt/client/obtain/token</code>, {
+  method: "POST",
+  headers: { "Content-Type": "application/json" },
+  body: JSON.stringify({
+    client_id:     "YOUR_CLIENT_ID",
+    client_secret: "YOUR_CLIENT_SECRET",
+  }),
+}).then(r =&gt; r.json());</p>
+<p>const headers = {
+  Authorization:  <code>Bearer ${access_token}</code>,
+  "Content-Type": "application/json",
+};
+<div class="highlight"><pre><span></span><code>&lt;/CodeGroup&gt;
+
+**Response:**
+
+```json
+{
+  &quot;access_token&quot;: &quot;eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...&quot;,
+  &quot;expires_in&quot;: 60
+}
+</code></pre></div></p>
+<p><Tip>
+Tokens expire after <code>expires_in</code> <strong>minutes</strong>. Refresh proactively — request a new token when less than 5 minutes remain.
+</Tip></p>
+<hr />
+<h2 id="step-2-create-a-party">Step 2 — Create a Party<a class="headerlink" href="#step-2-create-a-party" title="Permanent link">&para;</a></h2>
+<p>A Party is a contact record for the person you're collecting from.</p>
+<div class="highlight"><pre><span></span><code><span class="err">POST /v1/parties/create</span>
+</code></pre></div>
+<p><CodeGroup></p>
+<p>```bash cURL
+curl -X POST "https://api.heydollr.app/v1/parties/create" \
+  -H "Authorization: Bearer $TOKEN" \
+  -H "Content-Type: application/json" \
+  -d '{
+    "fullname":     "Amara Kamara",
+    "phone":        "231771234567",
+    "email":        "amara@example.com",
+    "country_code": "LR"
+  }'
+<div class="highlight"><pre><span></span><code>```python Python
+party = requests.post(f&quot;{BASE_URL}/v1/parties/create&quot;, headers=headers, json={
+    &quot;fullname&quot;:     &quot;Amara Kamara&quot;,
+    &quot;phone&quot;:        &quot;231771234567&quot;,
+    &quot;email&quot;:        &quot;amara@example.com&quot;,
+    &quot;country_code&quot;: &quot;LR&quot;,
+}).json()
+
+party_id = party[&quot;id&quot;]
+</code></pre></div></p>
+<p><code>``javascript Node.js
+const party = await fetch(</code>${BASE_URL}/v1/parties/create`, {
+  method: "POST", headers,
+  body: JSON.stringify({
+    fullname:     "Amara Kamara",
+    phone:        "231771234567",
+    email:        "amara@example.com",
+    country_code: "LR",
+  }),
+}).then(r =&gt; r.json());</p>
+<p>const partyId = party.id;
+<div class="highlight"><pre><span></span><code>&lt;/CodeGroup&gt;
+
+**Response:**
+
+```json
+{
+  &quot;id&quot;: 42,
+  &quot;fullname&quot;: &quot;Amara Kamara&quot;,
+  &quot;phone&quot;: &quot;231771234567&quot;,
+  &quot;email&quot;: &quot;amara@example.com&quot;,
+  &quot;country_code&quot;: &quot;LR&quot;,
+  &quot;created_at&quot;: &quot;2025-06-01T10:00:00Z&quot;,
+  &quot;updated_at&quot;: &quot;2025-06-01T10:00:00Z&quot;
+}
+</code></pre></div></p>
+<hr />
+<h2 id="step-3-create-a-counterparty">Step 3 — Create a Counterparty<a class="headerlink" href="#step-3-create-a-counterparty" title="Permanent link">&para;</a></h2>
+<p>Link the Party to your merchant account with a relationship type.</p>
+<div class="highlight"><pre><span></span><code><span class="err">POST /v1/counterparties/create</span>
+</code></pre></div>
+<p><CodeGroup></p>
+<p>```bash cURL
+curl -X POST "https://api.heydollr.app/v1/counterparties/create" \
+  -H "Authorization: Bearer $TOKEN" \
+  -H "Content-Type: application/json" \
+  -d '{"relationship_type": "CUSTOMER", "party_id": 42}'
+<div class="highlight"><pre><span></span><code>```python Python
+cp = requests.post(f&quot;{BASE_URL}/v1/counterparties/create&quot;, headers=headers, json={
+    &quot;relationship_type&quot;: &quot;CUSTOMER&quot;,
+    &quot;party_id&quot;:          party_id,
+}).json()
+
+counterparty_id = cp[&quot;id&quot;]
+</code></pre></div></p>
+<p><code>``javascript Node.js
+const cp = await fetch(</code>${BASE_URL}/v1/counterparties/create`, {
+  method: "POST", headers,
+  body: JSON.stringify({ relationship_type: "CUSTOMER", party_id: partyId }),
+}).then(r =&gt; r.json());</p>
+<p>const counterpartyId = cp.id;</p>
+<p></CodeGroup></p>
+<p>Note: This step is required for the direct invoice flow shown here. If you use the checkout-source shortcut (<code>POST /v1/checkouts/create</code>), Dollr can create or match the Party and Counterparty automatically from payer details.
+    ```</p>
+<hr />
+<h2 id="step-4-create-and-publish-an-invoice">Step 4 — Create and Publish an Invoice<a class="headerlink" href="#step-4-create-and-publish-an-invoice" title="Permanent link">&para;</a></h2>
+<p>Create the invoice, add a line item, then publish it.</p>
+<div class="highlight"><pre><span></span><code><span class="err">POST /v1/invoices/create</span>
+</code></pre></div>
+<p><CodeGroup></p>
+<p>```bash cURL</p>
+<h1 id="create-invoice">Create invoice<a class="headerlink" href="#create-invoice" title="Permanent link">&para;</a></h1>
+<p>curl -X POST "https://api.heydollr.app/v1/invoices/create" \
+  -H "Authorization: Bearer $TOKEN" \
+  -H "Content-Type: application/json" \
+  -d '{
+    "counterparty_id": 15,
+    "currency":        "USD",
+    "note":            "Consulting services",
+    "fee_bearer":      "PAYER",
+    "as_payment_link": true
+  }'</p>
+<h1 id="add-a-line-item-replace-101-with-your-invoice-id">Add a line item (replace 101 with your invoice id)<a class="headerlink" href="#add-a-line-item-replace-101-with-your-invoice-id" title="Permanent link">&para;</a></h1>
+<p>curl -X POST "https://api.heydollr.app/v1/invoices/101/items/add" \
+  -H "Authorization: Bearer $TOKEN" \
+  -H "Content-Type: application/json" \
+  -d '{"name": "Strategy Session", "currency": "USD", "qty": 1, "amount": 250.00}'</p>
+<h1 id="publish-locks-the-invoice-and-activates-it-for-payment">Publish (locks the invoice and activates it for payment)<a class="headerlink" href="#publish-locks-the-invoice-and-activates-it-for-payment" title="Permanent link">&para;</a></h1>
+<p>curl -X PUT "https://api.heydollr.app/v1/invoices/publish/101" \
+  -H "Authorization: Bearer $TOKEN"
+<div class="highlight"><pre><span></span><code>```python Python
+# Create invoice
+invoice = requests.post(f&quot;{BASE_URL}/v1/invoices/create&quot;, headers=headers, json={
+    &quot;counterparty_id&quot;: counterparty_id,
+    &quot;currency&quot;:        &quot;USD&quot;,
+    &quot;note&quot;:            &quot;Consulting services&quot;,
+    &quot;fee_bearer&quot;:      &quot;PAYER&quot;,
+    &quot;as_payment_link&quot;: True,
+}).json()
+invoice_id = invoice[&quot;id&quot;]
+
+# Add a line item
+requests.post(f&quot;{BASE_URL}/v1/invoices/{invoice_id}/items/add&quot;, headers=headers, json={
+    &quot;name&quot;:     &quot;Strategy Session&quot;,
+    &quot;currency&quot;: &quot;USD&quot;,
+    &quot;qty&quot;:      1,
+    &quot;amount&quot;:   250.00,
+})
+
+# Publish
+invoice = requests.put(f&quot;{BASE_URL}/v1/invoices/publish/{invoice_id}&quot;, headers=headers).json()
+print(&quot;Status:&quot;, invoice[&quot;status&quot;])  # ACTIVE
+</code></pre></div></p>
+<p><code>``javascript Node.js
+// Create invoice
+const invoice = await fetch(</code>${BASE_URL}/v1/invoices/create`, {
+  method: "POST", headers,
+  body: JSON.stringify({
+    counterparty_id: counterpartyId,
+    currency:        "USD",
+    note:            "Consulting services",
+    fee_bearer:      "PAYER",
+    as_payment_link: true,
+  }),
+}).then(r =&gt; r.json());
+const invoiceId = invoice.id;</p>
+<p>// Add a line item
+await fetch(<code>${BASE_URL}/v1/invoices/${invoiceId}/items/add</code>, {
+  method: "POST", headers,
+  body: JSON.stringify({ name: "Strategy Session", currency: "USD", qty: 1, amount: 250.00 }),
+});</p>
+<p>// Publish
+const published = await fetch(<code>${BASE_URL}/v1/invoices/publish/${invoiceId}</code>, {
+  method: "PUT", headers,
+}).then(r =&gt; r.json());
+console.log("Status:", published.status); // ACTIVE
+<div class="highlight"><pre><span></span><code>&lt;/CodeGroup&gt;
+
+---
+
+## Step 5 — Collect Payment
+
+Create a checkout session, register the customer&#39;s wallet, then execute.
+
+&lt;Warning&gt;
+**Generate your reference_id before calling execute**
+
+Store the UUID before the network call. You&#39;ll need it to query status if the response is lost.
+&lt;/Warning&gt;
+
+&lt;CodeGroup&gt;
+
+```bash cURL
+# Detect payment method from phone (optional but recommended)
+curl &quot;https://api.heydollr.app/v1/predictions/mmo-provider-info?phone=231771234567&amp;operation_type=COLLECTION&quot; \
+  -H &quot;Authorization: Bearer $TOKEN&quot;
+
+# Create checkout session
+curl -X POST &quot;https://api.heydollr.app/v1/sessions/checkout&quot; \
+  -H &quot;Authorization: Bearer $TOKEN&quot; \
+  -H &quot;Content-Type: application/json&quot; \
+  -d &#39;{&quot;source_id&quot;: 101, &quot;source_type&quot;: &quot;INVOICE&quot;}&#39;
+
+# Register customer wallet (use method/provider from prediction)
+curl -X POST &quot;https://api.heydollr.app/v1/payment-accounts/create?operation_type=COLLECTION&quot; \
+  -H &quot;Authorization: Bearer $TOKEN&quot; \
+  -H &quot;Content-Type: application/json&quot; \
+  -d &#39;{
+    &quot;account_name&quot;: &quot;John Doe&quot;,
+    &quot;provider&quot;:     &quot;MTN_MOMO_LBR&quot;,
+    &quot;method&quot;:       &quot;MTN_MOMO_LBR&quot;,
+    &quot;party_id&quot;:     42,
+    &quot;country_code&quot;: &quot;LR&quot;,
+    &quot;insensitive_account_number&quot;: &quot;231771234567&quot;
+  }&#39;
+
+# Execute — store reference_id FIRST
+REFERENCE_ID=$(python3 -c &quot;import uuid; print(uuid.uuid4())&quot;)
+curl -X POST &quot;https://api.heydollr.app/v1/executions/collection&quot; \
+  -H &quot;Authorization: Bearer $TOKEN&quot; \
+  -H &quot;Content-Type: application/json&quot; \
+  -d &quot;{
+    \&quot;session_id\&quot;:         \&quot;55\&quot;,
+    \&quot;payment_account_id\&quot;: \&quot;18\&quot;,
+    \&quot;currency\&quot;:           \&quot;USD\&quot;,
+    \&quot;reference_id\&quot;:       \&quot;$REFERENCE_ID\&quot;
+  }&quot;
+</code></pre></div></p>
+<p>```python Python
+import uuid</p>
+<h1 id="detect-payment-method-from-phone">Detect payment method from phone<a class="headerlink" href="#detect-payment-method-from-phone" title="Permanent link">&para;</a></h1>
+<p>mmo = requests.get(f"{BASE_URL}/v1/predictions/mmo-provider-info", headers=headers, params={
+    "phone": "231771234567", "operation_type": "COLLECTION",
+}).json()
+payment_method = mmo["payment_method"]
+provider       = mmo["gateway_provider"]</p>
+<h1 id="create-checkout-session">Create checkout session<a class="headerlink" href="#create-checkout-session" title="Permanent link">&para;</a></h1>
+<p>session = requests.post(f"{BASE_URL}/v1/sessions/checkout", headers=headers, json={
+    "source_id":   invoice_id,
+    "source_type": "INVOICE",
+}).json()
+session_id = session["id"]</p>
+<h1 id="register-customer-wallet">Register customer wallet<a class="headerlink" href="#register-customer-wallet" title="Permanent link">&para;</a></h1>
+<p>account = requests.post(
+    f"{BASE_URL}/v1/payment-accounts/create",
+    headers=headers,
+    params={"operation_type": "COLLECTION"},
+    json={
+        "account_name":               "Amara MTN Wallet",
+        "provider":                   provider,
+        "method":                     payment_method,
+        "party_id":                   party_id,
+        "country_code":               "LR",
+        "insensitive_account_number": "231771234567",
+    },
+).json()</p>
+<h1 id="execute-generate-and-store-reference_id-before-the-call">Execute — generate and store reference_id BEFORE the call<a class="headerlink" href="#execute-generate-and-store-reference_id-before-the-call" title="Permanent link">&para;</a></h1>
+<p>reference_id = str(uuid.uuid4())
+execution = requests.post(f"{BASE_URL}/v1/executions/collection", headers=headers, json={
+    "session_id":         str(session_id),
+    "payment_account_id": str(account["id"]),
+    "currency":           "USD",
+    "reference_id":       reference_id,
+}).json()
+print("Execution status:", execution["status"])
+<div class="highlight"><pre><span></span><code>```javascript Node.js
+import { randomUUID } from &quot;crypto&quot;;
+
+// Detect payment method from phone
+const mmo = await fetch(
+  `${BASE_URL}/v1/predictions/mmo-provider-info?phone=231771234567&amp;operation_type=COLLECTION`,
+  { headers }
+).then(r =&gt; r.json());
+
+// Create checkout session
+const session = await fetch(`${BASE_URL}/v1/sessions/checkout`, {
+  method: &quot;POST&quot;, headers,
+  body: JSON.stringify({ source_id: invoiceId, source_type: &quot;INVOICE&quot; }),
+}).then(r =&gt; r.json());
+
+// Register customer wallet
+const account = await fetch(
+  `${BASE_URL}/v1/payment-accounts/create?operation_type=COLLECTION`,
+  {
+    method: &quot;POST&quot;, headers,
+    body: JSON.stringify({
+      account_name:               &quot;Amara MTN Wallet&quot;,
+      provider:                   mmo.gateway_provider,
+      method:                     mmo.payment_method,
+      party_id:                   partyId,
+      country_code:               &quot;LR&quot;,
+      insensitive_account_number: &quot;231771234567&quot;,
+    }),
+  }
+).then(r =&gt; r.json());
+
+// Execute — generate and store reference_id BEFORE the call
+const referenceId = randomUUID();
+const execution = await fetch(`${BASE_URL}/v1/executions/collection`, {
+  method: &quot;POST&quot;, headers,
+  body: JSON.stringify({
+    session_id:         String(session.id),
+    payment_account_id: String(account.id),
+    currency:           &quot;USD&quot;,
+    reference_id:       referenceId,
+  }),
+}).then(r =&gt; r.json());
+console.log(&quot;Execution status:&quot;, execution.status);
+</code></pre></div></p>
+<p></CodeGroup></p>
+<hr />
+<h2 id="step-6-check-payment-status">Step 6 — Check Payment Status<a class="headerlink" href="#step-6-check-payment-status" title="Permanent link">&para;</a></h2>
+<div class="highlight"><pre><span></span><code><span class="err">GET /v1/status/collection/{reference_id}</span>
+</code></pre></div>
+<p><CodeGroup></p>
+<p>```bash cURL
+curl "https://api.heydollr.app/v1/status/collection/$REFERENCE_ID" \
+  -H "Authorization: Bearer $TOKEN"
+<div class="highlight"><pre><span></span><code>```python Python
+status = requests.get(
+    f&quot;{BASE_URL}/v1/status/collection/{reference_id}&quot;,
+    headers=headers,
+).json()
+print(status[&quot;status&quot;])  # PENDING → PROCESSING → COMPLETED
+</code></pre></div></p>
+<p><code>``javascript Node.js
+const status = await fetch(</code>${BASE_URL}/v1/status/collection/${referenceId}`, { headers })
+  .then(r =&gt; r.json());
+console.log(status.status); // PENDING → PROCESSING → COMPLETED
+<div class="highlight"><pre><span></span><code>&lt;/CodeGroup&gt;
+
+**Status progression:** `PENDING` → `PROCESSING` → `COMPLETED` (or `FAILED`)
+
+&lt;Note&gt;
+Mobile money payments may stay in `PROCESSING` for several minutes while the carrier confirms. Do not retry during this window — query status instead.
+&lt;/Note&gt;
+
+---
+
+## Retrieve Receipt
+
+After a successful collection (source status `PAID`), retrieve the receipt for the matching source family:
+
+```http
+GET /v1/invoices/receipt/{id}
+GET /v1/orders/receipt/{id}
+</code></pre></div></p>
+<p>Use <code>/v1/invoices/receipt/{id}</code> for invoices and <code>/v1/orders/receipt/{id}</code> for orders.</p>
+<h2 id="whats-next">What's Next<a class="headerlink" href="#whats-next" title="Permanent link">&para;</a></h2>
+<table>
+<thead>
+<tr>
+<th>Task</th>
+<th>Where to go</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Full invoice and order management</td>
+<td><a href="../api/invoices/">Invoices</a> · <a href="../api/orders/">Orders</a></td>
+</tr>
+<tr>
+<td>Send payouts to mobile wallets</td>
+<td><a href="../api/sessions/">Sessions</a> · <a href="../api/executions/">Executions</a></td>
+</tr>
+<tr>
+<td>Preview fees before executing</td>
+<td><a href="../api/predictions/">Predictions</a></td>
+</tr>
+<tr>
+<td>Live status push (no polling)</td>
+<td><a href="../api/realtime-keys/">Realtime Keys</a></td>
+</tr>
+<tr>
+<td>Error handling and retries</td>
+<td><a href="../guides/error-handling/">Error Handling</a></td>
+</tr>
+<tr>
+<td>Full step-by-step flows</td>
+<td><a href="../guides/integration/">Integration Guide</a></td>
+</tr>
+<tr>
+<td>Term definitions</td>
+<td><a href="../reference/glossary/">Glossary</a></td>
+</tr>
+</tbody>
+</table>
+
+
+
+
+
+
+
+  
+  
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+  <script>var tabs=__md_get("__tabs");if(Array.isArray(tabs))e:for(var set of document.querySelectorAll(".tabbed-set")){var labels=set.querySelector(".tabbed-labels");for(var tab of tabs)for(var label of labels.getElementsByTagName("label"))if(label.innerText.trim()===tab){var input=document.getElementById(label.htmlFor);input.checked=!0;continue e}}</script>
+
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+          <button type="button" class="md-top md-icon" data-md-component="top" hidden>
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8z"/></svg>
+  Back to top
+</button>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    
+      
+      
+      <script id="__config" type="application/json">{"annotate": null, "base": "..", "features": ["content.code.copy", "content.tabs.link", "navigation.instant", "navigation.tracking", "navigation.sections", "navigation.top", "search.highlight", "search.suggest", "search.share", "toc.follow"], "search": "../assets/javascripts/workers/search.2c215733.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": "v1.0"}</script>
+    
+    
+      <script src="../assets/javascripts/bundle.79ae519e.min.js"></script>
+      
+        <script src="../assets/javascripts/method-badges.js"></script>
+      
+    
+  </body>
+</html>
