@@ -5,6 +5,10 @@ description: "Retrieve and update your merchant account details."
 
 # Merchants
 
+<Note>
+**Try in API Reference:** [Merchant info](/api-reference/merchants/get-merchant-info)
+</Note>
+
 ## Get Merchant Info
 
 ```http

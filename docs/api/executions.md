@@ -5,6 +5,10 @@ description: "Submit an active session to trigger the movement of funds."
 
 # Executions
 
+<Note>
+**Try in API Reference:** [Collect](/api-reference/executions/collect) · [Payout](/api-reference/executions/payout) · [Transfer](/api-reference/executions/transfer) · [Refund](/api-reference/executions/refund)
+</Note>
+
 An Execution submits a Session for payment processing. All execution endpoints return an `ExecutionResponse`.
 
 <Warning>

@@ -5,6 +5,10 @@ description: "Create and manage contact records for people or entities you trans
 
 # Parties
 
+<Note>
+**Try in API Reference:** [Create Party](/api-reference/parties/create-party) · [List Parties](/api-reference/parties/list-parties) · [Retrieve Party](/api-reference/parties/retrieve-parties)
+</Note>
+
 Parties are contact records representing the people and entities your business transacts with.
 
 ## Create Party

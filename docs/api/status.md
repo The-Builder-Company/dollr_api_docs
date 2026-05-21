@@ -5,6 +5,10 @@ description: "Query the status of any transaction by reference ID."
 
 # Transaction Status
 
+<Note>
+**Try in API Reference:** [Collection status](/api-reference/status/get-collection-status) · [Payout](/api-reference/status/get-payout-status) · [Transfer](/api-reference/status/get-transfer-status) · [Refund](/api-reference/status/get-refund-status) · [Payment source](/api-reference/status/get-payment-source-status)
+</Note>
+
 Use these endpoints to check the current status of any transaction using the `reference_id` supplied at execution time, or to poll the payment status of a specific invoice or order.
 
 ```http

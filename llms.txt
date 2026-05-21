@@ -1,109 +1,164 @@
 # Dollr Developer Documentation
 
-> Dollr is a payment infrastructure platform for businesses operating in Africa. It provides a single REST API to collect mobile money and card payments, send payouts, process transfers, and issue refunds — abstracting MTN, Orange, Airtel, and international card networks into one consistent interface. API base URL: `https://api.heydollr.app`. Current version: `v1`. All requests and responses use JSON.
+> Dollr is a payment infrastructure platform for businesses operating in Africa. It provides a single REST API to collect mobile money and card payments, send payouts, process transfers, and issue refunds — abstracting MTN, Orange, Airtel, and international card networks into one consistent interface.
+>
+> **Production docs:** https://docs.heydollr.app  
+> **API base URL:** https://api.heydollr.app  
+> **OpenAPI:** https://api.heydollr.app/openapi.json  
+> **Merchant portal:** https://merchant.heydollr.app  
+> **Current version:** v1 (JSON, OAuth 2.0 client credentials)
+
+---
 
 ## Authentication
 
-Dollr uses OAuth 2.0 Client Credentials. POST your `client_id` and `client_secret` to `/v1/jwt/client/obtain/token` to receive a short-lived JWT. Pass it as `Authorization: Bearer <token>` on every subsequent request. Tokens expire after `expires_in` minutes — refresh proactively. Credentials are generated in the Merchant Dashboard at https://merchant.heydollr.app.
+POST `client_id` and `client_secret` to `/v1/jwt/client/obtain/token`. Use `Authorization: Bearer <access_token>` on all protected routes. `expires_in` is in **minutes** — refresh proactively (recommended: new token when under 5 minutes remain).
 
-## Supported Payment Methods
+**API Reference:** https://docs.heydollr.app/api-reference/jwt/client-obtain-token
 
-| Method | Enum identifier | Market |
-|---|---|---|
-| MTN Mobile Money | `MTN_MOMO_LBR` | Liberia |
-| Orange Money | `ORANGE_MONEY_LBR` | Liberia |
-| Airtel Money | `AIRTEL_RWA` | Rwanda |
-| MTN Mobile Money | `MTN_MOMO_RWA` | Rwanda |
-| Orange Money | `ORANGE_MONEY_RWA` | Rwanda |
-| Credit / Debit Card | `CREDIT_CARD` | International |
-| Dollr Wallet | `WALLET` | Internal transfers |
+---
 
-`provider` = routing gateway (`PAWAPAY`, `STRIPE`, `PLATFORM`). `method` = payment instrument (`MTN_MOMO_LBR`, `CREDIT_CARD`, etc.). These are distinct fields — do not conflate them.
+## Payments by market (methods & providers)
 
-## Core Concepts
+| Market | Method enum | Provider |
+|--------|-------------|----------|
+| Liberia | `MTN_MOMO_LBR`, `ORANGE_MONEY_LBR` | `PAWAPAY` |
+| Rwanda | `AIRTEL_RWA`, `MTN_MOMO_RWA`, `ORANGE_MONEY_RWA` | `PAWAPAY` |
+| International | `CREDIT_CARD` | `STRIPE` |
+| Platform | `WALLET` | `PLATFORM` |
 
-**Party** — A contact record: name, phone, optional email, country code. Created before invoices in the document-first flow.
+Full matrix: https://docs.heydollr.app/reference/payments-by-market
 
-**Counterparty** — Links a Party to your merchant account with a relationship type: `CUSTOMER`, `SUPPLIER`, `EMPLOYEE`, `BENEFICIARY`, or `OTHER`.
+Detect MoMo operator from phone: `GET /v1/predictions/mmo-provider-info?phone={e164_no_plus}&operation_type=COLLECTION`
 
-**Invoice** — Formal billing document with auto-generated number, due date, and line items. Publish before collecting. Can be shared as a payment link.
+---
 
-**Order** — Like an invoice but without a formal number or due date. Suited for e-commerce.
+## Core concepts
 
-**Session** — Declares the intent to perform an operation: `CHECKOUT`, `PAYOUT`, `TRANSFER`, or `REFUND`. Sessions expire if not executed within the time window.
+- **Party** — Contact (name, phone, optional email, country).
+- **Counterparty** — Party linked to your merchant (`CUSTOMER`, `SUPPLIER`, `EMPLOYEE`, `BENEFICIARY`, `OTHER`).
+- **Invoice / Order** — Payment sources; publish before collection. Orders omit formal invoice number/due date.
+- **Checkout** — `POST /v1/checkouts/create` can auto-create Party/Counterparty from payer details.
+- **Session** — Intent: checkout, payout, transfer, refund. Expires if not executed.
+- **Execution** — Moves funds; requires `session_id`, `payment_account_id`, `currency`, unique UUID v4 `reference_id` (idempotency key — generate and store **before** the HTTP call).
+- **Payment account** — Wallet/card bound to a Party for a given `method` + `provider`.
+- **Fee bearer** — `PAYER` (customer pays fees on top) or `PAYEE` (merchant absorbs).
 
-**Execution** — Submits an active Session for processing. Requires `session_id`, `payment_account_id`, `currency`, and a unique `reference_id` (UUID v4). The `reference_id` is the idempotency key — generate it before the network call, store it, reuse it on retry. Never generate a new one without first checking status.
+**Glossary:** https://docs.heydollr.app/reference/glossary
 
-**Payment Account** — A registered wallet or card account for a Party. Created with `POST /v1/payment-accounts/create?operation_type=COLLECTION` (or `PAYOUT`).
+---
 
-**Fee Bearer** — `PAYER`: customer pays fees on top of the total; merchant receives full amount. `PAYEE`: merchant absorbs fees; customer pays the invoice total.
+## Standard collection flow (invoice)
 
-## Standard Collection Flow (Invoice)
+1. `POST /v1/jwt/client/obtain/token`
+2. `POST /v1/parties/create`
+3. `POST /v1/counterparties/create`
+4. `POST /v1/invoices/create` → add items → `PUT /v1/invoices/publish/{id}`
+5. `GET /v1/predictions/mmo-provider-info` (recommended)
+6. `POST /v1/payment-accounts/create?operation_type=COLLECTION`
+7. `POST /v1/sessions/checkout`
+8. `POST /v1/executions/collection` (with stored `reference_id`)
+9. `GET /v1/status/collection/{reference_id}` until `COMPLETED` or `FAILED`
 
-1. `POST /v1/jwt/client/obtain/token` — authenticate
-2. `POST /v1/parties/create` — create Party, store `party.id`
-3. `POST /v1/counterparties/create` — link Party to merchant, store `counterparty.id`
-4. `POST /v1/invoices/create` — create Invoice, store `invoice.id`
-5. `POST /v1/invoices/{id}/items/add` — add line items
-6. `PUT /v1/invoices/publish/{id}` — publish Invoice (status → `ACTIVE`)
-7. `GET /v1/predictions/mmo-provider-info?phone={phone}&operation_type=COLLECTION` — detect wallet provider (recommended)
-8. `POST /v1/payment-accounts/create?operation_type=COLLECTION` — register customer wallet
-9. `POST /v1/sessions/checkout` — create checkout Session with `source_id` + `source_type`
-10. `POST /v1/executions/collection` — execute (store `reference_id` BEFORE this call)
-11. `GET /v1/status/collection/{reference_id}` — poll until `COMPLETED` or `FAILED`
+**Quick Start (step-by-step):** https://docs.heydollr.app/quickstart  
+**Integration guide:** https://docs.heydollr.app/guides/integration
 
-## Direct Checkout Flow (no prior invoice)
+---
 
-`POST /v1/checkouts/create` — creates a checkout source directly from payer details. Dollr auto-creates or matches the Party and Counterparty. Skips steps 2–6 above.
+## Direct checkout (skip invoice steps 2–6)
 
-## Transaction Status Values
+`POST /v1/checkouts/create` — https://docs.heydollr.app/api/checkouts  
+**API Reference:** https://docs.heydollr.app/api-reference/checkouts/create-checkout-source
 
-- Execution: `PENDING` → `PROCESSING` → `COMPLETED` | `FAILED`
-- Invoice/Order source: `IDLE` → `ACTIVE` → `PROCESSING` → `PAID` | `CANCELED`
-- Mobile money payments may stay in `PROCESSING` for several minutes while the carrier confirms. Do not retry during this window — query status instead.
+---
 
-## HTTP Status Codes
+## Status models (do not conflate)
 
-| Code | Meaning | Action |
-|---|---|---|
-| `200` | Success | Process response |
-| `401` | Invalid or expired token | Refresh token and retry |
-| `403` | Insufficient permissions | Check account verification status |
-| `404` | Resource not found | Verify the resource ID |
-| `422` | Validation error | Inspect `detail` array for field-level messages |
-| `429` | Rate limited | Back off; honor `Retry-After` header |
-| `5xx` | Server error | Retry with exponential backoff |
+- **Execution:** `PENDING` → `PROCESSING` → `COMPLETED` | `FAILED`
+- **Invoice/Order source:** `IDLE` → `ACTIVE` → `PROCESSING` → `PAID` | `CANCELED`
+- MoMo may stay `PROCESSING` for minutes — poll status; do not retry with a new `reference_id` during this window.
 
-## Getting Started
+**Status & incidents:** https://docs.heydollr.app/reference/status-and-incidents
 
-- [Overview & Introduction](https://docs.heydollr.app/): Platform overview, authentication, API conventions, and core concepts
-- [Quick Start](https://docs.heydollr.app/quickstart): Complete working example from zero to a successful payment collection in under 10 minutes
+---
 
-## API Reference
+## HTTP status codes (summary)
 
-- [Parties](https://docs.heydollr.app/api/parties): Create and manage contact records (name, phone, email, country)
-- [Counterparties](https://docs.heydollr.app/api/counterparties): Link a Party to your merchant account with a relationship type
-- [Invoices](https://docs.heydollr.app/api/invoices): Create, manage, add items to, publish, and retrieve receipts for invoices
-- [Orders](https://docs.heydollr.app/api/orders): Create and manage payment orders for retail and e-commerce
-- [Checkouts](https://docs.heydollr.app/api/checkouts): Create checkout sources directly from payer details without a prior invoice
-- [Sessions](https://docs.heydollr.app/api/sessions): Declare payment intent for collections, payouts, transfers, and refunds
-- [Executions](https://docs.heydollr.app/api/executions): Submit an active Session to move funds; all execution types covered
-- [Transaction Status](https://docs.heydollr.app/api/status): Query execution status by `reference_id` for any operation type
-- [Payment Accounts](https://docs.heydollr.app/api/payment-accounts): Register and retrieve mobile wallets and card accounts for a Party
-- [Payment Links](https://docs.heydollr.app/api/links): Generate and manage shareable payment links tied to invoices or orders
-- [Predictions](https://docs.heydollr.app/api/predictions): Preview fees and FX rates before executing; detect mobile money provider from phone number
-- [Fees](https://docs.heydollr.app/api/fees): Retrieve gateway and platform fee schedules for your merchant account
-- [Merchants](https://docs.heydollr.app/api/merchants): Retrieve and update your merchant profile
-- [Realtime Keys](https://docs.heydollr.app/api/realtime-keys): Generate short-lived keys for subscribing to live transaction events (no polling)
+| Code | Action |
+|------|--------|
+| 200 | Success |
+| 401 | Refresh JWT |
+| 403 | Permissions / verification |
+| 404 | Wrong resource ID |
+| 422 | Fix payload — see `detail[]` |
+| 429 | Back off; honor `Retry-After` |
+| 5xx | Retry with backoff; then support |
 
-## Guides
+**Error handling:** https://docs.heydollr.app/guides/error-handling  
+**Error catalog (common messages):** https://docs.heydollr.app/reference/error-catalog
 
-- [Integration Guide](https://docs.heydollr.app/guides/integration): Full end-to-end walkthroughs for collection, payout, transfer, and refund flows with code examples
-- [Error Handling](https://docs.heydollr.app/guides/error-handling): Retry logic with exponential backoff, idempotency rules, and status code reference
+---
 
-## Optional
+## API Guide ↔ API Reference
 
-- [Glossary](https://docs.heydollr.app/reference/glossary): Definitions for every term and enum value used in the API
-- [SDKs](https://docs.heydollr.app/reference/sdks): Official Dollr SDKs (in development) and community-built libraries
-- [Support](https://docs.heydollr.app/reference/support): Help center, in-app bug/feature reporting, and developer contact
-- [OpenAPI Specification](https://api.heydollr.app/openapi.json): Machine-readable full API spec for code generation, Postman import, and tooling
+Prose guides live under `/api/*`. Interactive OpenAPI pages live under `/api-reference/*`. Examples:
+
+| Guide | API Reference entry points |
+|-------|---------------------------|
+| Parties | `/api-reference/parties/create-party` |
+| Invoices | `/api-reference/invoices/create-invoice`, `publish-invoice` |
+| Executions | `/api-reference/executions/collect`, `payout`, `transfer`, `refund` |
+| Status | `/api-reference/status/get-collection-status` |
+| Predictions | `/api-reference/predictions/predict-mmo-provider-info` |
+
+---
+
+## Documentation index
+
+### Getting started
+
+- [Overview](https://docs.heydollr.app/)
+- [Quick Start](https://docs.heydollr.app/quickstart)
+
+### API guide
+
+- [Parties](https://docs.heydollr.app/api/parties)
+- [Counterparties](https://docs.heydollr.app/api/counterparties)
+- [Invoices](https://docs.heydollr.app/api/invoices)
+- [Orders](https://docs.heydollr.app/api/orders)
+- [Checkouts](https://docs.heydollr.app/api/checkouts)
+- [Sessions](https://docs.heydollr.app/api/sessions)
+- [Executions](https://docs.heydollr.app/api/executions)
+- [Transaction Status](https://docs.heydollr.app/api/status)
+- [Payment Accounts](https://docs.heydollr.app/api/payment-accounts)
+- [Payment Links](https://docs.heydollr.app/api/links)
+- [Predictions](https://docs.heydollr.app/api/predictions)
+- [Fees](https://docs.heydollr.app/api/fees)
+- [Merchants](https://docs.heydollr.app/api/merchants)
+- [Realtime Keys](https://docs.heydollr.app/api/realtime-keys)
+
+### Guides
+
+- [Integration Guide](https://docs.heydollr.app/guides/integration)
+- [Error Handling](https://docs.heydollr.app/guides/error-handling)
+
+### Resources
+
+- [Payments by Market](https://docs.heydollr.app/reference/payments-by-market)
+- [Error Catalog](https://docs.heydollr.app/reference/error-catalog)
+- [Status & Incidents](https://docs.heydollr.app/reference/status-and-incidents)
+- [Glossary](https://docs.heydollr.app/reference/glossary)
+- [SDKs](https://docs.heydollr.app/reference/sdks)
+- [Support](https://docs.heydollr.app/reference/support)
+
+### External
+
+- [OpenAPI JSON](https://api.heydollr.app/openapi.json)
+- [Help Center](https://dollr.tawk.help)
+- [Developer email](mailto:dev@heydollr.app)
+
+---
+
+## Support checklist
+
+Include: `reference_id`, request/response bodies (redacted secrets), HTTP status, timestamp (UTC), `method`, `provider`, market.

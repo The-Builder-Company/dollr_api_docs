@@ -5,6 +5,10 @@ description: "Register and manage mobile money or card accounts for a party."
 
 # Payment Accounts
 
+<Note>
+**Try in API Reference:** [Create payment account](/api-reference/payment-accounts/create-payment-account)
+</Note>
+
 Payment Accounts represent the specific account numbers (mobile wallets, card accounts, etc.) associated with a Party.
 
 ## Create Payment Account

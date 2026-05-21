@@ -5,6 +5,10 @@ description: "Generate and manage shareable payment links."
 
 # Payment Links
 
+<Note>
+**Try in API Reference:** [Payment link](/api-reference/links/get-payment-link) · [Receipt link](/api-reference/links/get-receipt-link)
+</Note>
+
 Generate shareable URLs for payment checkout or receipt pages. These links can be sent directly to customers.
 
 ## Generate Payment Link

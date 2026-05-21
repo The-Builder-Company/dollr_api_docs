@@ -82,6 +82,9 @@ nav:
     - Integration Guide: guides/integration.md
     - Error Handling: guides/error-handling.md
   - Reference:
+    - Payments by Market: reference/payments-by-market.md
+    - Error Catalog: reference/error-catalog.md
+    - Status & Incidents: reference/status-and-incidents.md
     - SDKs: reference/sdks.md
     - Glossary: reference/glossary.md
     - Support: reference/support.md

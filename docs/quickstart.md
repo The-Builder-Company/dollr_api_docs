@@ -1,10 +1,15 @@
 ---
 title: "Quick Start"
 description: "Go from zero to a successful payment collection in under 10 minutes."
+keywords: ["quickstart", "Dollr tutorial", "collect payment", "invoice API"]
 sidebarTitle: "Quick Start"
 ---
 
 # Quick Start
+
+<Note>
+**Try in API Reference:** [Obtain token](/api-reference/jwt/client-obtain-token) · [Create invoice](/api-reference/invoices/create-invoice) · [Collect](/api-reference/executions/collect) · [Collection status](/api-reference/status/get-collection-status)
+</Note>
 
 Get from zero to your first successful payment collection in under 10 minutes.
 

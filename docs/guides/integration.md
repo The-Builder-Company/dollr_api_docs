@@ -1,9 +1,14 @@
 ---
 title: "Integration Guide"
 description: "End-to-end walkthrough of collection, payout, transfer, and refund flows."
+keywords: ["integration guide", "collection flow", "payout API", "Dollr walkthrough"]
 ---
 
 # Integration Guide
+
+<Note>
+**API Reference flows:** [Collect](/api-reference/executions/collect) · [Payout](/api-reference/executions/payout) · [Transfer](/api-reference/executions/transfer) · [Refund](/api-reference/executions/refund)
+</Note>
 
 ## Collect Payment via Invoice
 

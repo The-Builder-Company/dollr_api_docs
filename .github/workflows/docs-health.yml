@@ -1,0 +1,53 @@
+name: Docs health check
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+jobs:
+  prose-pages:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Verify key prose pages on docs.heydollr.app
+        run: |
+          set -euo pipefail
+          BASE="https://docs.heydollr.app"
+          paths=(
+            "/"
+            "/quickstart"
+            "/guides/integration"
+            "/guides/error-handling"
+            "/reference/payments-by-market"
+            "/reference/error-catalog"
+            "/reference/status-and-incidents"
+            "/reference/glossary"
+            "/reference/support"
+            "/api/parties"
+            "/api/invoices"
+            "/api/executions"
+            "/api/status"
+          )
+          failed=0
+          for path in "${paths[@]}"; do
+            code=$(curl -s -o /dev/null -w "%{http_code}" -L --max-time 20 "${BASE}${path}")
+            if [ "$code" != "200" ]; then
+              echo "::error::HTTP ${code} for ${BASE}${path}"
+              failed=1
+            else
+              echo "OK ${path}"
+            fi
+          done
+          exit "$failed"
+
+      - name: Verify prose URLs appear in sitemap
+        run: |
+          set -euo pipefail
+          SITEMAP=$(curl -sL --max-time 20 "https://docs.heydollr.app/sitemap.xml")
+          for slug in quickstart reference/payments-by-market reference/error-catalog; do
+            if ! echo "$SITEMAP" | grep -q "$slug"; then
+              echo "::warning::sitemap.xml may be missing https://docs.heydollr.app/${slug} (redeploy Mintlify after merge)"
+            else
+              echo "sitemap contains ${slug}"
+            fi
+          done

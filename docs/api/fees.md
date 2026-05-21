@@ -5,6 +5,10 @@ description: "Retrieve fee schedules for your merchant account."
 
 # Fees
 
+<Note>
+**Try in API Reference:** [Gateway fees](/api-reference/fees/get-gateway-fees) · [Platform fees](/api-reference/fees/get-platform-fees) · [Merchant tier](/api-reference/fees/get-merchant-fee-tier) · [List tiers](/api-reference/fees/list-fee-tier)
+</Note>
+
 The Fees endpoints give programmatic access to Dollr's fee structures.
 
 ## Get Gateway Fees

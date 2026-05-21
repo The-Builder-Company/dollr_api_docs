@@ -5,6 +5,10 @@ description: "Preview fees, FX rates, and detect mobile money providers before e
 
 # Predictions
 
+<Note>
+**Try in API Reference:** [Amount & fees](/api-reference/predictions/predict-amount-and-fee) · [MMO provider](/api-reference/predictions/predict-mmo-provider-info) · [Source amount & fees](/api-reference/predictions/predict-payment-source-amount-and-fee)
+</Note>
+
 Prediction endpoints let you preview amounts and fees before committing to a transaction.
 
 ## Predict Amount and Fees

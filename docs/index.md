@@ -1,4 +1,7 @@
 ---
+title: "Dollr Open API"
+description: "Official Dollr REST API documentation — authentication, mobile money and card payments in Africa, and integration guides."
+keywords: ["Dollr API", "payment API Africa", "mobile money API", "Liberia payments", "Rwanda payments"]
 mode: "wide"
 sidebarTitle: "Overview"
 ---
@@ -27,6 +30,8 @@ The Dollr Open API is a RESTful HTTP API that returns JSON responses. It is desi
 - Preview fees and FX rates before committing to a transaction
 
 ### Supported Payment Methods
+
+See the full [Payments by Market](/reference/payments-by-market) guide for methods, providers, and routing.
 
 | Method | Identifier | Market |
 |---|---|---|

@@ -5,6 +5,10 @@ description: "Create, manage, and publish invoices with line items and payment l
 
 # Invoices
 
+<Note>
+**Try in API Reference:** [Create](/api-reference/invoices/create-invoice) · [Add item](/api-reference/invoices/add-invoice-item) · [Publish](/api-reference/invoices/publish-invoice) · [Retrieve](/api-reference/invoices/retrieve-invoice-by-id) · [Receipt](/api-reference/invoices/retrieve-invoice-receipt-by-id)
+</Note>
+
 Invoices are formal billing documents with auto-generated invoice numbers, due dates, and line items.
 
 ## Invoice Lifecycle

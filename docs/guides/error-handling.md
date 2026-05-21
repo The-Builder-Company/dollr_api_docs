@@ -1,9 +1,14 @@
 ---
 title: "Error Handling"
-description: "Best practices for handling errors, retries, and idempotency."
+description: "Best practices for handling errors, retries, idempotency, and when to contact support."
+keywords: ["error handling", "retries", "idempotency", "reference_id", "HTTP 422"]
 ---
 
 # Error Handling
+
+<Note>
+For field-level messages and common failure modes, see the full [Error catalog](/reference/error-catalog).
+</Note>
 
 ## Rules
 
@@ -181,9 +186,11 @@ async function executeWithRetry(sessionId, paymentAccountId, currency, token, ma
 
 | Resource | URL / Contact |
 |---|---|
+| Error catalog | [reference/error-catalog](/reference/error-catalog) |
+| Status & incidents | [reference/status-and-incidents](/reference/status-and-incidents) |
 | Merchant Portal | [merchant.heydollr.app](https://merchant.heydollr.app) |
 | Help Center | [dollr.tawk.help](https://dollr.tawk.help) |
 | Open API Spec (JSON) | [api.heydollr.app/openapi.json](https://api.heydollr.app/openapi.json) |
-| Support Email | support@heydollr.app |
+| Support Email | dev@heydollr.app |
 
 When contacting support about a specific transaction, always include your `reference_id`, the full request body, and the HTTP response body.

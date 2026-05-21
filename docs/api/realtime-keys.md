@@ -5,6 +5,10 @@ description: "Generate short-lived keys for subscribing to real-time transaction
 
 # Realtime Keys
 
+<Note>
+**Try in API Reference:** [Collection realtime key](/api-reference/realtime-keys/get-collection-realtime-key)
+</Note>
+
 Realtime Keys are short-lived tokens for subscribing to live payment status updates on a checkout session. Use these to update your UI immediately upon payment confirmation, without polling.
 
 Realtime Keys are the recommended alternative to frequent polling — use them when you want push-style updates instead of repeatedly calling `GET /v1/status/*`.

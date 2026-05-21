@@ -1,9 +1,14 @@
 ---
 title: "Support"
 description: "Get help with the Dollr API, report bugs, and submit feature requests."
+keywords: ["Dollr support", "API help", "developer contact"]
 ---
 
 # Support
+
+<Note>
+Monitor transactions via the [Status API](/api/status). For platform incidents and polling guidance, see [Status & incidents](/reference/status-and-incidents).
+</Note>
 
 ## Help Center
 

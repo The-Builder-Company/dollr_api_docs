@@ -5,6 +5,10 @@ description: "Link a Party to your merchant account with a defined relationship 
 
 # Counterparties
 
+<Note>
+**Try in API Reference:** [Create](/api-reference/counterparties/create-counterparty) · [List](/api-reference/counterparties/list-counterparties) · [Retrieve](/api-reference/counterparties/retrieve-counterparties) · [Update](/api-reference/counterparties/update-counterparty)
+</Note>
+
 A Counterparty links an existing Party to your merchant account with a defined relationship type. Counterparties are required before creating invoices or orders.
 
 ## Relationship Types

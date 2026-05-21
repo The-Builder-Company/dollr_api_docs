@@ -5,6 +5,10 @@ description: "Create and manage payment orders for retail and e-commerce flows."
 
 # Orders
 
+<Note>
+**Try in API Reference:** [Create](/api-reference/orders/create-order) · [Add item](/api-reference/orders/add-order-item) · [Publish](/api-reference/orders/publish-order) · [Retrieve](/api-reference/orders/retrieve-order-by-id) · [Receipt](/api-reference/orders/retrieve-order-receipt-by-id)
+</Note>
+
 Orders are informal payment documents — similar to invoices but without a formal invoice number or due date. They follow the same `IDLE > ACTIVE > PROCESSING > PAID / CANCELED` lifecycle.
 
 ## Create Order

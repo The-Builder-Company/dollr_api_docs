@@ -53,6 +53,11 @@
         "url": "https://dollr.tawk.help"
       },
       {
+        "anchor": "Status & incidents",
+        "icon": "signal",
+        "url": "/reference/status-and-incidents"
+      },
+      {
         "anchor": "OpenAPI Spec",
         "icon": "braces",
         "url": "https://api.heydollr.app/openapi.json"
@@ -96,6 +101,9 @@
             "group": "Resources",
             "icon": "book-open",
             "pages": [
+              "reference/payments-by-market",
+              "reference/error-catalog",
+              "reference/status-and-incidents",
               "reference/sdks",
               "reference/glossary",
               "reference/support"
@@ -130,7 +138,10 @@
         "header": "Developers",
         "items": [
           { "label": "Quick Start", "href": "/quickstart" },
+          { "label": "Payments by Market", "href": "/reference/payments-by-market" },
           { "label": "Integration Guide", "href": "/guides/integration" },
+          { "label": "Error Catalog", "href": "/reference/error-catalog" },
+          { "label": "Status & Incidents", "href": "/reference/status-and-incidents" },
           { "label": "OpenAPI Spec", "href": "https://api.heydollr.app/openapi.json" }
         ]
       }
@@ -142,7 +153,9 @@
   "seo": {
     "indexing": "navigable",
     "metatags": {
-      "og:site_name": "Dollr Developer Docs"
+      "og:site_name": "Dollr Developer Docs",
+      "og:type": "website",
+      "twitter:card": "summary_large_image"
     }
   },
   "redirects": [

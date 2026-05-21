@@ -5,6 +5,10 @@ description: "Declare payment intent for collections, payouts, transfers, and re
 
 # Sessions
 
+<Note>
+**Try in API Reference:** [Checkout session](/api-reference/sessions/create-checkout-session) · [Payout](/api-reference/sessions/create-payout-session) · [Transfer](/api-reference/sessions/create-transfer-session) · [Refund](/api-reference/sessions/create-refund-session)
+</Note>
+
 Sessions declare payment intent before funds move. Create a session, then execute it. An unexecuted session cannot be used after it expires.
 
 ## Checkout Session
