@@ -1,0 +1,57 @@
+---
+title: "422 — Validation Errors"
+description: "Fix Dollr API request validation failures in the detail array."
+keywords: ["422", "validation", "unprocessable entity", "Dollr API"]
+---
+
+# 422 — Validation Errors
+
+**422 Unprocessable Entity** means JSON was understood but one or more fields failed validation.
+
+## The problem
+
+The response includes a `detail` array:
+
+```json
+{
+  "detail": [
+    {
+      "loc": ["body", "currency"],
+      "msg": "field required",
+      "type": "value_error.missing"
+    }
+  ]
+}
+```
+
+Each item points to a field (`loc`) and message (`msg`).
+
+## Common fixes
+
+| `loc` / pattern | Fix |
+|-----------------|-----|
+| `body.currency` | ISO 4217 uppercase, e.g. `USD`, `LRD` |
+| `body.phone` | E.164 digits only, no `+` (e.g. `231771234567`) |
+| `body.reference_id` | UUID v4 — see [duplicate reference_id](/knowledge-base/duplicate-reference-id) |
+| `body.method` / `body.provider` | Use [MMO prediction](/api/predictions) or [payments by market](/reference/payments-by-market) |
+| `body.counterparty_id` | Create [counterparty](/api/counterparties) first in document-first flows |
+| `body.source_type` / `source_kind` | Use `INVOICE` or `ORDER` — see [Checkouts](/api/checkouts) |
+
+## Solution
+
+<Steps>
+  <Step title="Log the full detail array">
+    Do not only read HTTP status — every `loc` entry is a required fix.
+  </Step>
+  <Step title="Compare with API Reference">
+    Open the matching operation under [API Reference](/api-reference/jwt/client-obtain-token) and align required fields.
+  </Step>
+  <Step title="Re-test with minimal payload">
+    Strip optional fields until the call succeeds, then add fields back.
+  </Step>
+</Steps>
+
+## Related
+
+- [API conventions](/api-conventions)
+- [Error catalog](/reference/error-catalog)

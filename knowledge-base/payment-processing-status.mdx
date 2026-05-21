@@ -1,0 +1,48 @@
+---
+title: "Payment Stuck in PROCESSING"
+description: "When mobile money collection stays PROCESSING and how to respond without double charges."
+keywords: ["PROCESSING", "mobile money", "poll status", "collection status", "Dollr API"]
+---
+
+# Payment Stuck in PROCESSING
+
+Collection status returns **`PROCESSING`** for longer than you expected. This is often **normal** for mobile money — not a failed payment.
+
+## The problem
+
+Execution status progression:
+
+`PENDING` → `PROCESSING` → `COMPLETED` | `FAILED`
+
+MoMo operators can take **several minutes** while the customer approves on their handset or the carrier confirms.
+
+## What not to do
+
+- Do **not** call `executions/collection` again with a **new** `reference_id` while status is `PROCESSING`
+- Do **not** assume failure and start a duplicate checkout without checking status
+
+## Solution
+
+<Steps>
+  <Step title="Poll execution status">
+    ```bash
+    curl "https://api.heydollr.app/v1/status/collection/YOUR_REFERENCE_UUID" \
+      -H "Authorization: Bearer YOUR_ACCESS_TOKEN"
+    ```
+    Use the UUID stored **before** execute. See [Status](/api/status).
+  </Step>
+  <Step title="Use realtime for UX">
+    For live UIs, request a [realtime key](/guides/realtime-status) instead of sub-second polling loops.
+  </Step>
+  <Step title="If status becomes FAILED">
+    Show failure to the payer. Create a **new** session and **new** `reference_id` only for a deliberate retry.
+  </Step>
+  <Step title="If COMPLETED">
+    Fetch receipt via [links](/api/links) or invoice/order receipt endpoints when source is `PAID`.
+  </Step>
+</Steps>
+
+## Related
+
+- [Status & incidents](/reference/status-and-incidents)
+- [Duplicate reference_id](/knowledge-base/duplicate-reference-id)

@@ -1,0 +1,43 @@
+---
+title: "Session Expired or Invalid"
+description: "Fix checkout, payout, transfer, or refund session errors before execution."
+keywords: ["session", "expired", "checkout session", "422", "Dollr API"]
+---
+
+# Session Expired or Invalid
+
+Execution failed because the `session_id` is missing, expired, or does not match the operation type.
+
+## The problem
+
+[Sessions](/api/sessions) are short-lived intents. If too much time passes between creating a session and calling [executions](/api/executions), the session may no longer be active.
+
+Other causes:
+
+- Using a payout session ID with `executions/collection`
+- Wrong `source_id` / `source_type` on checkout session create
+- Invoice still `IDLE` (not published)
+
+## How to identify
+
+- 422 errors mentioning session not found or not active
+- `session_id` from an old test run or different merchant account
+
+## Solution
+
+<Steps>
+  <Step title="Verify source is publishable">
+    Invoice/order should be `ACTIVE` — `PUT /v1/invoices/publish/:id` when using document-first flow.
+  </Step>
+  <Step title="Create a new session">
+    `POST /v1/sessions/checkout` (or payout/transfer/refund) immediately before execute.
+  </Step>
+  <Step title="Execute with a new reference_id">
+    New session → new UUID v4 `reference_id` for the execution attempt.
+  </Step>
+</Steps>
+
+## Related
+
+- [Sessions API concept](/api/sessions)
+- [Invoice not publishable](/reference/error-catalog#resource-state-errors)

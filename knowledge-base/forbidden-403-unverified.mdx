@@ -1,0 +1,46 @@
+---
+title: "403 — Forbidden"
+description: "Resolve Dollr API 403 errors from verification gates or insufficient permissions."
+keywords: ["403", "forbidden", "KYB", "merchant verification", "Dollr API"]
+---
+
+# 403 — Forbidden
+
+**403 Forbidden** means your Bearer token is valid but this operation is not allowed for your merchant account right now.
+
+## The problem
+
+Typical causes:
+
+- Merchant account still in compliance review
+- Feature not enabled until KYB/KYC completes (payouts, API keys, payment links, refunds)
+- Token scoped to a different environment than the resource
+
+## How to identify
+
+1. Log in to [merchant.heydollr.app](https://merchant.heydollr.app) and check verification status
+2. Note which endpoint returns 403 (payout vs collection vs links)
+3. Confirm you are not mixing sandbox and production credentials
+
+## Solution
+
+<Steps>
+  <Step title="Complete verification">
+    Submit required documents in the portal. Turnaround is typically **1–72 hours**.
+  </Step>
+  <Step title="Retry after approval email">
+    Regenerate API keys if needed, obtain a new token, and retry.
+  </Step>
+  <Step title="Use allowed features while pending">
+    Some collection flows may work before payouts — align your integration order with portal messaging.
+  </Step>
+</Steps>
+
+## Still having issues?
+
+Contact [Support](/reference/support) with merchant ID and the exact endpoint path.
+
+## Related
+
+- [401 Invalid credentials](/knowledge-base/invalid-credentials-401)
+- [Introduction — prerequisites](/)

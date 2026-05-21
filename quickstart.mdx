@@ -342,7 +342,7 @@ curl -X POST "https://api.heydollr.app/v1/executions/collection" \
 ```
 
 ```python Python
-import uuid
+from uuid import uuid4
 
 # Detect payment method from phone
 mmo = requests.get(f"{BASE_URL}/v1/predictions/mmo-provider-info", headers=headers, params={
@@ -374,7 +374,7 @@ account = requests.post(
 ).json()
 
 # Execute — generate and store reference_id BEFORE the call
-reference_id = str(uuid.uuid4())
+reference_id = str(uuid4())
 execution = requests.post(f"{BASE_URL}/v1/executions/collection", headers=headers, json={
     "session_id":         str(session_id),
     "payment_account_id": str(account["id"]),
@@ -385,12 +385,10 @@ print("Execution status:", execution["status"])
 ```
 
 ```javascript Node.js
-import { randomUUID } from "crypto";
-
 // Detect payment method from phone
 const mmo = await fetch(
   `${BASE_URL}/v1/predictions/mmo-provider-info?phone=231771234567&operation_type=COLLECTION`,
-  { headers }
+  { headers: headers }
 ).then(r => r.json());
 
 // Create checkout session
@@ -416,7 +414,7 @@ const account = await fetch(
 ).then(r => r.json());
 
 // Execute — generate and store reference_id BEFORE the call
-const referenceId = randomUUID();
+const referenceId = crypto.randomUUID();
 const execution = await fetch(`${BASE_URL}/v1/executions/collection`, {
   method: "POST", headers,
   body: JSON.stringify({
@@ -436,7 +434,7 @@ console.log("Execution status:", execution.status);
 ## Step 6 — Check Payment Status
 
 ```http
-GET /v1/status/collection/{reference_id}
+GET /v1/status/collection/:reference_id
 ```
 
 <CodeGroup>
@@ -475,11 +473,11 @@ Mobile money payments may stay in `PROCESSING` for several minutes while the car
 After a successful collection (source status `PAID`), retrieve the receipt for the matching source family:
 
 ```http
-GET /v1/invoices/receipt/{id}
-GET /v1/orders/receipt/{id}
+GET /v1/invoices/receipt/:id
+GET /v1/orders/receipt/:id
 ```
 
-Use `/v1/invoices/receipt/\{id\}` for invoices and `/v1/orders/receipt/\{id\}` for orders.
+Use the invoice or order system ID from your published source.
 
 ## What's Next
 

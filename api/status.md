@@ -1,262 +1,37 @@
 ---
 title: "Transaction Status"
-description: "Query the status of any transaction by reference ID."
+description: "Poll execution and payment source status by reference_id or source ID."
 ---
 
 # Transaction Status
 
+Query execution progress with the `reference_id` you stored at execute time. Query payment **source** status (invoice/order) separately when building receipts or UI.
+
 <Note>
-**Try in API Reference:** [Collection status](/api-reference/status/get-collection-status) · [Payout](/api-reference/status/get-payout-status) · [Transfer](/api-reference/status/get-transfer-status) · [Refund](/api-reference/status/get-refund-status) · [Payment source](/api-reference/status/get-payment-source-status)
+**Try in API Reference:** [Collection](/api-reference/status/get-collection-status) · [Payout](/api-reference/status/get-payout-status) · [Source status](/api-reference/status/get-payment-source-status)
 </Note>
 
-Use these endpoints to check the current status of any transaction using the `reference_id` supplied at execution time, or to poll the payment status of a specific invoice or order.
+## Execution status endpoints
 
-```http
-GET /v1/status/collection/{reference_id}
-GET /v1/status/payout/{reference_id}
-GET /v1/status/transfer/{reference_id}
-GET /v1/status/refund/{reference_id}
-```
+| Operation | Endpoint |
+|-----------|----------|
+| Collection | `GET /v1/status/collection/:reference_id` |
+| Payout | `GET /v1/status/payout/:reference_id` |
+| Transfer | `GET /v1/status/transfer/:reference_id` |
+| Refund | `GET /v1/status/refund/:reference_id` |
 
-All four endpoints return an `ExecutionResponse` (see [ExecutionResponse Schema](/api/executions#executionresponse-schema)).
+## Minimal example
 
-To poll the payment status of an invoice or order directly, use [Check Payment Source Status](#check-payment-source-status).
-
-#### Code Examples
-
-<CodeGroup>
-
-```bash cURL
+```bash
 curl "https://api.heydollr.app/v1/status/collection/550e8400-e29b-41d4-a716-446655440000" \
   -H "Authorization: Bearer YOUR_ACCESS_TOKEN"
 ```
 
-```python Python
-import requests
+<Tip>
+Prefer [Realtime status](/guides/realtime-status) for live checkout UIs instead of aggressive polling.
+</Tip>
 
-BASE_URL     = "https://api.heydollr.app"
-headers      = {"Authorization": "Bearer YOUR_ACCESS_TOKEN"}
-reference_id = "550e8400-e29b-41d4-a716-446655440000"
+## Related
 
-response = requests.get(
-    f"{BASE_URL}/v1/status/collection/{reference_id}",
-    headers=headers,
-)
-result = response.json()
-print("Status:", result["status"])
-```
-
-```javascript Node.js
-const BASE_URL     = "https://api.heydollr.app";
-const TOKEN        = "YOUR_ACCESS_TOKEN";
-const referenceId  = "550e8400-e29b-41d4-a716-446655440000";
-
-const response = await fetch(`${BASE_URL}/v1/status/collection/${referenceId}`, {
-  headers: { Authorization: `Bearer ${TOKEN}` },
-});
-const result = await response.json();
-console.log("Status:", result.status);
-```
-
-```php PHP
-$referenceId = "550e8400-e29b-41d4-a716-446655440000";
-$ch = curl_init(
-    "https://api.heydollr.app/v1/status/collection/{$referenceId}"
-);
-curl_setopt_array($ch, [
-    CURLOPT_RETURNTRANSFER => true,
-    CURLOPT_HTTPHEADER     => ["Authorization: Bearer YOUR_ACCESS_TOKEN"],
-]);
-$result = json_decode(curl_exec($ch), true);
-curl_close($ch);
-echo "Status: " . $result["status"];
-```
-
-```java Java
-import java.net.URI;
-import java.net.http.*;
-
-String referenceId = "550e8400-e29b-41d4-a716-446655440000";
-
-HttpClient client = HttpClient.newHttpClient();
-HttpRequest request = HttpRequest.newBuilder()
-    .uri(URI.create(
-        "https://api.heydollr.app/v1/status/collection/" + referenceId
-    ))
-    .header("Authorization", "Bearer YOUR_ACCESS_TOKEN")
-    .GET()
-    .build();
-
-HttpResponse<String> response = client.send(request, HttpResponse.BodyHandlers.ofString());
-System.out.println(response.body());
-```
-
-```go Go
-package main
-
-import (
-    "fmt"
-    "io"
-    "net/http"
-)
-
-func main() {
-    referenceId := "550e8400-e29b-41d4-a716-446655440000"
-
-    req, _ := http.NewRequest("GET",
-        "https://api.heydollr.app/v1/status/collection/"+referenceId,
-        nil,
-    )
-    req.Header.Set("Authorization", "Bearer YOUR_ACCESS_TOKEN")
-
-    client := &http.Client{}
-    resp, _ := client.Do(req)
-    defer resp.Body.Close()
-
-    data, _ := io.ReadAll(resp.Body)
-    fmt.Println(string(data))
-}
-```
-
-</CodeGroup>
-
----
-
-## Check Payment Source Status
-
-Poll the current payment status of an invoice or order without needing a `reference_id`.
-
-```http
-GET /v1/status/source
-```
-
-#### Query Parameters
-
-| Param | Type | Required | Description |
-|---|---|---|---|
-| `source_type` | enum | Yes | `INVOICE` or `ORDER` |
-| `source_id` | integer | Yes | ID of the invoice or order |
-
-#### Response — `PaymentSourceStatusResponse`
-
-| Field | Type | Description |
-|---|---|---|
-| `source_id` | integer | ID of the invoice or order |
-| `source_type` | enum | `INVOICE` or `ORDER` |
-| `source_number` | string | Auto-generated source number (e.g. `INV-2025-00042`) |
-| `status` | string | Current payment status (`IDLE`, `ACTIVE`, `PROCESSING`, `PAID`, `CANCELED`) |
-| `currency` | string | ISO 4217 currency code |
-| `total_amount` | number | Total amount of the payment source |
-| `paid_at` | datetime \| null | Timestamp of payment confirmation, if paid |
-
-#### Code Examples
-
-<CodeGroup>
-
-```bash cURL
-curl "https://api.heydollr.app/v1/status/source?source_type=INVOICE&source_id=101" \
-  -H "Authorization: Bearer YOUR_ACCESS_TOKEN"
-```
-
-```python Python
-import requests
-
-BASE_URL = "https://api.heydollr.app"
-headers  = {"Authorization": "Bearer YOUR_ACCESS_TOKEN"}
-
-response = requests.get(
-    f"{BASE_URL}/v1/status/source",
-    headers=headers,
-    params={
-        "source_type": "INVOICE",
-        "source_id":   101,
-    },
-)
-result = response.json()
-print("Status:", result["status"])
-print("Paid at:", result["paid_at"])
-```
-
-```javascript Node.js
-const BASE_URL = "https://api.heydollr.app";
-const TOKEN    = "YOUR_ACCESS_TOKEN";
-
-const params = new URLSearchParams({
-  source_type: "INVOICE",
-  source_id:   "101",
-});
-
-const response = await fetch(`${BASE_URL}/v1/status/source?${params}`, {
-  headers: { Authorization: `Bearer ${TOKEN}` },
-});
-const result = await response.json();
-console.log("Status:", result.status);
-console.log("Paid at:", result.paid_at);
-```
-
-```php PHP
-$params = http_build_query([
-    "source_type" => "INVOICE",
-    "source_id"   => 101,
-]);
-$ch = curl_init("https://api.heydollr.app/v1/status/source?{$params}");
-curl_setopt_array($ch, [
-    CURLOPT_RETURNTRANSFER => true,
-    CURLOPT_HTTPHEADER     => ["Authorization: Bearer YOUR_ACCESS_TOKEN"],
-]);
-$result = json_decode(curl_exec($ch), true);
-curl_close($ch);
-echo "Status: " . $result["status"];
-```
-
-```java Java
-import java.net.URI;
-import java.net.http.*;
-
-HttpClient client = HttpClient.newHttpClient();
-HttpRequest request = HttpRequest.newBuilder()
-    .uri(URI.create(
-        "https://api.heydollr.app/v1/status/source?source_type=INVOICE&source_id=101"
-    ))
-    .header("Authorization", "Bearer YOUR_ACCESS_TOKEN")
-    .GET()
-    .build();
-
-HttpResponse<String> response = client.send(request, HttpResponse.BodyHandlers.ofString());
-System.out.println(response.body());
-```
-
-```go Go
-package main
-
-import (
-    "fmt"
-    "io"
-    "net/http"
-)
-
-func main() {
-    req, _ := http.NewRequest("GET",
-        "https://api.heydollr.app/v1/status/source",
-        nil,
-    )
-    q := req.URL.Query()
-    q.Add("source_type", "INVOICE")
-    q.Add("source_id",   "101")
-    req.URL.RawQuery = q.Encode()
-    req.Header.Set("Authorization", "Bearer YOUR_ACCESS_TOKEN")
-
-    client := &http.Client{}
-    resp, _ := client.Do(req)
-    defer resp.Body.Close()
-
-    data, _ := io.ReadAll(resp.Body)
-    fmt.Println(string(data))
-}
-```
-
-Note: The `GET /v1/status/source` endpoint returns the payment source (invoice/order) lifecycle status. Execution endpoints such as `GET /v1/status/collection/\{reference_id\}` return an `ExecutionResponse` that reflects funds-movement status. Treat source status and execution status as separate state models.
-
-</CodeGroup>
-
----
+- [Status & incidents](/reference/status-and-incidents)
+- [Payment stuck in PROCESSING](/knowledge-base/payment-processing-status)

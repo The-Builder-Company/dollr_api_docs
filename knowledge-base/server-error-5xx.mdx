@@ -1,0 +1,33 @@
+---
+title: "5xx — Server Errors"
+description: "When to retry Dollr API server errors and what to send support."
+keywords: ["500", "502", "503", "server error", "Dollr API"]
+---
+
+# 5xx — Server Errors
+
+**5xx** responses indicate an unexpected problem on Dollr or an upstream provider. Your request may or may not have been processed.
+
+## The problem
+
+Ambiguous outcomes after `POST /v1/executions/*` are the highest risk: you might double-charge if you retry blindly.
+
+## Solution
+
+<Steps>
+  <Step title="For executions — poll first">
+    If you stored `reference_id`, call `GET /v1/status/collection/:reference_id` (or payout/transfer/refund) before retrying execute.
+  </Step>
+  <Step title="Retry with backoff">
+    For idempotent **reads** and safe retries, use exponential backoff (1s, 2s, 4s… capped).
+  </Step>
+  <Step title="Escalate if persistent">
+    Email [dev@heydollr.app](mailto:dev@heydollr.app) with `reference_id`, UTC timestamp, endpoint, and redacted bodies. See [Support checklist](/reference/support).
+  </Step>
+</Steps>
+
+## Related
+
+- [Error handling](/guides/error-handling)
+- [Duplicate reference_id](/knowledge-base/duplicate-reference-id)
+- [Status & incidents](/reference/status-and-incidents)

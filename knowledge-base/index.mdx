@@ -1,0 +1,48 @@
+---
+title: "Knowledge Base"
+description: "Troubleshooting guides for common Dollr API errors and integration issues."
+keywords: ["troubleshooting", "API errors", "Dollr support", "knowledge base"]
+---
+
+# Knowledge Base
+
+Step-by-step fixes for errors you may hit during integration. For HTTP retry rules and idempotency, see [Error handling](/guides/error-handling). For a full table view, see [Error catalog](/reference/error-catalog).
+
+## Authentication
+
+<CardGroup cols={2}>
+  <Card title="401 — Invalid credentials" icon="key" href="/knowledge-base/invalid-credentials-401">
+    Expired or missing Bearer token.
+  </Card>
+  <Card title="403 — Forbidden" icon="lock" href="/knowledge-base/forbidden-403-unverified">
+    Verification or feature gates.
+  </Card>
+</CardGroup>
+
+## Validation & state
+
+<CardGroup cols={2}>
+  <Card title="422 — Validation errors" icon="file-lines" href="/knowledge-base/validation-422">
+    Payload and field fixes.
+  </Card>
+  <Card title="Duplicate reference_id" icon="copy" href="/knowledge-base/duplicate-reference-id">
+    Idempotency conflicts.
+  </Card>
+  <Card title="Session expired" icon="clock" href="/knowledge-base/session-expired-or-invalid">
+    Stale or wrong session_id.
+  </Card>
+</CardGroup>
+
+## Payments & operations
+
+<CardGroup cols={2}>
+  <Card title="Stuck in PROCESSING" icon="hourglass" href="/knowledge-base/payment-processing-status">
+    Normal MoMo delays vs real failures.
+  </Card>
+  <Card title="429 — Rate limit" icon="gauge" href="/knowledge-base/rate-limit-429">
+    Backoff and Retry-After.
+  </Card>
+  <Card title="5xx — Server errors" icon="server" href="/knowledge-base/server-error-5xx">
+    When to retry and escalate.
+  </Card>
+</CardGroup>

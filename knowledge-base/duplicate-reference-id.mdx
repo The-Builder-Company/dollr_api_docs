@@ -1,0 +1,46 @@
+---
+title: "Duplicate reference_id"
+description: "Resolve idempotency conflicts when reusing a Dollr execution reference_id."
+keywords: ["reference_id", "idempotency", "duplicate", "UUID", "Dollr API"]
+---
+
+# Duplicate reference_id
+
+You reused a `reference_id` for a **new** payment attempt, or the API reports the idempotency key already exists for a different payload.
+
+## The problem
+
+`reference_id` must be a **UUID v4** and acts as your idempotency key for [executions](/api/executions). Dollr treats each ID as one logical payment attempt.
+
+- Reusing the same ID with different `session_id` / amounts → conflict or wrong status
+- Generating a new ID before confirming the first attempt landed → risk of double charge
+
+## How to identify
+
+1. You called `POST /v1/executions/collection` (or payout/transfer/refund)
+2. The network timed out or returned an ambiguous error
+3. You retried with a **new** `reference_id` while the first may still be `PROCESSING`
+
+## Solution
+
+<Steps>
+  <Step title="Poll with the original reference_id">
+    ```bash
+    curl "https://api.heydollr.app/v1/status/collection/YOUR_ORIGINAL_UUID" \
+      -H "Authorization: Bearer YOUR_ACCESS_TOKEN"
+    ```
+  </Step>
+  <Step title="Interpret status">
+    - `PROCESSING` or `COMPLETED` → do **not** execute again with a new ID
+    - `FAILED` or not found → safe to start a **new** session and **new** UUID for a fresh attempt
+  </Step>
+  <Step title="Store UUIDs before HTTP calls">
+    Persist `reference_id` in your database before `executions/*`, not after the response returns.
+  </Step>
+</Steps>
+
+## Related
+
+- [Sessions & executions](/concepts/sessions-and-executions)
+- [Payment PROCESSING](/knowledge-base/payment-processing-status)
+- [Error handling](/guides/error-handling)

@@ -1,167 +1,24 @@
 ---
 title: "Fees"
-description: "Retrieve fee schedules for your merchant account."
+description: "Gateway, platform, and merchant tier fee information."
 ---
 
 # Fees
+
+Understand how Dollr calculates gateway and platform fees before and after transactions.
 
 <Note>
 **Try in API Reference:** [Gateway fees](/api-reference/fees/get-gateway-fees) · [Platform fees](/api-reference/fees/get-platform-fees) · [Merchant tier](/api-reference/fees/get-merchant-fee-tier) · [List tiers](/api-reference/fees/list-fee-tier)
 </Note>
 
-The Fees endpoints give programmatic access to Dollr's fee structures.
+## When to use
 
-## Get Gateway Fees
+- Display fee breakdown in your checkout UI
+- Reconcile settlements with [Predictions](/api/predictions) for live quotes
 
-```http
-GET /v1/fees/gateway
-```
+Fee bearer on invoices/orders (`PAYER` vs `PAYEE`) controls whether the customer pays fees on top of the total.
 
-| Param | Type | Required | Description |
-|---|---|---|---|
-| `payment_method` | string | Yes | Payment method identifier |
-| `operation_type` | string | Yes | `COLLECTION`, `PAYOUT`, `TRANSFER`, or `REFUND` |
+## Related
 
-## Get Platform Fees
-
-```http
-GET /v1/fees/platform
-```
-
-| Param | Type | Required | Description |
-|---|---|---|---|
-| `operation_type` | string | Yes | `COLLECTION`, `PAYOUT`, `TRANSFER`, or `REFUND` |
-| `fee_tier_name` | string | Yes | Fee tier name (obtain from List Fee Tiers) |
-
-## Get Merchant Fee Tier
-
-```http
-GET /v1/fees/merchant-tier
-```
-
-| Param | Type | Required | Description |
-|---|---|---|---|
-| `owner_type` | string | Yes | `USER`, `MICRO_ORGANIZATION`, or `ORGANIZATION` |
-| `owner_id` | integer | Yes | Your merchant entity ID |
-
-## List Fee Tiers
-
-```http
-GET /v1/fees/tiers
-```
-
-Returns an array of `FeeTierResponse` objects. Use the `name` field when querying platform fees.
-
-#### Code Examples
-
-<CodeGroup>
-
-```bash cURL
-# Gateway fees
-curl "https://api.heydollr.app/v1/fees/gateway?payment_method=MTN_MOMO_LBR&operation_type=COLLECTION" \
-  -H "Authorization: Bearer YOUR_ACCESS_TOKEN"
-
-# List all fee tiers
-curl "https://api.heydollr.app/v1/fees/tiers" \
-  -H "Authorization: Bearer YOUR_ACCESS_TOKEN"
-```
-
-```python Python
-import requests
-
-BASE_URL = "https://api.heydollr.app"
-headers  = {"Authorization": "Bearer YOUR_ACCESS_TOKEN"}
-
-# Gateway fees
-response = requests.get(
-    f"{BASE_URL}/v1/fees/gateway",
-    headers=headers,
-    params={"payment_method": "MTN_MOMO_LBR", "operation_type": "COLLECTION"},
-)
-print(response.json())
-
-# List all fee tiers
-tiers = requests.get(f"{BASE_URL}/v1/fees/tiers", headers=headers).json()
-for tier in tiers:
-    print(tier["name"], "— default:", tier["is_default"])
-```
-
-```javascript Node.js
-const BASE_URL = "https://api.heydollr.app";
-const TOKEN    = "YOUR_ACCESS_TOKEN";
-
-// Gateway fees
-const fees = await fetch(
-  `${BASE_URL}/v1/fees/gateway?payment_method=MTN_MOMO_LBR&operation_type=COLLECTION`,
-  { headers: { Authorization: `Bearer ${TOKEN}` } }
-).then(r => r.json());
-console.log(fees);
-
-// List all tiers
-const tiers = await fetch(`${BASE_URL}/v1/fees/tiers`, {
-  headers: { Authorization: `Bearer ${TOKEN}` },
-}).then(r => r.json());
-tiers.forEach(t => console.log(t.name, "| default:", t.is_default));
-```
-
-```php PHP
-// Gateway fees
-$ch = curl_init(
-    "https://api.heydollr.app/v1/fees/gateway?payment_method=MTN_MOMO_LBR&operation_type=COLLECTION"
-);
-curl_setopt_array($ch, [
-    CURLOPT_RETURNTRANSFER => true,
-    CURLOPT_HTTPHEADER     => ["Authorization: Bearer YOUR_ACCESS_TOKEN"],
-]);
-$fees = json_decode(curl_exec($ch), true);
-curl_close($ch);
-print_r($fees);
-```
-
-```java Java
-import java.net.URI;
-import java.net.http.*;
-
-HttpClient client = HttpClient.newHttpClient();
-
-HttpRequest request = HttpRequest.newBuilder()
-    .uri(URI.create(
-        "https://api.heydollr.app/v1/fees/gateway"
-        + "?payment_method=MTN_MOMO_LBR&operation_type=COLLECTION"
-    ))
-    .header("Authorization", "Bearer YOUR_ACCESS_TOKEN")
-    .GET()
-    .build();
-
-HttpResponse<String> response = client.send(request, HttpResponse.BodyHandlers.ofString());
-System.out.println(response.body());
-```
-
-```go Go
-package main
-
-import (
-    "fmt"
-    "io"
-    "net/http"
-)
-
-func main() {
-    req, _ := http.NewRequest("GET",
-        "https://api.heydollr.app/v1/fees/gateway?payment_method=MTN_MOMO_LBR&operation_type=COLLECTION",
-        nil,
-    )
-    req.Header.Set("Authorization", "Bearer YOUR_ACCESS_TOKEN")
-
-    client := &http.Client{}
-    resp, _ := client.Do(req)
-    defer resp.Body.Close()
-
-    data, _ := io.ReadAll(resp.Body)
-    fmt.Println(string(data))
-}
-```
-
-</CodeGroup>
-
----
+- [Predictions](/api/predictions)
+- [Payments by market](/reference/payments-by-market)

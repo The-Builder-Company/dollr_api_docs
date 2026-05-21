@@ -48,10 +48,22 @@
 - /api/merchants
 - /api/realtime-keys
 
-## Knowledge base & resources
+## Knowledge base
+
+- /knowledge-base — Troubleshooting hub
+- /knowledge-base/invalid-credentials-401
+- /knowledge-base/forbidden-403-unverified
+- /knowledge-base/validation-422
+- /knowledge-base/duplicate-reference-id
+- /knowledge-base/session-expired-or-invalid
+- /knowledge-base/payment-processing-status
+- /knowledge-base/rate-limit-429
+- /knowledge-base/server-error-5xx
+
+## Resources
 
 - /reference/payments-by-market — Methods and providers by country
-- /reference/error-catalog — Common errors and fixes
+- /reference/error-catalog — Common errors and fixes (table + KB links)
 - /reference/status-and-incidents — Polling, PROCESSING, incidents
 - /reference/examples — OpenAPI, Postman, learning path
 - /reference/sdks

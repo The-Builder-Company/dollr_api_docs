@@ -8,7 +8,18 @@ keywords: ["API errors", "422 validation", "idempotency", "reference_id", "Dollr
 
 HTTP status codes tell you *what class* of problem occurred. This catalog covers frequent **`detail`** messages and field validation patterns so you can fix requests without opening a support ticket.
 
-For retry logic and idempotency rules, see [Error Handling](/guides/error-handling).
+For step-by-step fixes, see the [Knowledge Base](/knowledge-base). For retry logic and idempotency rules, see [Error Handling](/guides/error-handling).
+
+| Topic | Knowledge Base article |
+|-------|------------------------|
+| 401 credentials | [Invalid credentials](/knowledge-base/invalid-credentials-401) |
+| 403 forbidden | [Forbidden / unverified](/knowledge-base/forbidden-403-unverified) |
+| 422 validation | [Validation errors](/knowledge-base/validation-422) |
+| Idempotency | [Duplicate reference_id](/knowledge-base/duplicate-reference-id) |
+| Sessions | [Session expired](/knowledge-base/session-expired-or-invalid) |
+| MoMo delays | [PROCESSING status](/knowledge-base/payment-processing-status) |
+| 429 rate limit | [Rate limit](/knowledge-base/rate-limit-429) |
+| 5xx server | [Server errors](/knowledge-base/server-error-5xx) |
 
 ---
 
@@ -16,8 +27,8 @@ For retry logic and idempotency rules, see [Error Handling](/guides/error-handli
 
 | Symptom | Typical HTTP | What it means | What to do |
 |---|---|---|---|
-| `Could not validate credentials` | `401` | Missing, malformed, or expired Bearer token | `POST /v1/jwt/client/obtain/token` — refresh before `expires_in` elapses |
-| Token works on one endpoint but `403` on another | `403` | Account not verified or feature gated | Complete KYB in [Merchant Dashboard](https://merchant.heydollr.app); check overview restrictions |
+| `Could not validate credentials` | `401` | Missing, malformed, or expired Bearer token | [401 guide](/knowledge-base/invalid-credentials-401) — refresh token before `expires_in` elapses |
+| Token works on one endpoint but `403` on another | `403` | Account not verified or feature gated | [403 guide](/knowledge-base/forbidden-403-unverified) |
 | `Not authenticated` | `401` | No `Authorization` header | Send `Authorization: Bearer <access_token>` on every call |
 
 ---
@@ -56,7 +67,7 @@ Inspect the `detail` array. Each item has `loc`, `msg`, and `type`.
 
 | Symptom | HTTP | Cause | Fix |
 |---|---|---|---|
-| Status stays `PROCESSING` | `200` on status poll | MoMo carrier delay (normal) | Poll `GET /v1/status/collection/{reference_id}`; **do not** retry with a new `reference_id` |
+| Status stays `PROCESSING` | `200` on status poll | MoMo carrier delay (normal) | [PROCESSING guide](/knowledge-base/payment-processing-status) — **do not** retry with a new `reference_id` |
 | Status `FAILED` | `200` | Payer declined, insufficient funds, or operator error | Show failure to user; optional new session + new `reference_id` for a *new* attempt |
 | Lost HTTP response after execute | — | Network timeout | Poll status with **stored** `reference_id` before retrying execute |
 | `429 Too Many Requests` | `429` | Rate limit | Honor `Retry-After`; exponential backoff |
@@ -86,6 +97,7 @@ When escalating to [Support](/reference/support) or [dev@heydollr.app](mailto:de
 
 ## Related
 
+- [Knowledge Base](/knowledge-base) — detailed troubleshooting articles
 - [Error Handling](/guides/error-handling) — retries, backoff, rules
 - [Transaction Status](/api/status) — polling execution vs source status
 - [Try in API Reference: collection status](/api-reference/status/get-collection-status)

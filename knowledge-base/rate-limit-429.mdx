@@ -1,0 +1,35 @@
+---
+title: "429 — Rate Limit"
+description: "Handle Dollr API rate limiting with backoff and Retry-After."
+keywords: ["429", "rate limit", "Retry-After", "Dollr API"]
+---
+
+# 429 — Rate Limit
+
+**429 Too Many Requests** means you exceeded the allowed request rate for your merchant or IP.
+
+## The problem
+
+Burst traffic from tight polling loops, retry storms after 5xx errors, or parallel workers sharing one token can trigger throttling.
+
+## Solution
+
+<Steps>
+  <Step title="Read Retry-After">
+    If the response includes `Retry-After`, wait at least that many seconds before retrying.
+  </Step>
+  <Step title="Exponential backoff">
+    Increase delay between retries (e.g. 1s → 2s → 4s) with a maximum cap.
+  </Step>
+  <Step title="Reduce poll frequency">
+    For MoMo, poll every few seconds — not hundreds of ms. Prefer [realtime keys](/guides/realtime-status).
+  </Step>
+  <Step title="Serialize token refresh">
+    One refresh flow per process; share the cached token across workers.
+  </Step>
+</Steps>
+
+## Related
+
+- [Error handling](/guides/error-handling)
+- [Server errors 5xx](/knowledge-base/server-error-5xx)
