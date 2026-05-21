@@ -1,7 +1,8 @@
 ---
 title: "Transaction Status"
 description: "Poll execution and payment source status by reference_id or source ID."
-icon: "activity"
+
+icon: "chart-line"
 ---
 
 # Transaction Status

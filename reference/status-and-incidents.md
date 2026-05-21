@@ -2,7 +2,8 @@
 title: "Status & Incidents"
 description: "Monitor API health, transaction status, and how Dollr communicates incidents to developers."
 keywords: ["API status", "incidents", "uptime", "Dollr monitoring"]
-icon: "signal"
+
+icon: "tower-broadcast"
 ---
 
 # Status & Incidents

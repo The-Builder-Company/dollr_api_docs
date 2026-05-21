@@ -2,7 +2,8 @@
 title: "Error Handling"
 description: "Best practices for handling errors, retries, idempotency, and when to contact support."
 keywords: ["error handling", "retries", "idempotency", "reference_id", "HTTP 422"]
-icon: "triangle-alert"
+
+icon: "triangle-exclamation"
 ---
 
 # Error Handling

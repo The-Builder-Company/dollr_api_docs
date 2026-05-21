@@ -1,6 +1,7 @@
 ---
 title: "Payment Accounts"
 description: "Register customer or recipient wallets and cards for collections and payouts."
+
 icon: "wallet"
 ---
 

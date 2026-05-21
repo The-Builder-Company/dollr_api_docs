@@ -1,7 +1,8 @@
 ---
 title: "Orders"
 description: "Payment documents for retail and e-commerce without formal invoice numbering."
-icon: "package"
+
+icon: "box"
 ---
 
 # Orders

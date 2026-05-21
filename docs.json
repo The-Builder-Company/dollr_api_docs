@@ -84,17 +84,17 @@
       },
       {
         "anchor": "OpenAPI Spec",
-        "icon": "braces",
+        "icon": "code",
         "url": "https://api.heydollr.app/openapi.json"
       },
       {
         "anchor": "Ask AI",
-        "icon": "messages",
+        "icon": "comments",
         "url": "/?assistant=open"
       },
       {
         "anchor": "Build with AI",
-        "icon": "sparkles",
+        "icon": "wand-magic-sparkles",
         "url": "/vibe-coding"
       }
     ],
@@ -137,7 +137,7 @@
                 "pages": [
                   {
                     "group": "Fundamentals",
-                    "icon": "puzzle",
+                    "icon": "puzzle-piece",
                     "expanded": false,
                     "pages": [
                       "concepts/parties-and-counterparties",
@@ -211,7 +211,7 @@
                   "knowledge-base/index",
                   {
                     "group": "Error articles",
-                    "icon": "triangle-alert",
+                    "icon": "triangle-exclamation",
                     "expanded": false,
                     "pages": [
                       "knowledge-base/invalid-credentials-401",
@@ -230,7 +230,7 @@
               },
               {
                 "group": "Resources",
-                "icon": "book-marked",
+                "icon": "bookmark",
                 "expanded": false,
                 "pages": [
                   "reference/payments-by-market",
@@ -248,15 +248,15 @@
       },
       {
         "tab": "Build with AI",
-        "icon": "sparkles",
+        "icon": "wand-magic-sparkles",
         "groups": [
           {
             "group": "Build with AI",
-            "icon": "sparkles",
+            "icon": "wand-magic-sparkles",
             "pages": [
               {
                 "group": "Vibe Coding",
-                "icon": "sparkles",
+                "icon": "wand-magic-sparkles",
                 "expanded": true,
                 "pages": [
                   "vibe-coding/index",
@@ -302,11 +302,11 @@
         "groups": [
           {
             "group": "API Reference",
-            "icon": "braces",
+            "icon": "code",
             "pages": [
               {
                 "group": "Endpoints",
-                "icon": "square-terminal",
+                "icon": "terminal",
                 "expanded": false,
                 "openapi": "https://api.heydollr.app/openapi.json"
               }

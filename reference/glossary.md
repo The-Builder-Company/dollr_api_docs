@@ -2,6 +2,7 @@
 title: "Glossary"
 description: "Definitions for key terms used throughout the Dollr API."
 keywords: ["Dollr glossary", "API terms", "counterparty", "session", "execution"]
+
 icon: "book"
 ---
 
