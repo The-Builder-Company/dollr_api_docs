@@ -55,7 +55,7 @@
       {
         "anchor": "Status & incidents",
         "icon": "signal",
-        "url": "/reference/status-and-incidents"
+        "url": "/docs/reference/status-and-incidents"
       },
       {
         "anchor": "OpenAPI Spec",
@@ -70,43 +70,43 @@
           {
             "group": "Getting Started",
             "icon": "rocket",
-            "pages": ["index", "quickstart"]
+            "pages": ["docs/index", "docs/quickstart"]
           },
           {
             "group": "API Guide",
             "icon": "square-terminal",
             "pages": [
-              "api/parties",
-              "api/counterparties",
-              "api/invoices",
-              "api/orders",
-              "api/checkouts",
-              "api/sessions",
-              "api/executions",
-              "api/status",
-              "api/payment-accounts",
-              "api/links",
-              "api/predictions",
-              "api/fees",
-              "api/merchants",
-              "api/realtime-keys"
+              "docs/api/parties",
+              "docs/api/counterparties",
+              "docs/api/invoices",
+              "docs/api/orders",
+              "docs/api/checkouts",
+              "docs/api/sessions",
+              "docs/api/executions",
+              "docs/api/status",
+              "docs/api/payment-accounts",
+              "docs/api/links",
+              "docs/api/predictions",
+              "docs/api/fees",
+              "docs/api/merchants",
+              "docs/api/realtime-keys"
             ]
           },
           {
             "group": "Guides",
             "icon": "map",
-            "pages": ["guides/integration", "guides/error-handling"]
+            "pages": ["docs/guides/integration", "docs/guides/error-handling"]
           },
           {
             "group": "Resources",
             "icon": "book-open",
             "pages": [
-              "reference/payments-by-market",
-              "reference/error-catalog",
-              "reference/status-and-incidents",
-              "reference/sdks",
-              "reference/glossary",
-              "reference/support"
+              "docs/reference/payments-by-market",
+              "docs/reference/error-catalog",
+              "docs/reference/status-and-incidents",
+              "docs/reference/sdks",
+              "docs/reference/glossary",
+              "docs/reference/support"
             ]
           }
         ]
@@ -137,11 +137,11 @@
       {
         "header": "Developers",
         "items": [
-          { "label": "Quick Start", "href": "/quickstart" },
-          { "label": "Payments by Market", "href": "/reference/payments-by-market" },
-          { "label": "Integration Guide", "href": "/guides/integration" },
-          { "label": "Error Catalog", "href": "/reference/error-catalog" },
-          { "label": "Status & Incidents", "href": "/reference/status-and-incidents" },
+          { "label": "Quick Start", "href": "/docs/quickstart" },
+          { "label": "Payments by Market", "href": "/docs/reference/payments-by-market" },
+          { "label": "Integration Guide", "href": "/docs/guides/integration" },
+          { "label": "Error Catalog", "href": "/docs/reference/error-catalog" },
+          { "label": "Status & Incidents", "href": "/docs/reference/status-and-incidents" },
           { "label": "OpenAPI Spec", "href": "https://api.heydollr.app/openapi.json" }
         ]
       }
@@ -159,16 +159,13 @@
     }
   },
   "redirects": [
-    { "source": "/docs", "destination": "/" },
-    { "source": "/docs/index", "destination": "/" },
-    { "source": "/docs/quickstart", "destination": "/quickstart" },
-    { "source": "/docs/:path*", "destination": "/:path*" }
+    { "source": "/", "destination": "/docs/index" }
   ],
   "errors": {
     "404": {
       "redirect": false,
       "title": "Page not found",
-      "description": "This page doesn't exist. Head to the [overview](/) or [quick start](/quickstart)."
+      "description": "This page doesn't exist. Head to the [overview](/docs/index) or [quick start](/docs/quickstart)."
     }
   }
 }
