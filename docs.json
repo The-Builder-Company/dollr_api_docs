@@ -93,6 +93,11 @@
         "url": "/?assistant=open"
       },
       {
+        "anchor": "Changelog",
+        "icon": "list",
+        "url": "/changelog"
+      },
+      {
         "anchor": "Build with AI",
         "icon": "wand-magic-sparkles",
         "url": "/vibe-coding"
@@ -298,6 +303,11 @@
         ]
       },
       {
+        "tab": "Changelog",
+        "icon": "list",
+        "pages": ["changelog"]
+      },
+      {
         "tab": "API Reference",
         "groups": [
           {
@@ -332,6 +342,7 @@
         "header": "Developers",
         "items": [
           { "label": "Quick Start", "href": "/quickstart" },
+          { "label": "Changelog", "href": "/changelog" },
           { "label": "Build with AI", "href": "/vibe-coding" },
           { "label": "Collect with Node.js", "href": "/guides/collect-with-nodejs" },
           { "label": "Payments by Market", "href": "/reference/payments-by-market" },
@@ -363,7 +374,8 @@
     { "source": "/docs/api-conventions", "destination": "/api-conventions" },
     { "source": "/docs/concepts/:path*", "destination": "/concepts/:path*" },
     { "source": "/docs/knowledge-base/:path*", "destination": "/knowledge-base/:path*" },
-    { "source": "/docs/vibe-coding/:path*", "destination": "/vibe-coding/:path*" }
+    { "source": "/docs/vibe-coding/:path*", "destination": "/vibe-coding/:path*" },
+    { "source": "/docs/changelog", "destination": "/changelog" }
   ],
   "errors": {
     "404": {

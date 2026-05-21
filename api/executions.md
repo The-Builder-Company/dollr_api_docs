@@ -3,6 +3,8 @@ title: "Executions"
 description: "Submit an active session to trigger the movement of funds."
 
 icon: "play"
+
+keywords: ["Dollr payment execution", "Dollr collect API", "Dollr API"]
 ---
 
 # Executions

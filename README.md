@@ -17,6 +17,9 @@ Official documentation for the [Dollr Open API](https://api.heydollr.app), publi
 | `llms.txt`, `llms-full.txt`, `reference/ai-context.mdx`, `ASSISTANT.md` | AI / MCP context                                                                                      |
 | `assets/javascripts/assistant-default-open.js`                          | Opens Mintlify Assistant panel by default (requires Dashboard enable)                               |
 | `snippets/invoice-or-order.mdx`                                         | Shared note on invoice vs order in stack guides                                                       |
+| `snippets/stack-guide-footer.mdx`                                       | Orders + checkout links on every stack guide                                                          |
+| `changelog.mdx`                                                         | Product/docs changelog (`<Update>` components); RSS at `/changelog/rss.xml`                           |
+| `.mintlify/Assistant.md`                                                | Mintlify Assistant system instructions (enable + starter questions in Dashboard)                    |
 
 
 Use `**.mdx`** for pages with Mintlify components (`Card`, `Steps`, `CodeGroup`, etc.).
@@ -44,6 +47,7 @@ After deploy, [.github/workflows/docs-health.yml](.github/workflows/docs-health.
 | ----------------- | ------------------------------------------------------------------------------------------ |
 | **Documentation** | Collapsible sidebar groups (Getting Started, Guides, Core concepts, stack, KB, Resources) |
 | **Build with AI** | Vibe Coding, stack guides, AI resources — nested collapsible groups                        |
+| **Changelog**     | `changelog.mdx` — add new `<Update>` blocks at the top, merge to `main` to publish         |
 | **API Reference** | OpenAPI-generated interactive endpoints (collapsible under **Endpoints**)                |
 
 

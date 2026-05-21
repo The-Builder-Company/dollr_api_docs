@@ -3,6 +3,8 @@ title: "Checkouts"
 description: "Create checkout sources directly from payer details without a prior invoice."
 
 icon: "bag-shopping"
+
+keywords: ["Dollr checkout API", "Dollr collect payment", "Dollr API"]
 ---
 
 # Checkouts

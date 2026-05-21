@@ -1,0 +1,55 @@
+---
+title: "Changelog"
+description: "Dollr API and developer documentation updates — new features, fixes, and integration notes."
+icon: "list"
+
+keywords: ["Dollr API changelog", "Dollr release notes", "Dollr API updates"]
+---
+
+# Changelog
+
+Product and documentation updates for the Dollr Open API and [docs.heydollr.app](https://docs.heydollr.app).
+
+<Note>
+**How to update this page**
+
+1. Open `changelog.mdx` in the `dollr_api_docs` repository.
+2. Add a new `<Update>` at the **top** of the file (newest first) with `label` (date or month), `description` (version or theme), and optional `tags`.
+3. Merge to `main` — Mintlify deploys automatically.
+4. Optional: subscribers can follow the RSS feed at [docs.heydollr.app/changelog/rss.xml](https://docs.heydollr.app/changelog/rss.xml).
+
+Example:
+
+```mdx
+<Update label="June 2026" description="API v1.1" tags={["API", "Docs"]}>
+  Short summary in plain Markdown. Links and lists are supported inside the Update body.
+</Update>
+```
+</Note>
+
+<Update label="May 2026" description="Docs & developer experience" tags={["Docs", "AI"]}>
+  **Documentation site**
+
+  - Collapsible sidebar groups with icons across all sections
+  - **Build with AI** tab (Vibe Coding, prompt library, MCP guide)
+  - **Changelog** tab (this page)
+  - Mintlify Assistant enabled — configure starter questions in the [Mintlify Dashboard](https://dashboard.mintlify.com/products/assistant)
+  - Stack guides link to [Orders](/api/orders) and [Collect via checkout](/guides/collect-via-checkout)
+  - SEO: Dollr-prefixed `keywords` on API concept pages
+
+  **Integrate**
+
+  - Stack guides: Node.js, Python, Django, Ruby, PHP, Java, Go, Rust, .NET, Next.js, Laravel
+  - Knowledge base articles for common API errors (401, 403, 422, 429, 5xx, idempotency, sessions)
+</Update>
+
+<Update label="May 2026" description="Dollr API v1" tags={["API"]}>
+  **Dollr API v1** is live at `https://api.heydollr.app`.
+
+  - Collect mobile money (Liberia, Rwanda) and cards
+  - Invoices, orders, checkout shortcut, payment links
+  - Payouts, transfers, refunds
+  - OAuth 2.0 client credentials
+
+  Get started: [Quick Start](/quickstart) · [Merchant Dashboard](https://merchant.heydollr.app)
+</Update>

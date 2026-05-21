@@ -15,6 +15,10 @@
 - /vibe-coding/start-here — Env, rules snippet, llms.txt
 - /vibe-coding/prompt-library — Copy-ready AI prompts
 
+## Changelog
+
+- /changelog — Product and documentation updates (`<Update>` entries; edit `changelog.mdx` on main)
+
 ## Getting started
 
 - / — Introduction hub (Card-based navigation)

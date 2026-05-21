@@ -3,6 +3,8 @@ title: "Invoices"
 description: "Create, manage, and publish invoices with line items and payment links."
 
 icon: "file-invoice"
+
+keywords: ["Dollr invoice API", "Dollr payment link", "Dollr API", "Dollr billing API"]
 ---
 
 # Invoices

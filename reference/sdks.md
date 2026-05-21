@@ -3,6 +3,8 @@ title: "SDKs"
 description: "Official and community-built SDKs for integrating Dollr into your application."
 
 icon: "boxes-stacked"
+
+keywords: ["Dollr API SDK", "Dollr API client libraries"]
 ---
 
 # SDKs

@@ -1,9 +1,10 @@
 ---
 title: "AI & MCP Integration"
 description: "Use Dollr docs with LLMs — llms.txt, OpenAPI, documentation MCP, and support checklist."
-keywords: ["llms.txt", "MCP", "AI agents", "OpenAPI", "Dollr documentation"]
 
 icon: "robot"
+
+keywords: ["Dollr API documentation AI", "Dollr llms.txt", "Dollr MCP"]
 ---
 
 # AI & MCP Integration
@@ -67,13 +68,30 @@ Do not put Dollr **Client ID** or **Client Secret** into MCP config. API secrets
 
 ## Mintlify Assistant (built-in)
 
-The docs site includes Mintlify’s **Assistant** panel on the right (sparkle icon in the header, or **Ask AI** in the sidebar anchors). It answers from published Dollr documentation.
+The docs site includes Mintlify’s **Assistant** panel on the right (header sparkle icon, **Ask AI** anchor, or **Assistant** in the contextual menu). It answers from published Dollr documentation.
 
-- **Open on load:** Pages use `?assistant=open` and a small site script so the panel opens by default; readers can **close** or **expand** it. Closing it once keeps it closed for that browser session.
-- **Enable in production:** Turn on **Assistant** in [Mintlify Dashboard → Assistant](https://dashboard.mintlify.com/products/assistant) for the connected `dollr_api_docs` project. Configure starter questions (for example: “How do I collect with an order instead of an invoice?”).
+### One-time setup (Mintlify Dashboard)
+
+1. Open [Mintlify Dashboard → Assistant](https://dashboard.mintlify.com/products/assistant) for the **dollr_api_docs** project.
+2. **Enable** the assistant.
+3. Add up to **three starter questions** (site-wide). Suggested copy — paste into the dashboard:
+
+| # | Starter question |
+|---|------------------|
+| 1 | How do I collect a mobile money payment in Liberia with the Dollr API? |
+| 2 | What is the difference between Dollr invoices and orders, and when should I use each? |
+| 3 | How do I authenticate and avoid duplicate charges when a payment is PROCESSING? |
+
+4. Optional: set a **deflection email** (e.g. `dev@heydollr.app`) when the assistant cannot answer.
+5. Optional: add **search domains** only if you want the assistant to pull public context outside the docs.
+
+Custom behavior instructions for the assistant live in [`.mintlify/Assistant.md`](https://github.com/The-Builder-Company/dollr_api_docs/blob/main/.mintlify/Assistant.md) in the repo (synced on deploy).
+
+### On-site behavior (already in repo)
+
+- **Open on load:** `?assistant=open` plus `assets/javascripts/assistant-default-open.js` opens the panel by default; readers can close or expand it. Closing once keeps it closed for that browser session.
 - **Keyboard shortcut:** ⌘I (macOS) / Ctrl+I (Windows).
-
-The contextual menu includes **Assistant** alongside Copy page, View, Claude, and ChatGPT.
+- **Contextual menu:** includes **Assistant**, Copy page, View, Claude, and ChatGPT.
 
 ## Ask about the current page
 

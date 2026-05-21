@@ -3,6 +3,8 @@ title: "Counterparties"
 description: "Link parties to your merchant account with relationship types."
 
 icon: "users"
+
+keywords: ["Dollr counterparty API", "Dollr API"]
 ---
 
 # Counterparties

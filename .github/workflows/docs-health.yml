@@ -33,6 +33,7 @@ jobs:
             "/reference/payments-by-market"
             "/reference/error-catalog"
             "/reference/examples"
+            "/changelog"
             "/reference/status-and-incidents"
             "/api/parties"
             "/api/executions"

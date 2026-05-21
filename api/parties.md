@@ -3,6 +3,8 @@ title: "Parties"
 description: "Create and manage contact records for people or entities you transact with."
 
 icon: "user"
+
+keywords: ["Dollr party API", "Dollr API", "Dollr customer record"]
 ---
 
 # Parties

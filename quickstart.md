@@ -1,10 +1,11 @@
 ---
 title: "Quick Start"
 description: "Go from zero to a successful payment collection in under 10 minutes."
-keywords: ["quickstart", "Dollr tutorial", "collect payment", "invoice API"]
 sidebarTitle: "Quick Start"
 
 icon: "rocket"
+
+keywords: ["Dollr API quickstart", "Dollr invoice API", "Dollr collect payment", "Dollr API tutorial"]
 ---
 
 # Quick Start

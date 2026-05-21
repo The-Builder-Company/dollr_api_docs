@@ -1,9 +1,10 @@
 ---
 title: "Error Catalog"
 description: "Common Dollr API error messages, causes, and recommended actions beyond HTTP status codes."
-keywords: ["API errors", "422 validation", "idempotency", "reference_id", "Dollr troubleshooting"]
 
 icon: "triangle-exclamation"
+
+keywords: ["Dollr API error catalog", "Dollr API errors", "Dollr troubleshooting"]
 ---
 
 # Error Catalog

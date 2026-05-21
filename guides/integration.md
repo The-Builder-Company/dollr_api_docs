@@ -1,9 +1,10 @@
 ---
 title: "Integration Guide"
 description: "End-to-end walkthrough of collection, payout, transfer, and refund flows."
-keywords: ["integration guide", "collection flow", "payout API", "Dollr walkthrough"]
 
 icon: "map"
+
+keywords: ["Dollr API integration guide", "Dollr collect API", "Dollr payout API"]
 ---
 
 # Integration Guide

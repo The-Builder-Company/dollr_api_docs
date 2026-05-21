@@ -3,6 +3,8 @@ title: "Sessions"
 description: "Declare checkout, payout, transfer, or refund intent before executing funds movement."
 
 icon: "link"
+
+keywords: ["Dollr checkout session", "Dollr API", "Dollr payment session"]
 ---
 
 # Sessions

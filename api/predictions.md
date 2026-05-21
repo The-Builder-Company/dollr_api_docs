@@ -3,6 +3,8 @@ title: "Predictions"
 description: "Preview fees, FX, and mobile-money operator detection before executing payments."
 
 icon: "chart-line"
+
+keywords: ["Dollr API", "Dollr mobile money detection", "Dollr fees preview"]
 ---
 
 # Predictions

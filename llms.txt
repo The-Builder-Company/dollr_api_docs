@@ -122,6 +122,7 @@ Prose guides live under `/api/*`. Interactive OpenAPI pages live under `/api-ref
 
 - [Introduction](https://docs.heydollr.app/)
 - [Quick Start](https://docs.heydollr.app/quickstart)
+- [Changelog](https://docs.heydollr.app/changelog) — API and docs release notes (RSS: /changelog/rss.xml)
 - [Choose integration](https://docs.heydollr.app/guides/choose-integration)
 - [Authentication](https://docs.heydollr.app/authentication)
 - [API conventions](https://docs.heydollr.app/api-conventions)

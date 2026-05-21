@@ -3,6 +3,8 @@ title: "Realtime Keys"
 description: "Short-lived tokens for live payment status on a checkout session."
 
 icon: "tower-broadcast"
+
+keywords: ["Dollr realtime API", "Dollr API", "Dollr live payment status"]
 ---
 
 # Realtime Keys
