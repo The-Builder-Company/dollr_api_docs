@@ -161,7 +161,9 @@
   "redirects": [
     { "source": "/docs/index", "destination": "/" },
     { "source": "/docs/quickstart", "destination": "/quickstart" },
-    { "source": "/docs/:path*", "destination": "/:path*" }
+    { "source": "/docs/api/:path*", "destination": "/api/:path*" },
+    { "source": "/docs/guides/:path*", "destination": "/guides/:path*" },
+    { "source": "/docs/reference/:path*", "destination": "/reference/:path*" }
   ],
   "errors": {
     "404": {

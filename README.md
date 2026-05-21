@@ -4,7 +4,7 @@ Official documentation for the [Dollr Open API](https://api.heydollr.app), publi
 
 ## Edit content
 
-- Prose pages: `docs/**/*.md`
+- Prose pages: `*.md`, `api/`, `guides/`, `reference/`
 - Site config & navigation: `docs.json`
 - AI context: `llms.txt`, `ASSISTANT.md`
 
