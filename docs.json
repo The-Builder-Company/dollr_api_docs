@@ -106,6 +106,7 @@
     "tabs": [
       {
         "tab": "Documentation",
+        "icon": "book-open",
         "groups": [
           {
             "group": "Documentation",
@@ -309,6 +310,7 @@
       },
       {
         "tab": "API Reference",
+        "icon": "terminal",
         "groups": [
           {
             "group": "API Reference",

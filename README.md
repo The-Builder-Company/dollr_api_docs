@@ -18,7 +18,7 @@ Official documentation for the [Dollr Open API](https://api.heydollr.app), publi
 | `assets/javascripts/assistant-default-open.js`                          | Opens Mintlify Assistant panel by default (requires Dashboard enable)                               |
 | `snippets/invoice-or-order.mdx`                                         | Shared note on invoice vs order in stack guides                                                       |
 | `snippets/stack-guide-footer.mdx`                                       | Orders + checkout links on every stack guide                                                          |
-| `changelog.mdx`                                                         | Product/docs changelog (`<Update>` components); RSS at `/changelog/rss.xml`                           |
+| `changelog.mdx`                                                         | Public changelog (`<Update>` at top, newest first); RSS at `/changelog/rss.xml`                    |
 | `.mintlify/Assistant.md`                                                | Mintlify Assistant system instructions (enable + starter questions in Dashboard)                    |
 
 
@@ -47,11 +47,15 @@ After deploy, [.github/workflows/docs-health.yml](.github/workflows/docs-health.
 | ----------------- | ------------------------------------------------------------------------------------------ |
 | **Documentation** | Collapsible sidebar groups (Getting Started, Guides, Core concepts, stack, KB, Resources) |
 | **Build with AI** | Vibe Coding, stack guides, AI resources — nested collapsible groups                        |
-| **Changelog**     | `changelog.mdx` — add new `<Update>` blocks at the top, merge to `main` to publish         |
+| **Changelog**     | `changelog.mdx` — prepend new `<Update>` entries; merge to `main` to publish (see below)   |
 | **API Reference** | OpenAPI-generated interactive endpoints (collapsible under **Endpoints**)                |
 
 
 Guides explain *how* to integrate; API Reference is the source of truth for request/response fields.
+
+### Updating the changelog (contributors)
+
+Edit `changelog.mdx` only — add a new `<Update label="…" description="…">` block at the **top** of the file. Do not publish internal maintainer instructions on the public changelog page.
 
 ## Legacy
 
