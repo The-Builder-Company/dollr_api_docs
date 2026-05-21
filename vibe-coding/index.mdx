@@ -1,0 +1,51 @@
+---
+title: "Vibe Coding with Dollr"
+description: "Build Dollr integrations with AI assistants — guardrails, context, and copy-ready prompts."
+keywords: ["vibe coding", "Cursor", "Claude", "AI integration", "Dollr API"]
+mode: "wide"
+---
+
+# Vibe Coding with Dollr
+
+Use Cursor, Claude, ChatGPT, or any coding agent to integrate Dollr faster — with guardrails so the model does not skip auth, idempotency, or market-specific payment rules.
+
+<CardGroup cols={2}>
+  <Card title="Start here" icon="play" href="/vibe-coding/start-here">
+    Environment, context files, and IDE setup.
+  </Card>
+  <Card title="Prompt library" icon="sparkles" href="/vibe-coding/prompt-library">
+    Copy-ready prompts for collect, payout, debug, and review.
+  </Card>
+  <Card title="AI & MCP" icon="robot" href="/reference/ai-context">
+    llms.txt, documentation MCP, and agent checklist.
+  </Card>
+  <Card title="Quick Start" icon="rocket" href="/quickstart">
+    Human-readable first collection walkthrough.
+  </Card>
+</CardGroup>
+
+## Rules every session should follow
+
+1. **Server-side only** — `DOLLR_CLIENT_SECRET` never in browsers, mobile apps, or public repos.
+2. **Attach context** — [llms.txt](https://docs.heydollr.app/llms.txt) plus the relevant [stack guide](/guides/collect-with-nodejs) or [Quick Start](/quickstart).
+3. **One flow per task** — collect *or* payout *or* checkout; not the entire API at once.
+4. **Idempotency** — UUID v4 `reference_id` **before** `POST /v1/executions/*`; poll status before retrying.
+5. **Two status models** — execution status vs invoice/order status; MoMo may stay `PROCESSING` for minutes.
+6. **Markets** — use [Payments by market](/reference/payments-by-market); predict MoMo operator from phone when possible.
+
+<Warning>
+Documentation MCP (`https://docs.heydollr.app/mcp`) helps AI **read** these docs. It does **not** execute payments. API calls go to `https://api.heydollr.app`.
+</Warning>
+
+## When to use prompts vs guides
+
+| Use | When |
+|-----|------|
+| [Prompt library](/vibe-coding/prompt-library) | You want the model to **generate or refactor** integration code |
+| [Integrate by stack](/guides/collect-with-nodejs) | You want step-by-step **reference** while coding |
+| [API Reference](/api-reference/jwt/client-obtain-token) | You need exact request/response fields |
+
+## Related
+
+- [Choose your integration](/guides/choose-integration)
+- [Knowledge Base](/knowledge-base)

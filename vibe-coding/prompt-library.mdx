@@ -1,0 +1,184 @@
+---
+title: "Prompt Library"
+description: "Copy-ready prompts for building and debugging Dollr integrations with AI."
+keywords: ["prompts", "Cursor", "Claude", "vibe coding", "Dollr integration"]
+---
+
+# Prompt Library
+
+Copy a prompt below into Cursor, Claude Code, or ChatGPT. Replace the `[TASK]` section with your product requirements.
+
+<Note>
+Attach [llms.txt](https://docs.heydollr.app/llms.txt) and the matching [stack guide](/guides/collect-with-nodejs) in the same chat for best results.
+</Note>
+
+## Guardrails block (paste into any prompt)
+
+```text
+Dollr API v1 — https://api.heydollr.app
+- OAuth client credentials; Bearer on protected routes; refresh token before expires_in (minutes).
+- Server-side secrets only (env vars). Never in frontend or mobile bundles.
+- Executions require UUID v4 reference_id generated BEFORE the HTTP call; store it; on failure poll GET /v1/status/{collection|payout|transfer|refund}/{reference_id} before retrying.
+- MoMo payments may stay PROCESSING — do not re-execute with a new reference_id during PROCESSING.
+- Use OpenAPI https://api.heydollr.app/openapi.json — do not invent fields.
+- Markets: Liberia/Rwanda MoMo identifiers from docs; use GET /v1/predictions/mmo-provider-info when phone is known.
+```
+
+---
+
+## Collect & checkout
+
+<AccordionGroup>
+  <Accordion title="Scaffold invoice collection (Node.js)">
+    **Use when:** Greenfield Node 18+ server integration, document-first flow.
+
+    ```text
+    [GUARDRAILS BLOCK]
+
+    Task: [TASK — e.g. "Express API: create invoice for a customer phone number, run collection, return execution status"]
+
+    Implement:
+    - Token helper with proactive refresh
+    - party → counterparty → invoice → item → publish → checkout session → payment account (COLLECTION) → executions/collection
+    - Poll GET /v1/status/collection/:reference_id
+
+    Follow: https://docs.heydollr.app/guides/collect-with-nodejs
+    ```
+  </Accordion>
+
+  <Accordion title="Scaffold invoice collection (Python / Django)">
+    **Use when:** Django service layer or Flask/FastAPI backend.
+
+    ```text
+    [GUARDRAILS BLOCK]
+
+    Task: [TASK]
+
+    Implement with requests (or Django DollrClient service): same invoice collection flow as Dollr Quick Start.
+    Include Celery-friendly status polling stub for PROCESSING.
+
+    Follow: https://docs.heydollr.app/guides/collect-with-django
+    ```
+  </Accordion>
+
+  <Accordion title="Direct checkout shortcut">
+    **Use when:** Single API call to create source + session from payer details.
+
+    ```text
+    [GUARDRAILS BLOCK]
+
+    Task: [TASK — describe payer fields and line items]
+
+    Implement POST /v1/checkouts/create (source_kind INVOICE or ORDER), then session → payment account → execute → poll.
+    Note: request uses source_kind; sessions use source_type.
+
+    Follow: https://docs.heydollr.app/guides/collect-via-checkout
+    ```
+  </Accordion>
+</AccordionGroup>
+
+---
+
+## Payout & money out
+
+<AccordionGroup>
+  <Accordion title="Payout to mobile wallet (Node.js)">
+    **Use when:** Sending funds to a verified recipient wallet.
+
+    ```text
+    [GUARDRAILS BLOCK]
+
+    Task: [TASK — e.g. "Payout $100 USD to beneficiary MTN wallet in Liberia"]
+
+    Merchant must be fully verified (handle 403).
+    Flow: payment account PAYOUT → sessions/payout → executions/payout → poll status/payout/:reference_id
+
+    Follow: https://docs.heydollr.app/guides/payout-with-nodejs
+    ```
+  </Accordion>
+</AccordionGroup>
+
+---
+
+## Debug & recover
+
+<AccordionGroup>
+  <Accordion title="Lost response after execute (idempotency)">
+    ```text
+    [GUARDRAILS BLOCK]
+
+    We called POST /v1/executions/collection (or payout) and the HTTP client timed out or returned 5xx.
+    Stored reference_id: [PASTE UUID]
+
+    Task: Write recovery logic: poll status first; only retry execute if status proves the payment did not land.
+    Do NOT generate a new reference_id until confirmed.
+
+    KB: https://docs.heydollr.app/knowledge-base/duplicate-reference-id
+    ```
+  </Accordion>
+
+  <Accordion title="Fix HTTP 422 validation errors">
+    ```text
+    [GUARDRAILS BLOCK]
+
+    Dollr returned 422 with detail: [PASTE JSON detail array]
+
+    Task: Map each loc/msg to concrete payload fixes (phone E.164 without +, currency ISO 4217, UUID reference_id, method/provider pairs).
+
+    KB: https://docs.heydollr.app/knowledge-base/validation-422
+    ```
+  </Accordion>
+
+  <Accordion title="Payment stuck in PROCESSING">
+    ```text
+    [GUARDRAILS BLOCK]
+
+    GET /v1/status/collection/:reference_id returns PROCESSING for [N] minutes.
+
+    Task: Explain expected MoMo behavior; implement exponential backoff polling; ensure UI does not allow duplicate execute.
+    Do not advise a new reference_id while PROCESSING.
+
+    KB: https://docs.heydollr.app/knowledge-base/payment-processing-status
+    ```
+  </Accordion>
+</AccordionGroup>
+
+---
+
+## Review & production
+
+<AccordionGroup>
+  <Accordion title="Security review of Dollr integration">
+    ```text
+    [GUARDRAILS BLOCK]
+
+    Task: Review this codebase for Dollr integration security.
+
+    Checklist:
+    - Client secret only on server; not in NEXT_PUBLIC_*, not in client components
+    - Logs redact tokens and secrets
+    - reference_id stored before execute; idempotent retries
+    - No card data or unnecessary PII in logs
+
+    [PASTE RELEVANT FILES OR REPO TREE]
+    ```
+  </Accordion>
+
+  <Accordion title="Generate types from OpenAPI">
+    ```text
+    OpenAPI: https://api.heydollr.app/openapi.json
+
+    Task: Generate [TypeScript | Python] types and a thin API client for:
+    - jwt/token
+    - parties, counterparties, invoices
+    - sessions/checkout, executions/collection, status/collection
+
+    Do not invent endpoints or fields not in the spec.
+    ```
+  </Accordion>
+</AccordionGroup>
+
+## Related
+
+- [Start here](/vibe-coding/start-here)
+- [Vibe Coding overview](/vibe-coding)

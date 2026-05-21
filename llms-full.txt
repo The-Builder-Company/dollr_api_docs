@@ -9,6 +9,12 @@
 - Merchant portal: https://merchant.heydollr.app
 - Compact context: llms.txt
 
+## Build with AI (Vibe Coding)
+
+- /vibe-coding — Overview
+- /vibe-coding/start-here — Env, rules snippet, llms.txt
+- /vibe-coding/prompt-library — Copy-ready AI prompts
+
 ## Getting started
 
 - / — Introduction hub (Card-based navigation)

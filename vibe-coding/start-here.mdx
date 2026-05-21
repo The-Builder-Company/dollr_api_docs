@@ -1,0 +1,61 @@
+---
+title: "Start Here"
+description: "Set up your environment and AI context before integrating Dollr."
+keywords: ["Cursor rules", "Claude", "environment variables", "llms.txt"]
+---
+
+# Start Here
+
+## 1. API credentials
+
+1. Register at [merchant.heydollr.app](https://merchant.heydollr.app) and complete verification.
+2. Create **Client ID** and **Client Secret** under API Keys.
+3. Store in environment variables (never commit secrets):
+
+```bash
+DOLLR_CLIENT_ID=...
+DOLLR_CLIENT_SECRET=...
+DOLLR_BASE_URL=https://api.heydollr.app
+```
+
+## 2. Attach documentation context
+
+Add to every AI session:
+
+| Resource | URL |
+|----------|-----|
+| **llms.txt** | https://docs.heydollr.app/llms.txt |
+| **OpenAPI** | https://api.heydollr.app/openapi.json |
+| **This site** | Use **Copy page** on the guide you are implementing |
+
+## 3. Project rules snippet
+
+Paste into your app repo as `.cursor/rules/dollr.mdc`, `CLAUDE.md`, or `AGENTS.md`:
+
+```markdown
+## Dollr API (v1)
+
+- Base URL: https://api.heydollr.app
+- Auth: POST /v1/jwt/client/obtain/token (client_id, client_secret) → Bearer token; expires_in is MINUTES
+- Secrets: server-side only
+- Executions: generate UUID v4 reference_id BEFORE POST /v1/executions/collection|payout|transfer|refund
+- On timeout: GET /v1/status/{type}/{reference_id} before retrying execute
+- MoMo: PROCESSING can last minutes — do not re-execute with a new reference_id
+- Docs: https://docs.heydollr.app/llms.txt
+```
+
+## 4. Pick a flow
+
+| Goal | Doc |
+|------|-----|
+| First collection | [Quick Start](/quickstart) · [Collect Node](/guides/collect-with-nodejs) |
+| Payout | [Payout with Node.js](/guides/payout-with-nodejs) |
+| One-call checkout | [Collect via checkout](/guides/collect-via-checkout) |
+
+## 5. Open the prompt library
+
+[Prompt library](/vibe-coding/prompt-library) — copy a prompt, replace the `[TASK]` section, run in your IDE.
+
+## Optional: documentation MCP
+
+Read-only search over Dollr docs: `https://docs.heydollr.app/mcp` — setup in [AI & MCP](/reference/ai-context).

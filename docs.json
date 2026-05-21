@@ -40,6 +40,9 @@
       "languages": ["bash", "python", "javascript", "php"]
     }
   },
+  "interaction": {
+    "drilldown": false
+  },
   "contextual": {
     "display": "header",
     "options": [
@@ -79,6 +82,11 @@
         "anchor": "OpenAPI Spec",
         "icon": "braces",
         "url": "https://api.heydollr.app/openapi.json"
+      },
+      {
+        "anchor": "Build with AI",
+        "icon": "sparkles",
+        "url": "/vibe-coding"
       }
     ],
     "tabs": [
@@ -94,23 +102,6 @@
               "guides/choose-integration",
               "authentication",
               "api-conventions"
-            ]
-          },
-          {
-            "group": "Integrate by stack",
-            "icon": "code",
-            "pages": [
-              "guides/collect-with-nodejs",
-              "guides/collect-with-python",
-              "guides/collect-with-django",
-              "guides/collect-with-ruby",
-              "guides/collect-with-php",
-              "guides/collect-with-java",
-              "guides/collect-with-go",
-              "guides/collect-with-rust",
-              "guides/collect-with-dotnet",
-              "guides/collect-with-nextjs",
-              "guides/collect-with-laravel"
             ]
           },
           {
@@ -153,33 +144,104 @@
             ]
           },
           {
-            "group": "Knowledge Base",
-            "icon": "circle-question",
+            "group": "Explore",
+            "icon": "folder-tree",
+            "expanded": false,
             "pages": [
-              "knowledge-base/index",
-              "knowledge-base/invalid-credentials-401",
-              "knowledge-base/forbidden-403-unverified",
-              "knowledge-base/validation-422",
-              "knowledge-base/duplicate-reference-id",
-              "knowledge-base/session-expired-or-invalid",
-              "knowledge-base/payment-processing-status",
-              "knowledge-base/rate-limit-429",
-              "knowledge-base/server-error-5xx",
-              "reference/error-catalog",
-              "guides/error-handling"
+              {
+                "group": "Integrate by stack",
+                "icon": "code",
+                "expanded": false,
+                "pages": [
+                  "guides/collect-with-nodejs",
+                  "guides/collect-with-python",
+                  "guides/collect-with-django",
+                  "guides/collect-with-ruby",
+                  "guides/collect-with-php",
+                  "guides/collect-with-java",
+                  "guides/collect-with-go",
+                  "guides/collect-with-rust",
+                  "guides/collect-with-dotnet",
+                  "guides/collect-with-nextjs",
+                  "guides/collect-with-laravel"
+                ]
+              },
+              {
+                "group": "Knowledge Base",
+                "icon": "circle-question",
+                "expanded": false,
+                "pages": [
+                  "knowledge-base/index",
+                  "knowledge-base/invalid-credentials-401",
+                  "knowledge-base/forbidden-403-unverified",
+                  "knowledge-base/validation-422",
+                  "knowledge-base/duplicate-reference-id",
+                  "knowledge-base/session-expired-or-invalid",
+                  "knowledge-base/payment-processing-status",
+                  "knowledge-base/rate-limit-429",
+                  "knowledge-base/server-error-5xx",
+                  "reference/error-catalog",
+                  "guides/error-handling"
+                ]
+              },
+              {
+                "group": "Resources",
+                "icon": "book-open",
+                "expanded": false,
+                "pages": [
+                  "reference/payments-by-market",
+                  "reference/status-and-incidents",
+                  "reference/examples",
+                  "reference/ai-context",
+                  "reference/sdks",
+                  "reference/glossary",
+                  "reference/support"
+                ]
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "tab": "Build with AI",
+        "icon": "sparkles",
+        "groups": [
+          {
+            "group": "Vibe Coding",
+            "icon": "sparkles",
+            "pages": [
+              "vibe-coding/index",
+              "vibe-coding/start-here",
+              "vibe-coding/prompt-library"
             ]
           },
           {
-            "group": "Resources",
-            "icon": "book-open",
+            "group": "Integrate by stack",
+            "icon": "code",
+            "expanded": false,
             "pages": [
-              "reference/payments-by-market",
-              "reference/status-and-incidents",
-              "reference/examples",
+              "guides/collect-with-nodejs",
+              "guides/collect-with-python",
+              "guides/collect-with-django",
+              "guides/collect-with-ruby",
+              "guides/collect-with-php",
+              "guides/collect-with-java",
+              "guides/collect-with-go",
+              "guides/collect-with-rust",
+              "guides/collect-with-dotnet",
+              "guides/collect-with-nextjs",
+              "guides/collect-with-laravel"
+            ]
+          },
+          {
+            "group": "AI resources",
+            "icon": "robot",
+            "expanded": false,
+            "pages": [
               "reference/ai-context",
-              "reference/sdks",
-              "reference/glossary",
-              "reference/support"
+              "reference/examples",
+              "guides/payout-with-nodejs",
+              "knowledge-base/index"
             ]
           }
         ]
@@ -211,12 +273,11 @@
         "header": "Developers",
         "items": [
           { "label": "Quick Start", "href": "/quickstart" },
+          { "label": "Build with AI", "href": "/vibe-coding" },
           { "label": "Collect with Node.js", "href": "/guides/collect-with-nodejs" },
           { "label": "Payments by Market", "href": "/reference/payments-by-market" },
           { "label": "Knowledge Base", "href": "/knowledge-base" },
           { "label": "Error Catalog", "href": "/reference/error-catalog" },
-          { "label": "Examples", "href": "/reference/examples" },
-          { "label": "AI & MCP", "href": "/reference/ai-context" },
           { "label": "OpenAPI Spec", "href": "https://api.heydollr.app/openapi.json" }
         ]
       }
@@ -242,7 +303,8 @@
     { "source": "/docs/authentication", "destination": "/authentication" },
     { "source": "/docs/api-conventions", "destination": "/api-conventions" },
     { "source": "/docs/concepts/:path*", "destination": "/concepts/:path*" },
-    { "source": "/docs/knowledge-base/:path*", "destination": "/knowledge-base/:path*" }
+    { "source": "/docs/knowledge-base/:path*", "destination": "/knowledge-base/:path*" },
+    { "source": "/docs/vibe-coding/:path*", "destination": "/vibe-coding/:path*" }
   ],
   "errors": {
     "404": {
