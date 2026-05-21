@@ -1,0 +1,101 @@
+---
+title: "Collect with Rust"
+description: "Collect a payment via invoice using the Dollr API with reqwest and serde."
+keywords: ["Rust", "reqwest", "Dollr integration", "collect payment", "invoice API"]
+---
+
+# Collect with Rust
+
+End-to-end **invoice collection** with `reqwest` and `serde_json` (add to `Cargo.toml`).
+
+<Note>
+**API Reference:** [Obtain token](/api-reference/jwt/client-obtain-token) · [Collect](/api-reference/executions/collect)
+</Note>
+
+## Prerequisites
+
+```toml
+[dependencies]
+reqwest = { version = "0.12", features = ["json"] }
+serde = { version = "1", features = ["derive"] }
+serde_json = "1"
+tokio = { version = "1", features = ["macros", "rt-multi-thread"] }
+uuid = { version = "1", features = ["v4"] }
+```
+
+Load `DOLLR_CLIENT_ID` and `DOLLR_CLIENT_SECRET` from the environment (e.g. `dotenvy`).
+
+## Steps
+
+<Steps>
+  <Step title="Obtain token">
+    ```rust
+    const BASE: &str = "https://api.heydollr.app";
+
+    #[tokio::main]
+    async fn main() -> Result<(), reqwest::Error> {
+        let client = reqwest::Client::new();
+        let token_res: serde_json::Value = client
+            .post(format!("{BASE}/v1/jwt/client/obtain/token"))
+            .json(&serde_json::json!({
+                "client_id": std::env::var("DOLLR_CLIENT_ID").unwrap(),
+                "client_secret": std::env::var("DOLLR_CLIENT_SECRET").unwrap(),
+            }))
+            .send()
+            .await?
+            .json()
+            .await?;
+        let bearer = token_res["access_token"].as_str().unwrap();
+        Ok(())
+    }
+    ```
+  </Step>
+  <Step title="Party → invoice">
+    ```rust
+    async fn post(
+        client: &reqwest::Client,
+        bearer: &str,
+        path: &str,
+        body: serde_json::Value,
+    ) -> serde_json::Value {
+        client
+            .post(format!("{BASE}{path}"))
+            .bearer_auth(bearer)
+            .json(&body)
+            .send()
+            .await
+            .unwrap()
+            .json()
+            .await
+            .unwrap()
+    }
+    ```
+    Create party, counterparty, invoice, line item, then `PUT` publish.
+  </Step>
+  <Step title="Execute">
+    ```rust
+    let reference_id = uuid::Uuid::new_v4().to_string();
+    post(client, bearer, "/v1/executions/collection", serde_json::json!({
+        "session_id": session_id,
+        "payment_account_id": payment_account_id,
+        "currency": "USD",
+        "reference_id": reference_id,
+    })).await;
+    ```
+  </Step>
+  <Step title="Poll status">
+    ```rust
+    let status: serde_json::Value = client
+        .get(format!("{BASE}/v1/status/collection/{reference_id}"))
+        .bearer_auth(bearer)
+        .send()
+        .await?
+        .json()
+        .await?;
+    ```
+  </Step>
+</Steps>
+
+## Related
+
+- [Quick Start](/quickstart) · [Error handling](/guides/error-handling)

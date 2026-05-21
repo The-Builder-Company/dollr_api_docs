@@ -85,11 +85,24 @@
             ]
           },
           {
-            "group": "Guides",
-            "icon": "map",
+            "group": "Integrate by stack",
+            "icon": "code",
             "pages": [
               "guides/collect-with-nodejs",
               "guides/collect-with-python",
+              "guides/collect-with-php",
+              "guides/collect-with-java",
+              "guides/collect-with-go",
+              "guides/collect-with-rust",
+              "guides/collect-with-dotnet",
+              "guides/collect-with-nextjs",
+              "guides/collect-with-laravel"
+            ]
+          },
+          {
+            "group": "Guides",
+            "icon": "map",
+            "pages": [
               "guides/collect-via-checkout",
               "guides/integration",
               "guides/realtime-status",

@@ -1,0 +1,91 @@
+---
+title: "Collect with Java"
+description: "Collect a payment via invoice using the Dollr API with Java HttpClient."
+keywords: ["Java", "HttpClient", "Dollr integration", "collect payment", "invoice API"]
+---
+
+# Collect with Java
+
+End-to-end **invoice collection** with Java 11+ `java.net.http.HttpClient` and Jackson (or Gson) for JSON.
+
+<Note>
+**API Reference:** [Obtain token](/api-reference/jwt/client-obtain-token) · [Collect](/api-reference/executions/collect)
+</Note>
+
+## Prerequisites
+
+- Java 11+
+- Jackson `ObjectMapper` (or equivalent) on the classpath
+- Store credentials in environment variables or a secrets manager
+
+## Steps
+
+<Steps>
+  <Step title="HTTP client and token">
+    ```java
+    import java.net.URI;
+    import java.net.http.*;
+    import java.nio.charset.StandardCharsets;
+
+    String baseUrl = "https://api.heydollr.app";
+    HttpClient client = HttpClient.newHttpClient();
+
+    String authBody = """
+        {"client_id":"%s","client_secret":"%s"}
+        """.formatted(System.getenv("DOLLR_CLIENT_ID"), System.getenv("DOLLR_CLIENT_SECRET"));
+
+    HttpRequest tokenReq = HttpRequest.newBuilder()
+        .uri(URI.create(baseUrl + "/v1/jwt/client/obtain/token"))
+        .header("Content-Type", "application/json")
+        .POST(HttpRequest.BodyPublishers.ofString(authBody))
+        .build();
+
+    String tokenJson = client.send(tokenReq, HttpResponse.BodyHandlers.ofString()).body();
+    // Parse access_token from JSON with your mapper
+    ```
+  </Step>
+  <Step title="Authenticated POST helper">
+    ```java
+    HttpRequest.Builder authed(String path, String bearer) {
+        return HttpRequest.newBuilder()
+            .uri(URI.create(baseUrl + path))
+            .header("Authorization", "Bearer " + bearer)
+            .header("Content-Type", "application/json");
+    }
+
+    // POST /v1/parties/create, /v1/counterparties/create, /v1/invoices/create
+    // Store party id, counterparty id, invoice id from responses
+    ```
+  </Step>
+  <Step title="Publish and execute">
+    ```java
+    // PUT /v1/invoices/publish/{invoiceId}
+    // POST /v1/sessions/checkout  body: {"source_id":101,"source_type":"INVOICE"}
+    // POST /v1/payment-accounts/create?operation_type=COLLECTION
+
+    String referenceId = java.util.UUID.randomUUID().toString();
+
+    String executeBody = """
+        {"session_id":"%s","payment_account_id":"%s","currency":"USD","reference_id":"%s"}
+        """.formatted(sessionId, paymentAccountId, referenceId);
+
+    HttpRequest execute = authed("/v1/executions/collection", bearer)
+        .POST(HttpRequest.BodyPublishers.ofString(executeBody))
+        .build();
+    ```
+    Persist `referenceId` **before** `client.send(execute, ...)`.
+  </Step>
+  <Step title="Poll status">
+    ```java
+    HttpRequest status = HttpRequest.newBuilder()
+        .uri(URI.create(baseUrl + "/v1/status/collection/" + referenceId))
+        .header("Authorization", "Bearer " + bearer)
+        .GET()
+        .build();
+    ```
+  </Step>
+</Steps>
+
+## Related
+
+- [Quick Start](/quickstart) · [Collect with .NET](/guides/collect-with-dotnet)

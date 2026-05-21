@@ -26,13 +26,37 @@ Dollr is payment infrastructure for businesses in Africa — collect mobile mone
 
 ## Integrate by stack
 
-<CardGroup cols={2}>
+<CardGroup cols={3}>
   <Card title="Node.js" icon="node-js" href="/guides/collect-with-nodejs">
-    Collect via invoice using the Dollr API from JavaScript.
+    Server-side JavaScript with `fetch`.
   </Card>
   <Card title="Python" icon="python" href="/guides/collect-with-python">
-    Same invoice collection flow with `requests`.
+    Invoice collection with `requests`.
   </Card>
+  <Card title="PHP" icon="php" href="/guides/collect-with-php">
+    cURL or Guzzle from PHP 8.1+.
+  </Card>
+  <Card title="Java" icon="java" href="/guides/collect-with-java">
+    `HttpClient` and JSON on the JVM.
+  </Card>
+  <Card title="Go" icon="golang" href="/guides/collect-with-go">
+    `net/http` and `encoding/json`.
+  </Card>
+  <Card title="Rust" icon="rust" href="/guides/collect-with-rust">
+    `reqwest` + `serde` async client.
+  </Card>
+  <Card title=".NET" icon="microsoft" href="/guides/collect-with-dotnet">
+    C# `HttpClient` and `System.Text.Json`.
+  </Card>
+  <Card title="Next.js" icon="react" href="/guides/collect-with-nextjs">
+    Route Handlers and Server Actions.
+  </Card>
+  <Card title="Laravel" icon="laravel" href="/guides/collect-with-laravel">
+    Laravel HTTP client and config.
+  </Card>
+</CardGroup>
+
+<CardGroup cols={2}>
   <Card title="Direct checkout" icon="cart-shopping" href="/guides/collect-via-checkout">
     One call to create source + session — skip manual party/invoice steps.
   </Card>

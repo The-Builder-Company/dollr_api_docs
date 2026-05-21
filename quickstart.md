@@ -457,7 +457,12 @@ Use the invoice or order system ID from your published source.
 
 ## What's Next
 
-- [Collect with Node.js](/guides/collect-with-nodejs)
+### Integrate by stack
+
+- [Node.js](/guides/collect-with-nodejs) · [Python](/guides/collect-with-python) · [PHP](/guides/collect-with-php) · [Java](/guides/collect-with-java) · [Go](/guides/collect-with-go) · [Rust](/guides/collect-with-rust) · [.NET](/guides/collect-with-dotnet) · [Next.js](/guides/collect-with-nextjs) · [Laravel](/guides/collect-with-laravel)
+
+### More guides
+
 - [Collect via checkout](/guides/collect-via-checkout)
 - [Integration guide](/guides/integration)
 - [Realtime status](/guides/realtime-status)

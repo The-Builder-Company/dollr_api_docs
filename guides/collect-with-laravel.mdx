@@ -1,0 +1,112 @@
+---
+title: "Collect with Laravel"
+description: "Collect payments with the Dollr API in a Laravel application using the HTTP client."
+keywords: ["Laravel", "PHP", "Dollr integration", "collect payment", "invoice API"]
+---
+
+# Collect with Laravel
+
+Use Laravel’s **HTTP client** (Guzzle) from a controller, job, or action — never from Blade views with secrets.
+
+<Note>
+**API Reference:** [Obtain token](/api-reference/jwt/client-obtain-token) · [Collect](/api-reference/executions/collect)
+</Note>
+
+## Prerequisites
+
+- Laravel 10+ (or 11+)
+- `config/services.php` entries for `dollr.client_id` and `dollr.client_secret`
+
+```php
+// config/services.php
+'dollr' => [
+    'base_url'      => env('DOLLR_BASE_URL', 'https://api.heydollr.app'),
+    'client_id'     => env('DOLLR_CLIENT_ID'),
+    'client_secret' => env('DOLLR_CLIENT_SECRET'),
+],
+```
+
+## Steps
+
+<Steps>
+  <Step title="Service helper">
+    ```php
+    // app/Services/DollrClient.php
+    namespace App\Services;
+
+    use Illuminate\Support\Facades\Http;
+    use Illuminate\Support\Str;
+
+    class DollrClient
+    {
+        public function token(): string
+        {
+            $base = config('services.dollr.base_url');
+            $res = Http::post("$base/v1/jwt/client/obtain/token", [
+                'client_id'     => config('services.dollr.client_id'),
+                'client_secret' => config('services.dollr.client_secret'),
+            ])->throw();
+            return $res->json('access_token');
+        }
+
+        public function authed()
+        {
+            return Http::withToken($this->token())
+                ->baseUrl(config('services.dollr.base_url'))
+                ->acceptJson();
+        }
+    }
+    ```
+  </Step>
+  <Step title="Create invoice flow">
+    ```php
+    $http = app(DollrClient::class)->authed();
+
+    $party = $http->post('/v1/parties/create', [
+        'fullname' => 'Amara Kamara', 'phone' => '231771234567',
+        'country_code' => 'LR',
+    ])->json();
+
+    $cp = $http->post('/v1/counterparties/create', [
+        'relationship_type' => 'CUSTOMER', 'party_id' => $party['id'],
+    ])->json();
+
+    $invoice = $http->post('/v1/invoices/create', [
+        'counterparty_id' => $cp['id'], 'currency' => 'USD',
+        'fee_bearer' => 'PAYER', 'as_payment_link' => true,
+    ])->json();
+    ```
+  </Step>
+  <Step title="Publish and collect">
+    ```php
+    $id = $invoice['id'];
+    $http->post("/v1/invoices/$id/items/add", [
+        'name' => 'Strategy Session', 'currency' => 'USD', 'qty' => 1, 'amount' => 250,
+    ]);
+    $http->put("/v1/invoices/publish/$id");
+
+    $referenceId = (string) Str::uuid();
+    $session = $http->post('/v1/sessions/checkout', [
+        'source_id' => $id, 'source_type' => 'INVOICE',
+    ])->json();
+
+    $http->post('/v1/executions/collection', [
+        'session_id'         => (string) $session['id'],
+        'payment_account_id' => $paymentAccountId,
+        'currency'           => 'USD',
+        'reference_id'       => $referenceId,
+    ]);
+    ```
+  </Step>
+  <Step title="Poll in a queued job">
+    ```php
+    $status = $http->get("/v1/status/collection/$referenceId")->json('status');
+    ```
+    Use [realtime status](/guides/realtime-status) or webhooks for production UX instead of tight polling loops.
+  </Step>
+</Steps>
+
+## Related
+
+- [Collect with PHP](/guides/collect-with-php)
+- [Quick Start](/quickstart)

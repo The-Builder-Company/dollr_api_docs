@@ -8,7 +8,7 @@ Official documentation for the [Dollr Open API](https://api.heydollr.app), publi
 |------|---------|
 | `index.mdx`, `quickstart.md` | Introduction hub and tutorial |
 | `authentication.mdx`, `api-conventions.mdx` | Auth and request conventions |
-| `guides/*.mdx` | Task-based integration guides |
+| `guides/*.mdx` | Task-based guides; **Integrate by stack** (Node, Python, PHP, Java, Go, Rust, .NET, Next.js, Laravel) |
 | `concepts/*.mdx` | Core API concepts |
 | `api/*.md` | Short concept pages (link to API Reference) |
 | `reference/*.md` | Market matrix, errors, support |

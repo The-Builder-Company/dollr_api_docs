@@ -17,10 +17,20 @@
 - /authentication — OAuth 2.0 client credentials
 - /api-conventions — JSON, phones, currencies, HTTP codes
 
+## Integrate by stack
+
+- /guides/collect-with-nodejs — JavaScript (fetch)
+- /guides/collect-with-python — Python (requests)
+- /guides/collect-with-php — PHP (cURL)
+- /guides/collect-with-java — Java (HttpClient)
+- /guides/collect-with-go — Go (net/http)
+- /guides/collect-with-rust — Rust (reqwest)
+- /guides/collect-with-dotnet — C# / .NET (HttpClient)
+- /guides/collect-with-nextjs — Next.js Route Handlers / Server Actions
+- /guides/collect-with-laravel — Laravel HTTP client
+
 ## Guides
 
-- /guides/collect-with-nodejs — Invoice collection in JavaScript
-- /guides/collect-with-python — Invoice collection in Python
 - /guides/collect-via-checkout — POST /v1/checkouts/create shortcut
 - /guides/integration — Collection, payout, transfer, refund walkthroughs
 - /guides/realtime-status — Realtime keys vs polling

@@ -1,0 +1,109 @@
+---
+title: "Collect with Next.js"
+description: "Collect payments with the Dollr API from Next.js Route Handlers or Server Actions."
+keywords: ["Next.js", "React", "Route Handler", "Dollr integration", "collect payment"]
+---
+
+# Collect with Next.js
+
+Call the Dollr API from **server-only** code — Route Handlers (`app/api/...`), Server Actions, or `getServerSideProps`. Never call Dollr with your Client Secret from the browser.
+
+<Note>
+**API Reference:** [Obtain token](/api-reference/jwt/client-obtain-token) · [Collect](/api-reference/executions/collect)
+</Note>
+
+## Prerequisites
+
+- Next.js 14+ (App Router) or Pages Router with server routes
+- Environment variables in `.env.local` (not prefixed with `NEXT_PUBLIC_`):
+
+```
+DOLLR_CLIENT_ID=...
+DOLLR_CLIENT_SECRET=...
+```
+
+## Steps
+
+<Steps>
+  <Step title="Route Handler — obtain token">
+    ```typescript
+    // app/api/dollr/token/route.ts
+    const BASE = "https://api.heydollr.app";
+
+    export async function POST() {
+      const res = await fetch(`${BASE}/v1/jwt/client/obtain/token`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          client_id: process.env.DOLLR_CLIENT_ID,
+          client_secret: process.env.DOLLR_CLIENT_SECRET,
+        }),
+        cache: "no-store",
+      });
+      const data = await res.json();
+      return Response.json({ access_token: data.access_token });
+    }
+    ```
+  </Step>
+  <Step title="Server-side collect action">
+    ```typescript
+    // app/actions/collect.ts
+    "use server";
+
+    const BASE = "https://api.heydollr.app";
+
+    async function dollrHeaders() {
+      const tokenRes = await fetch(`${BASE}/v1/jwt/client/obtain/token`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          client_id: process.env.DOLLR_CLIENT_ID,
+          client_secret: process.env.DOLLR_CLIENT_SECRET,
+        }),
+      });
+      const tokenData = await tokenRes.json();
+      return {
+        Authorization: `Bearer ${tokenData.access_token}`,
+        "Content-Type": "application/json",
+      };
+    }
+
+    export async function createInvoiceCollection() {
+      const headers = await dollrHeaders();
+      // POST parties → counterparties → invoices → publish → session → execute
+    }
+    ```
+  </Step>
+  <Step title="Idempotency key">
+    ```typescript
+    const referenceId = crypto.randomUUID();
+    // Persist referenceId in your DB before calling /v1/executions/collection
+    ```
+  </Step>
+  <Step title="Poll from a Route Handler">
+    ```typescript
+    // app/api/dollr/status/[referenceId]/route.ts
+    export async function GET(
+      _req: Request,
+      context: { params: Promise<{ referenceId: string }> }
+    ) {
+      const { referenceId } = await context.params;
+      const headers = await dollrHeaders();
+      const res = await fetch(
+        `https://api.heydollr.app/v1/status/collection/${referenceId}`,
+        { headers, cache: "no-store" }
+      );
+      return Response.json(await res.json());
+    }
+    ```
+  </Step>
+</Steps>
+
+<Warning>
+Do not expose `DOLLR_CLIENT_SECRET` to Client Components. Use Route Handlers or Server Actions only.
+</Warning>
+
+## Related
+
+- [Collect with Node.js](/guides/collect-with-nodejs) — plain Node `fetch`
+- [Quick Start](/quickstart)

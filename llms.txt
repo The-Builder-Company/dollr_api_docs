@@ -129,6 +129,13 @@ Prose guides live under `/api/*`. Interactive OpenAPI pages live under `/api-ref
 
 - [Collect with Node.js](https://docs.heydollr.app/guides/collect-with-nodejs)
 - [Collect with Python](https://docs.heydollr.app/guides/collect-with-python)
+- [Collect with PHP](https://docs.heydollr.app/guides/collect-with-php)
+- [Collect with Java](https://docs.heydollr.app/guides/collect-with-java)
+- [Collect with Go](https://docs.heydollr.app/guides/collect-with-go)
+- [Collect with Rust](https://docs.heydollr.app/guides/collect-with-rust)
+- [Collect with .NET](https://docs.heydollr.app/guides/collect-with-dotnet)
+- [Collect with Next.js](https://docs.heydollr.app/guides/collect-with-nextjs)
+- [Collect with Laravel](https://docs.heydollr.app/guides/collect-with-laravel)
 - [Collect via checkout](https://docs.heydollr.app/guides/collect-via-checkout)
 - [Integration guide](https://docs.heydollr.app/guides/integration)
 - [Realtime status](https://docs.heydollr.app/guides/realtime-status)

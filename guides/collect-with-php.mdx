@@ -1,0 +1,113 @@
+---
+title: "Collect with PHP"
+description: "Collect a payment via invoice using the Dollr API from PHP."
+keywords: ["PHP", "cURL", "Dollr integration", "collect payment", "invoice API"]
+---
+
+# Collect with PHP
+
+End-to-end **invoice collection** with PHP 8.1+ and cURL (or Guzzle). See [Quick Start](/quickstart) for the full multi-language tutorial.
+
+<Note>
+**API Reference:** [Obtain token](/api-reference/jwt/client-obtain-token) · [Collect](/api-reference/executions/collect)
+</Note>
+
+## Prerequisites
+
+- PHP 8.1+ with `curl` extension (or `guzzlehttp/guzzle`)
+- API credentials in environment variables — **server-side only**
+
+## Steps
+
+<Steps>
+  <Step title="Get an access token">
+    ```php
+    $baseUrl = 'https://api.heydollr.app';
+
+    $ch = curl_init("$baseUrl/v1/jwt/client/obtain/token");
+    curl_setopt_array($ch, [
+        CURLOPT_RETURNTRANSFER => true,
+        CURLOPT_POST           => true,
+        CURLOPT_HTTPHEADER     => ['Content-Type: application/json'],
+        CURLOPT_POSTFIELDS     => json_encode([
+            'client_id'     => getenv('DOLLR_CLIENT_ID'),
+            'client_secret' => getenv('DOLLR_CLIENT_SECRET'),
+        ]),
+    ]);
+    $token = json_decode(curl_exec($ch), true)['access_token'];
+    curl_close($ch);
+
+    $headers = [
+        'Authorization: Bearer ' . $token,
+        'Content-Type: application/json',
+    ];
+    ```
+  </Step>
+  <Step title="Party, counterparty, invoice">
+    ```php
+    function dollrPost(string $url, array $body, array $headers): array {
+        $ch = curl_init($url);
+        curl_setopt_array($ch, [
+            CURLOPT_RETURNTRANSFER => true,
+            CURLOPT_POST           => true,
+            CURLOPT_HTTPHEADER     => $headers,
+            CURLOPT_POSTFIELDS     => json_encode($body),
+        ]);
+        $out = json_decode(curl_exec($ch), true);
+        curl_close($ch);
+        return $out;
+    }
+
+    $party = dollrPost("$baseUrl/v1/parties/create", [
+        'fullname' => 'Amara Kamara', 'phone' => '231771234567',
+        'email' => 'amara@example.com', 'country_code' => 'LR',
+    ], $headers);
+
+    $cp = dollrPost("$baseUrl/v1/counterparties/create", [
+        'relationship_type' => 'CUSTOMER', 'party_id' => $party['id'],
+    ], $headers);
+
+    $invoice = dollrPost("$baseUrl/v1/invoices/create", [
+        'counterparty_id' => $cp['id'], 'currency' => 'USD',
+        'note' => 'Consulting', 'fee_bearer' => 'PAYER', 'as_payment_link' => true,
+    ], $headers);
+    ```
+  </Step>
+  <Step title="Publish, session, execute">
+    ```php
+    $invoiceId = $invoice['id'];
+    dollrPost("$baseUrl/v1/invoices/$invoiceId/items/add", [
+        'name' => 'Strategy Session', 'currency' => 'USD', 'qty' => 1, 'amount' => 250.0,
+    ], $headers);
+
+    // PUT publish — use curl_setopt CURLOPT_CUSTOMREQUEST => 'PUT'
+    $referenceId = bin2hex(random_bytes(16)); // use ramsey/uuid or uuid4() in production
+
+    $session = dollrPost("$baseUrl/v1/sessions/checkout", [
+        'source_id' => $invoiceId, 'source_type' => 'INVOICE',
+    ], $headers);
+
+    $execution = dollrPost("$baseUrl/v1/executions/collection", [
+        'session_id'         => (string) $session['id'],
+        'payment_account_id' => 'YOUR_PAYMENT_ACCOUNT_ID',
+        'currency'           => 'USD',
+        'reference_id'       => $referenceId,
+    ], $headers);
+    ```
+    Register a [payment account](/api/payment-accounts) before execute. Store `$referenceId` before the HTTP call.
+  </Step>
+  <Step title="Poll status">
+    ```php
+    $ch = curl_init("$baseUrl/v1/status/collection/$referenceId");
+    curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+    curl_setopt($ch, CURLOPT_HTTPHEADER, $headers);
+    $status = json_decode(curl_exec($ch), true);
+    curl_close($ch);
+    ```
+  </Step>
+</Steps>
+
+## Related
+
+- [Collect with Laravel](/guides/collect-with-laravel) — Http facade & config
+- [Quick Start](/quickstart)

@@ -1,0 +1,86 @@
+---
+title: "Collect with Go"
+description: "Collect a payment via invoice using the Dollr API with Go net/http."
+keywords: ["Go", "Golang", "Dollr integration", "collect payment", "invoice API"]
+---
+
+# Collect with Go
+
+End-to-end **invoice collection** with the standard library `net/http` and `encoding/json`.
+
+<Note>
+**API Reference:** [Obtain token](/api-reference/jwt/client-obtain-token) · [Collect](/api-reference/executions/collect)
+</Note>
+
+## Prerequisites
+
+- Go 1.21+
+- `os.Getenv` for `DOLLR_CLIENT_ID` and `DOLLR_CLIENT_SECRET`
+
+## Steps
+
+<Steps>
+  <Step title="Client and token">
+    ```go
+    package main
+
+    import (
+        "bytes"
+        "encoding/json"
+        "net/http"
+        "os"
+    )
+
+    const baseURL = "https://api.heydollr.app"
+
+    func obtainToken() (string, error) {
+        body, _ := json.Marshal(map[string]string{
+            "client_id":     os.Getenv("DOLLR_CLIENT_ID"),
+            "client_secret": os.Getenv("DOLLR_CLIENT_SECRET"),
+        })
+        req, _ := http.NewRequest(http.MethodPost, baseURL+"/v1/jwt/client/obtain/token", bytes.NewReader(body))
+        req.Header.Set("Content-Type", "application/json")
+        res, err := http.DefaultClient.Do(req)
+        // decode access_token from res.Body
+        return "", err
+    }
+    ```
+  </Step>
+  <Step title="POST helper">
+    ```go
+    func dollrPost(path, token string, payload any) (map[string]any, error) {
+        b, _ := json.Marshal(payload)
+        req, _ := http.NewRequest(http.MethodPost, baseURL+path, bytes.NewReader(b))
+        req.Header.Set("Authorization", "Bearer "+token)
+        req.Header.Set("Content-Type", "application/json")
+        res, err := http.DefaultClient.Do(req)
+        // json.NewDecoder(res.Body).Decode(&out)
+        return nil, err
+    }
+    ```
+    Chain: parties → counterparties → invoices → items → publish.
+  </Step>
+  <Step title="Execute with idempotency key">
+    ```go
+    import "github.com/google/uuid"
+
+    referenceID := uuid.New().String()
+    _, err = dollrPost("/v1/executions/collection", token, map[string]string{
+        "session_id":         sessionID,
+        "payment_account_id": paymentAccountID,
+        "currency":           "USD",
+        "reference_id":       referenceID,
+    })
+    ```
+  </Step>
+  <Step title="Poll status">
+    ```go
+    req, _ := http.NewRequest(http.MethodGet, baseURL+"/v1/status/collection/"+referenceID, nil)
+    req.Header.Set("Authorization", "Bearer "+token)
+    ```
+  </Step>
+</Steps>
+
+## Related
+
+- [Quick Start](/quickstart) · [Sessions & executions](/concepts/sessions-and-executions)
