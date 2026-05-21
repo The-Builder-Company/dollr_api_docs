@@ -16,17 +16,23 @@ jobs:
           paths=(
             "/"
             "/quickstart"
+            "/authentication"
+            "/api-conventions"
+            "/guides/choose-integration"
+            "/guides/collect-with-nodejs"
+            "/guides/collect-with-python"
+            "/guides/collect-via-checkout"
             "/guides/integration"
+            "/guides/realtime-status"
             "/guides/error-handling"
+            "/concepts/sessions-and-executions"
+            "/concepts/parties-and-counterparties"
             "/reference/payments-by-market"
             "/reference/error-catalog"
+            "/reference/examples"
             "/reference/status-and-incidents"
-            "/reference/glossary"
-            "/reference/support"
             "/api/parties"
-            "/api/invoices"
             "/api/executions"
-            "/api/status"
           )
           failed=0
           for path in "${paths[@]}"; do
@@ -38,8 +44,7 @@ jobs:
               echo "OK ${path}"
             fi
           done
-          # Legacy /docs/* URLs should redirect, not 404
-          for path in /docs/index /docs/quickstart /docs/api/parties; do
+          for path in /docs/index /docs/quickstart /docs/guides/choose-integration; do
             code=$(curl -s -o /dev/null -w "%{http_code}" -L --max-time 20 "${BASE}${path}")
             if [ "$code" != "200" ]; then
               echo "::error::Legacy redirect failed HTTP ${code} for ${BASE}${path}"
@@ -54,9 +59,9 @@ jobs:
         run: |
           set -euo pipefail
           SITEMAP=$(curl -sL --max-time 20 "https://docs.heydollr.app/sitemap.xml")
-          for slug in quickstart reference/payments-by-market reference/error-catalog; do
+          for slug in quickstart authentication guides/collect-with-nodejs reference/examples; do
             if ! echo "$SITEMAP" | grep -q "$slug"; then
-              echo "::warning::sitemap.xml may be missing https://docs.heydollr.app/${slug} (redeploy Mintlify after merge)"
+              echo "::warning::sitemap.xml may be missing ${slug} (redeploy Mintlify after merge)"
             else
               echo "sitemap contains ${slug}"
             fi

@@ -4,36 +4,44 @@ Official documentation for the [Dollr Open API](https://api.heydollr.app), publi
 
 ## Edit content
 
-- Prose pages: `*.md`, `api/`, `guides/`, `reference/`
-- Site config & navigation: `docs.json`
-- AI context: `llms.txt`, `ASSISTANT.md`
+| Path | Purpose |
+|------|---------|
+| `index.mdx`, `quickstart.mdx` | Introduction hub and tutorial |
+| `authentication.mdx`, `api-conventions.mdx` | Auth and request conventions |
+| `guides/*.mdx` | Task-based integration guides |
+| `concepts/*.mdx` | Core API concepts |
+| `api/*.md` | Short concept pages (link to API Reference) |
+| `reference/*.md` | Market matrix, errors, support |
+| `docs.json` | Navigation, redirects, theme |
+| `llms.txt`, `llms-full.txt`, `ASSISTANT.md` | AI context |
+
+Use **`.mdx`** for pages with Mintlify components (`Card`, `Steps`, `CodeGroup`, etc.).
 
 ## Local preview
 
-Mintlify CLI requires Node.js LTS (20 or 22):
+Node.js LTS (20 or 22):
 
 ```bash
 npx mintlify@latest dev
 ```
 
-Optional MkDocs preview (not deployed to production):
-
-```bash
-pip install mkdocs-material
-mkdocs serve
-```
+Open the URL printed in the terminal (default port 3000).
 
 ## Deploy
 
-Production deploys are handled by **Mintlify** when changes merge to `main` on the connected GitHub repository. This repo does not publish to GitHub Pages.
+Production deploys run through **Mintlify** when changes merge to `main` on the connected GitHub repository.
 
-After deploy, the [Docs health check](.github/workflows/docs-health.yml) workflow verifies critical URLs and sitemap entries.
+After deploy, [.github/workflows/docs-health.yml](.github/workflows/docs-health.yml) verifies critical URLs.
 
 ## Structure
 
 | Tab | Content |
 |-----|---------|
-| Documentation | Guides, API concepts, resources |
-| API Reference | OpenAPI-generated endpoints (`/api-reference/...`) |
+| **Documentation** | Introduction, guides, concepts, knowledge base |
+| **API Reference** | OpenAPI-generated interactive endpoints |
 
-API Guide pages link to matching API Reference paths for interactive testing.
+Guides explain *how* to integrate; API Reference is the source of truth for request/response fields.
+
+## Legacy
+
+`mkdocs.yml.deprecated` is kept for reference only — it is not deployed to production.

@@ -60,8 +60,10 @@ Detect MoMo operator from phone: `GET /v1/predictions/mmo-provider-info?phone={e
 8. `POST /v1/executions/collection` (with stored `reference_id`)
 9. `GET /v1/status/collection/{reference_id}` until `COMPLETED` or `FAILED`
 
-**Quick Start (step-by-step):** https://docs.heydollr.app/quickstart  
-**Integration guide:** https://docs.heydollr.app/guides/integration
+**Quick Start:** https://docs.heydollr.app/quickstart  
+**Choose integration:** https://docs.heydollr.app/guides/choose-integration  
+**Collect (Node / Python / checkout):** https://docs.heydollr.app/guides/collect-with-nodejs  
+**Full index:** https://docs.heydollr.app/llms-full.txt
 
 ---
 
@@ -117,10 +119,27 @@ Prose guides live under `/api/*`. Interactive OpenAPI pages live under `/api-ref
 
 ### Getting started
 
-- [Overview](https://docs.heydollr.app/)
+- [Introduction](https://docs.heydollr.app/)
 - [Quick Start](https://docs.heydollr.app/quickstart)
+- [Choose integration](https://docs.heydollr.app/guides/choose-integration)
+- [Authentication](https://docs.heydollr.app/authentication)
+- [API conventions](https://docs.heydollr.app/api-conventions)
 
-### API guide
+### Guides
+
+- [Collect with Node.js](https://docs.heydollr.app/guides/collect-with-nodejs)
+- [Collect with Python](https://docs.heydollr.app/guides/collect-with-python)
+- [Collect via checkout](https://docs.heydollr.app/guides/collect-via-checkout)
+- [Integration guide](https://docs.heydollr.app/guides/integration)
+- [Realtime status](https://docs.heydollr.app/guides/realtime-status)
+- [Error handling](https://docs.heydollr.app/guides/error-handling)
+
+### Concepts
+
+- [Parties & counterparties](https://docs.heydollr.app/concepts/parties-and-counterparties)
+- [Sessions & executions](https://docs.heydollr.app/concepts/sessions-and-executions)
+
+### API concepts
 
 - [Parties](https://docs.heydollr.app/api/parties)
 - [Counterparties](https://docs.heydollr.app/api/counterparties)
@@ -137,14 +156,10 @@ Prose guides live under `/api/*`. Interactive OpenAPI pages live under `/api-ref
 - [Merchants](https://docs.heydollr.app/api/merchants)
 - [Realtime Keys](https://docs.heydollr.app/api/realtime-keys)
 
-### Guides
-
-- [Integration Guide](https://docs.heydollr.app/guides/integration)
-- [Error Handling](https://docs.heydollr.app/guides/error-handling)
-
 ### Resources
 
 - [Payments by Market](https://docs.heydollr.app/reference/payments-by-market)
+- [Examples & tools](https://docs.heydollr.app/reference/examples)
 - [Error Catalog](https://docs.heydollr.app/reference/error-catalog)
 - [Status & Incidents](https://docs.heydollr.app/reference/status-and-incidents)
 - [Glossary](https://docs.heydollr.app/reference/glossary)

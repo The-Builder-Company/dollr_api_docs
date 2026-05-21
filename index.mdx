@@ -1,0 +1,83 @@
+---
+title: "Introduction"
+description: "Official Dollr REST API documentation — collect payments and send payouts across Africa with one unified API."
+keywords: ["Dollr API", "payment API Africa", "mobile money API", "developer documentation"]
+mode: "wide"
+sidebarTitle: "Overview"
+---
+
+# Dollr Open API
+
+**Version:** v1 &nbsp;·&nbsp; **Base URL:** `https://api.heydollr.app`
+
+Dollr is payment infrastructure for businesses in Africa — collect mobile money and card payments, send payouts, transfer between wallets, and issue refunds through a single REST API.
+
+<CardGroup cols={3}>
+  <Card title="Quick Start" icon="rocket" href="/quickstart">
+    First collection in under 10 minutes — invoice flow with cURL, Python, and Node.js.
+  </Card>
+  <Card title="Choose your integration" icon="route" href="/guides/choose-integration">
+    Invoice, checkout shortcut, payout, or realtime — pick the right path.
+  </Card>
+  <Card title="Authentication" icon="key" href="/authentication">
+    OAuth 2.0 client credentials, token refresh, and API keys from the merchant portal.
+  </Card>
+</CardGroup>
+
+## Integrate by stack
+
+<CardGroup cols={2}>
+  <Card title="Node.js" icon="node-js" href="/guides/collect-with-nodejs">
+    Collect via invoice using the Dollr API from JavaScript.
+  </Card>
+  <Card title="Python" icon="python" href="/guides/collect-with-python">
+    Same invoice collection flow with `requests`.
+  </Card>
+  <Card title="Direct checkout" icon="cart-shopping" href="/guides/collect-via-checkout">
+    One call to create source + session — skip manual party/invoice steps.
+  </Card>
+  <Card title="Integration guide" icon="map" href="/guides/integration">
+    Full collection, payout, transfer, and refund walkthroughs.
+  </Card>
+</CardGroup>
+
+## Explore
+
+<CardGroup cols={2}>
+  <Card title="Payments by market" icon="globe" href="/reference/payments-by-market">
+    MTN, Orange, Airtel, cards — methods and providers by country.
+  </Card>
+  <Card title="Sessions & executions" icon="bolt" href="/concepts/sessions-and-executions">
+    How checkout sessions, idempotent executions, and status polling work.
+  </Card>
+  <Card title="Error catalog" icon="triangle-exclamation" href="/reference/error-catalog">
+    Common API errors, causes, and fixes.
+  </Card>
+  <Card title="API Reference" icon="braces" href="/api-reference/jwt/client-obtain-token">
+    Interactive OpenAPI docs — try every endpoint in the browser.
+  </Card>
+</CardGroup>
+
+## Supported payment methods
+
+| Method | Identifier | Market |
+|--------|------------|--------|
+| MTN Mobile Money | `MTN_MOMO_LBR` | Liberia |
+| Orange Money | `ORANGE_MONEY_LBR` | Liberia |
+| Airtel Money | `AIRTEL_RWA` | Rwanda |
+| MTN Mobile Money | `MTN_MOMO_RWA` | Rwanda |
+| Orange Money | `ORANGE_MONEY_RWA` | Rwanda |
+| Credit / Debit Card | `CREDIT_CARD` | International |
+| Dollr Wallet | `WALLET` | Internal transfers |
+
+See [Payments by Market](/reference/payments-by-market) for providers, routing, and operational notes.
+
+## Before you integrate
+
+1. Register at [merchant.heydollr.app](https://merchant.heydollr.app) and complete verification (typically 1–72 hours).
+2. Generate **Client ID** and **Client Secret** under **API Keys** (shown once — store server-side only).
+3. Read [API conventions](/api-conventions) for JSON format, phone numbers, currencies, and status codes.
+
+<Warning>
+Never expose your Client Secret in client-side code, mobile binaries, or public repositories. Call the Dollr API from your backend only.
+</Warning>

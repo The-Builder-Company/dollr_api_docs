@@ -1,0 +1,60 @@
+---
+title: "API Conventions"
+description: "Base URL, JSON format, validation errors, and HTTP status codes for the Dollr API."
+keywords: ["REST API", "JSON", "HTTP status", "validation", "Dollr conventions"]
+---
+
+# API Conventions
+
+## Base URL and versioning
+
+All endpoints use the `v1` prefix:
+
+```
+https://api.heydollr.app/v1/<resource>
+```
+
+Future breaking changes will ship under a new version prefix.
+
+## Request format
+
+- **Content-Type:** `application/json` for requests and responses
+- **Timestamps:** ISO 8601 (e.g. `2025-06-01T14:30:00Z`)
+- **Currency:** ISO 4217, uppercase (e.g. `USD`, `LRD`)
+- **Phone:** E.164 digits **without** `+` (e.g. `231771234567`)
+- **Amounts:** Positive numbers; minimum `0.01` for decimals, `1` for integers
+- **`reference_id`:** Version-4 UUID on every execution (idempotency key)
+
+## Validation errors (422)
+
+```json
+{
+  "detail": [
+    {
+      "loc": ["body", "currency"],
+      "msg": "field required",
+      "type": "value_error.missing"
+    }
+  ]
+}
+```
+
+Inspect the `detail` array for field-level messages.
+
+## HTTP status codes
+
+| Code | Meaning | Typical action |
+|------|---------|----------------|
+| `200` | Success | Use response body |
+| `401` | Unauthorized | Refresh JWT |
+| `403` | Forbidden | Check verification / permissions |
+| `404` | Not found | Verify resource ID |
+| `422` | Validation error | Fix payload per `detail` |
+| `429` | Rate limited | Back off; honor `Retry-After` |
+| `5xx` | Server error | Retry with exponential backoff |
+
+## Related
+
+- [Authentication](/authentication)
+- [Error handling](/guides/error-handling)
+- [Error catalog](/reference/error-catalog)

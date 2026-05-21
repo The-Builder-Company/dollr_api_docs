@@ -1,0 +1,143 @@
+---
+title: "Collect with Node.js"
+description: "Collect a payment via invoice using the Dollr API from JavaScript or TypeScript."
+keywords: ["Node.js", "JavaScript", "Dollr integration", "collect payment", "invoice API"]
+---
+
+# Collect with Node.js
+
+End-to-end **invoice collection** with Node.js 18+ (`fetch`). For the full multi-language walkthrough, see [Quick Start](/quickstart).
+
+<Note>
+**API Reference:** [Obtain token](/api-reference/jwt/client-obtain-token) · [Collect](/api-reference/executions/collect) · [Collection status](/api-reference/status/get-collection-status)
+</Note>
+
+## Prerequisites
+
+- Verified merchant account and API credentials
+- Server-side only — never embed the client secret in a browser or mobile app
+
+## Steps
+
+<Steps>
+  <Step title="Get an access token">
+    ```javascript
+    const BASE_URL = "https://api.heydollr.app";
+
+    const { access_token } = await fetch(`${BASE_URL}/v1/jwt/client/obtain/token`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        client_id: process.env.DOLLR_CLIENT_ID,
+        client_secret: process.env.DOLLR_CLIENT_SECRET,
+      }),
+    }).then((r) => r.json());
+
+    const headers = {
+      Authorization: `Bearer ${access_token}`,
+      "Content-Type": "application/json",
+    };
+    ```
+  </Step>
+  <Step title="Create party and counterparty">
+    ```javascript
+    const party = await fetch(`${BASE_URL}/v1/parties/create`, {
+      method: "POST", headers,
+      body: JSON.stringify({
+        fullname: "Amara Kamara",
+        phone: "231771234567",
+        email: "amara@example.com",
+        country_code: "LR",
+      }),
+    }).then((r) => r.json());
+
+    const cp = await fetch(`${BASE_URL}/v1/counterparties/create`, {
+      method: "POST", headers,
+      body: JSON.stringify({ relationship_type: "CUSTOMER", party_id: party.id }),
+    }).then((r) => r.json());
+    ```
+  </Step>
+  <Step title="Create, itemize, and publish invoice">
+    ```javascript
+    const invoice = await fetch(`${BASE_URL}/v1/invoices/create`, {
+      method: "POST", headers,
+      body: JSON.stringify({
+        counterparty_id: cp.id,
+        currency: "USD",
+        note: "Consulting services",
+        fee_bearer: "PAYER",
+        as_payment_link: true,
+      }),
+    }).then((r) => r.json());
+
+    await fetch(`${BASE_URL}/v1/invoices/${invoice.id}/items/add`, {
+      method: "POST", headers,
+      body: JSON.stringify({ name: "Strategy Session", currency: "USD", qty: 1, amount: 250 }),
+    });
+
+    await fetch(`${BASE_URL}/v1/invoices/publish/${invoice.id}`, { method: "PUT", headers });
+    ```
+  </Step>
+  <Step title="Session, payment account, execute">
+    ```javascript
+    import { randomUUID } from "crypto";
+
+    const session = await fetch(`${BASE_URL}/v1/sessions/checkout`, {
+      method: "POST", headers,
+      body: JSON.stringify({ source_id: invoice.id, source_type: "INVOICE" }),
+    }).then((r) => r.json());
+
+    const account = await fetch(
+      `${BASE_URL}/v1/payment-accounts/create?operation_type=COLLECTION`,
+      {
+        method: "POST", headers,
+        body: JSON.stringify({
+          account_name: "Amara MTN Wallet",
+          provider: "MTN_MOMO_LBR",
+          method: "MTN_MOMO_LBR",
+          party_id: party.id,
+          country_code: "LR",
+          insensitive_account_number: "231771234567",
+        }),
+      }
+    ).then((r) => r.json());
+
+    const referenceId = randomUUID();
+    const execution = await fetch(`${BASE_URL}/v1/executions/collection`, {
+      method: "POST", headers,
+      body: JSON.stringify({
+        session_id: String(session.id),
+        payment_account_id: String(account.id),
+        currency: "USD",
+        reference_id: referenceId,
+      }),
+    }).then((r) => r.json());
+    ```
+    Store `referenceId` before the request. Use [predictions](/api/predictions) to resolve `method`/`provider` from phone when possible.
+  </Step>
+  <Step title="Poll status">
+    ```javascript
+    const status = await fetch(
+      `${BASE_URL}/v1/status/collection/${referenceId}`,
+      { headers }
+    ).then((r) => r.json());
+    ```
+    Expect `PENDING` → `PROCESSING` → `COMPLETED`. Do not re-execute while `PROCESSING`.
+  </Step>
+</Steps>
+
+## Try it yourself
+
+<CardGroup cols={2}>
+  <Card title="Full Quick Start" icon="rocket" href="/quickstart">
+    Same flow with cURL and Python side by side.
+  </Card>
+  <Card title="Direct checkout" icon="cart-shopping" href="/guides/collect-via-checkout">
+    Skip party/invoice steps with one checkout call.
+  </Card>
+</CardGroup>
+
+## Related
+
+- [Error handling](/guides/error-handling)
+- [Sessions & executions](/concepts/sessions-and-executions)

@@ -1,0 +1,112 @@
+---
+title: "Collect with Python"
+description: "Collect a payment via invoice using the Dollr API with Python requests."
+keywords: ["Python", "requests", "Dollr integration", "collect payment", "invoice API"]
+---
+
+# Collect with Python
+
+End-to-end **invoice collection** with `requests`. For cURL and Node.js in parallel, see [Quick Start](/quickstart).
+
+<Note>
+**API Reference:** [Obtain token](/api-reference/jwt/client-obtain-token) · [Collect](/api-reference/executions/collect)
+</Note>
+
+## Prerequisites
+
+- Python 3.9+
+- `pip install requests`
+- API credentials from the merchant portal (server-side only)
+
+## Steps
+
+<Steps>
+  <Step title="Authenticate">
+    ```python
+    import requests
+
+    BASE_URL = "https://api.heydollr.app"
+
+    res = requests.post(f"{BASE_URL}/v1/jwt/client/obtain/token", json={
+        "client_id":     "YOUR_CLIENT_ID",
+        "client_secret": "YOUR_CLIENT_SECRET",
+    })
+    token = res.json()["access_token"]
+    headers = {"Authorization": f"Bearer {token}", "Content-Type": "application/json"}
+    ```
+  </Step>
+  <Step title="Party and counterparty">
+    ```python
+    party = requests.post(f"{BASE_URL}/v1/parties/create", headers=headers, json={
+        "fullname": "Amara Kamara", "phone": "231771234567",
+        "email": "amara@example.com", "country_code": "LR",
+    }).json()
+
+    cp = requests.post(f"{BASE_URL}/v1/counterparties/create", headers=headers, json={
+        "relationship_type": "CUSTOMER", "party_id": party["id"],
+    }).json()
+    ```
+  </Step>
+  <Step title="Invoice → publish">
+    ```python
+    invoice = requests.post(f"{BASE_URL}/v1/invoices/create", headers=headers, json={
+        "counterparty_id": cp["id"], "currency": "USD",
+        "note": "Consulting services", "fee_bearer": "PAYER", "as_payment_link": True,
+    }).json()
+
+    requests.post(
+        f"{BASE_URL}/v1/invoices/{invoice['id']}/items/add",
+        headers=headers,
+        json={"name": "Strategy Session", "currency": "USD", "qty": 1, "amount": 250.00},
+    )
+    requests.put(f"{BASE_URL}/v1/invoices/publish/{invoice['id']}", headers=headers)
+    ```
+  </Step>
+  <Step title="Execute collection">
+    ```python
+    import uuid
+
+    session = requests.post(f"{BASE_URL}/v1/sessions/checkout", headers=headers, json={
+        "source_id": invoice["id"], "source_type": "INVOICE",
+    }).json()
+
+    account = requests.post(
+        f"{BASE_URL}/v1/payment-accounts/create",
+        headers=headers, params={"operation_type": "COLLECTION"},
+        json={
+            "account_name": "Amara MTN Wallet",
+            "provider": "MTN_MOMO_LBR", "method": "MTN_MOMO_LBR",
+            "party_id": party["id"], "country_code": "LR",
+            "insensitive_account_number": "231771234567",
+        },
+    ).json()
+
+    reference_id = str(uuid.uuid4())
+    requests.post(f"{BASE_URL}/v1/executions/collection", headers=headers, json={
+        "session_id": str(session["id"]),
+        "payment_account_id": str(account["id"]),
+        "currency": "USD",
+        "reference_id": reference_id,
+    })
+    ```
+  </Step>
+  <Step title="Poll status">
+    ```python
+    status = requests.get(
+        f"{BASE_URL}/v1/status/collection/{reference_id}",
+        headers=headers,
+    ).json()
+    ```
+  </Step>
+</Steps>
+
+## Try it yourself
+
+<CardGroup cols={2}>
+  <Card title="Quick Start" icon="rocket" href="/quickstart">
+    Full tutorial with all code samples.
+  </Card>
+  <Card title="Collect via checkout" icon="cart-shopping" href="/guides/collect-via-checkout">
+    One-call checkout source creation.
+  </Card>
+</CardGroup>

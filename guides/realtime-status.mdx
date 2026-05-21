@@ -1,0 +1,78 @@
+---
+title: "Realtime Status"
+description: "Subscribe to live payment updates with Dollr realtime keys instead of polling."
+keywords: ["realtime", "webhooks", "push updates", "collection status", "Dollr API"]
+---
+
+# Realtime Status
+
+**Realtime keys** are short-lived tokens for subscribing to live payment events on a checkout session. Use them when you want immediate UI updates without polling `GET /v1/status/*`.
+
+<Note>
+**API Reference:** [Collection realtime key](/api-reference/realtime-keys/get-collection-realtime-key)
+</Note>
+
+## When to use
+
+| Approach | Best for |
+|----------|----------|
+| **Polling** | Few payments, simple cron-style checks |
+| **Realtime keys** | Checkout UI, dashboards, high-volume status updates |
+
+See also [Status & incidents](/reference/status-and-incidents) for operational context.
+
+## Obtain a collection realtime key
+
+```http
+POST /v1/realtime-keys/collection
+```
+
+| Field | Required | Description |
+|-------|----------|-------------|
+| `session_id` | Yes | Checkout session ID |
+| `source_type` | Yes | `INVOICE` or `ORDER` |
+| `reference_id` | Yes | Your UUID v4 for this subscription |
+
+Response includes `access_token` and `expires_in` (**seconds**).
+
+<CodeGroup>
+
+```bash cURL
+curl -X POST "https://api.heydollr.app/v1/realtime-keys/collection" \
+  -H "Authorization: Bearer YOUR_ACCESS_TOKEN" \
+  -H "Content-Type: application/json" \
+  -d '{
+    "session_id": 55,
+    "source_type": "INVOICE",
+    "reference_id": "550e8400-e29b-41d4-a716-446655440000"
+  }'
+```
+
+```javascript Node.js
+import { randomUUID } from "crypto";
+
+const rt = await fetch("https://api.heydollr.app/v1/realtime-keys/collection", {
+  method: "POST",
+  headers: {
+    Authorization: `Bearer ${process.env.DOLLR_TOKEN}`,
+    "Content-Type": "application/json",
+  },
+  body: JSON.stringify({
+    session_id: 55,
+    source_type: "INVOICE",
+    reference_id: randomUUID(),
+  }),
+}).then((r) => r.json());
+```
+
+</CodeGroup>
+
+<Tip>
+Still generate and store an execution `reference_id` for idempotency and fallback polling if the realtime connection drops.
+</Tip>
+
+## Related
+
+- [Realtime Keys API concept](/api/realtime-keys)
+- [Transaction status](/api/status)
+- [Sessions & executions](/concepts/sessions-and-executions)

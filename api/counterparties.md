@@ -1,207 +1,30 @@
 ---
 title: "Counterparties"
-description: "Link a Party to your merchant account with a defined relationship type."
+description: "Link parties to your merchant account with relationship types."
 ---
 
 # Counterparties
 
+A counterparty links a [party](/api/parties) to your merchant with a relationship type (`CUSTOMER`, `SUPPLIER`, `EMPLOYEE`, `BENEFICIARY`, `OTHER`).
+
 <Note>
-**Try in API Reference:** [Create](/api-reference/counterparties/create-counterparty) · [List](/api-reference/counterparties/list-counterparties) · [Retrieve](/api-reference/counterparties/retrieve-counterparties) · [Update](/api-reference/counterparties/update-counterparty)
+**Try in API Reference:** [Create counterparty](/api-reference/counterparties/create-counterparty) · [List](/api-reference/counterparties/list-counterparties) · [Retrieve](/api-reference/counterparties/retrieve-counterparties)
 </Note>
 
-A Counterparty links an existing Party to your merchant account with a defined relationship type. Counterparties are required before creating invoices or orders.
+## When to use
 
-## Relationship Types
+Required for `POST /v1/invoices/create` and `POST /v1/orders/create` in the document-first flow. Not required when using `POST /v1/checkouts/create` with payer details.
 
-`CUSTOMER` `FRIEND` `DONOR` `DONEE` `FAMILY` `EMPLOYEE` `SUPPLIER` `CONTACT` `SERVICE_PROVIDER` `PARTNER` `BENEFICIARY`
+## Minimal example
 
-## Create Counterparty
-
-```http
-POST /v1/counterparties/create
-```
-
-#### Request Body
-
-| Field | Type | Required | Description |
-|---|---|---|---|
-| `relationship_type` | enum | Yes | One of the relationship type values above |
-| `party_id` | integer \| null | No | ID of an existing Party to link |
-
-#### Example Response
-
-```json
-{
-  "id": 15,
-  "relationship_type": "CUSTOMER",
-  "party_id": 42,
-  "created_at": "2025-06-01T10:05:00Z",
-  "updated_at": "2025-06-01T10:05:00Z"
-}
-```
-
-#### Code Examples
-
-<CodeGroup>
-
-```bash cURL
+```bash
 curl -X POST "https://api.heydollr.app/v1/counterparties/create" \
   -H "Authorization: Bearer YOUR_ACCESS_TOKEN" \
   -H "Content-Type: application/json" \
-  -d '{
-    "relationship_type": "CUSTOMER",
-    "party_id": 42
-  }'
+  -d '{"relationship_type": "CUSTOMER", "party_id": 42}'
 ```
 
-```python Python
-import requests
+## Related
 
-BASE_URL = "https://api.heydollr.app"
-headers  = {
-    "Authorization": "Bearer YOUR_ACCESS_TOKEN",
-    "Content-Type":  "application/json",
-}
-
-response = requests.post(
-    f"{BASE_URL}/v1/counterparties/create",
-    headers=headers,
-    json={
-        "relationship_type": "CUSTOMER",
-        "party_id":          42,
-    },
-)
-counterparty = response.json()
-print("Counterparty ID:", counterparty["id"])
-```
-
-```javascript Node.js
-const BASE_URL = "https://api.heydollr.app";
-const TOKEN    = "YOUR_ACCESS_TOKEN";
-
-const response = await fetch(`${BASE_URL}/v1/counterparties/create`, {
-  method: "POST",
-  headers: {
-    Authorization:  `Bearer ${TOKEN}`,
-    "Content-Type": "application/json",
-  },
-  body: JSON.stringify({
-    relationship_type: "CUSTOMER",
-    party_id:          42,
-  }),
-});
-const counterparty = await response.json();
-console.log("Counterparty ID:", counterparty.id);
-```
-
-```php PHP
-$ch = curl_init("https://api.heydollr.app/v1/counterparties/create");
-curl_setopt_array($ch, [
-    CURLOPT_RETURNTRANSFER => true,
-    CURLOPT_POST           => true,
-    CURLOPT_HTTPHEADER     => [
-        "Authorization: Bearer YOUR_ACCESS_TOKEN",
-        "Content-Type: application/json",
-    ],
-    CURLOPT_POSTFIELDS => json_encode([
-        "relationship_type" => "CUSTOMER",
-        "party_id"          => 42,
-    ]),
-]);
-$counterparty = json_decode(curl_exec($ch), true);
-curl_close($ch);
-echo "Counterparty ID: " . $counterparty["id"];
-```
-
-```java Java
-import java.net.URI;
-import java.net.http.*;
-import java.net.http.HttpRequest.BodyPublishers;
-
-HttpClient client = HttpClient.newHttpClient();
-
-String body = """
-    {
-      "relationship_type": "CUSTOMER",
-      "party_id": 42
-    }
-    """;
-
-HttpRequest request = HttpRequest.newBuilder()
-    .uri(URI.create("https://api.heydollr.app/v1/counterparties/create"))
-    .header("Authorization", "Bearer YOUR_ACCESS_TOKEN")
-    .header("Content-Type", "application/json")
-    .POST(BodyPublishers.ofString(body))
-    .build();
-
-HttpResponse<String> response = client.send(request, HttpResponse.BodyHandlers.ofString());
-System.out.println(response.body());
-```
-
-```go Go
-package main
-
-import (
-    "bytes"
-    "encoding/json"
-    "fmt"
-    "io"
-    "net/http"
-)
-
-func main() {
-    payload := map[string]interface{}{
-        "relationship_type": "CUSTOMER",
-        "party_id":          42,
-    }
-    body, _ := json.Marshal(payload)
-
-    req, _ := http.NewRequest("POST",
-        "https://api.heydollr.app/v1/counterparties/create",
-        bytes.NewBuffer(body),
-    )
-    req.Header.Set("Authorization", "Bearer YOUR_ACCESS_TOKEN")
-    req.Header.Set("Content-Type", "application/json")
-
-    client := &http.Client{}
-    resp, _ := client.Do(req)
-    defer resp.Body.Close()
-
-    data, _ := io.ReadAll(resp.Body)
-    fmt.Println(string(data))
-}
-```
-
-</CodeGroup>
-
-## List Counterparties
-
-```http
-GET /v1/counterparties/list
-```
-
-| Query Param | Type | Required | Description |
-|---|---|---|---|
-| `fullname` | string \| null | No | Filter by linked party's full name |
-| `relationship_type` | enum \| null | No | Filter by relationship type |
-
-## Retrieve Counterparty
-
-```http
-GET /v1/counterparties/retrieve/{id}
-```
-
-Returns a `CounterPartyWithPartyResponse` — includes the linked `PartyResponse`.
-
-## Update Counterparty
-
-```http
-PUT /v1/counterparties/update/{id}
-```
-
-| Field | Type | Required | Description |
-|---|---|---|---|
-| `relationship_type` | enum \| null | No | New relationship type |
-| `party_id` | integer \| null | No | Link to a different existing Party |
-
----
+- [Parties](/api/parties) · [Invoices](/api/invoices) · [Orders](/api/orders)
+- [Parties & counterparties (concept)](/concepts/parties-and-counterparties)

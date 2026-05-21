@@ -1,0 +1,58 @@
+---
+title: "Sessions & Executions"
+description: "Checkout sessions, fund executions, idempotency, and two status models in the Dollr API."
+keywords: ["checkout session", "execution", "idempotency", "reference_id", "payment status"]
+---
+
+# Sessions & Executions
+
+## Session
+
+A **session** declares intent to run an operation: **checkout** (collect), **payout**, **transfer**, or **refund**. Create a session against a payment source (invoice, order, or checkout-created source), then execute it before the session expires.
+
+<Note>
+**API Reference:** [Checkout session](/api-reference/sessions/create-checkout-session) · [Payout session](/api-reference/sessions/create-payout-session)
+</Note>
+
+## Execution
+
+An **execution** submits an active session and moves funds. You must pass:
+
+- `session_id`
+- `payment_account_id` (registered wallet or card)
+- `currency`
+- `reference_id` — UUID v4 you generate **before** the HTTP call
+
+<Warning>
+`reference_id` is your idempotency key. If the network fails, poll status with the **same** `reference_id` before retrying. Never mint a new UUID until you confirm the original attempt did not land.
+</Warning>
+
+## Two status models
+
+| Model | Tracks | Example values |
+|-------|--------|----------------|
+| **Execution** | Movement of funds | `PENDING` → `PROCESSING` → `COMPLETED` \| `FAILED` |
+| **Source** (invoice/order) | Document lifecycle | `IDLE` → `ACTIVE` → `PROCESSING` → `PAID` \| `CANCELED` |
+
+Mobile money often stays in `PROCESSING` for several minutes. Poll execution status; do not re-execute during that window.
+
+## Poll execution status
+
+```http
+GET /v1/status/collection/{reference_id}
+GET /v1/status/payout/{reference_id}
+```
+
+Replace the path segment with the UUID you stored at execute time.
+
+## Fee bearer
+
+- **`PAYER`** — Customer pays fees on top of the total; merchant receives the full invoice amount.
+- **`PAYEE`** — Merchant absorbs fees; customer pays the listed total.
+
+## Related
+
+- [Parties & counterparties](/concepts/parties-and-counterparties)
+- [Realtime status](/guides/realtime-status) — push updates instead of polling
+- [Executions API concept](/api/executions) · [Status](/api/status)
+- [Quick Start](/quickstart)

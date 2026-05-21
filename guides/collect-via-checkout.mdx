@@ -1,0 +1,51 @@
+---
+title: "Collect via Checkout"
+description: "Create an invoice or order and checkout session in one API call from payer details."
+keywords: ["checkout API", "direct checkout", "payment source", "Dollr collect"]
+---
+
+# Collect via Checkout
+
+Use `POST /v1/checkouts/create` when you do **not** want to manually create a party, counterparty, and invoice/order first. Dollr creates or matches the payer and returns `source_id`, `party_id`, and `counterparty_id` when applicable.
+
+<Note>
+**API Reference:** [Create checkout source](/api-reference/checkouts/create-checkout-source)
+</Note>
+
+## When to use
+
+- E-commerce checkout where payer details are known at cart time
+- Faster prototyping than the [document-first Quick Start](/quickstart)
+- Hosted payment pages with `success_url` / `cancel_url`
+
+For formal B2B invoicing with explicit publish control, prefer the [invoice flow](/guides/collect-with-nodejs).
+
+## Minimal flow
+
+<Steps>
+  <Step title="Authenticate">
+    See [Authentication](/authentication).
+  </Step>
+  <Step title="Create checkout source">
+    ```http
+    POST /v1/checkouts/create
+    ```
+    Key fields: `mode`, `source_kind` (`INVOICE` or `ORDER`), `party_name`, `party_phone`, `currency`, `items[]`.
+
+    <Warning>
+    Request body uses `source_kind`; session and execution calls use `source_type` for the same concept.
+    </Warning>
+  </Step>
+  <Step title="Checkout session → payment account → execute">
+    Same as the invoice flow: `POST /v1/sessions/checkout`, register a [payment account](/api/payment-accounts), then `POST /v1/executions/collection` with a stored UUID `reference_id`.
+  </Step>
+  <Step title="Poll or subscribe">
+    `GET /v1/status/collection/\{reference_id\}` or [Realtime status](/guides/realtime-status).
+  </Step>
+</Steps>
+
+## Related
+
+- [Checkouts API concept](/api/checkouts) — field reference summary
+- [Choose your integration](/guides/choose-integration)
+- [Integration guide](/guides/integration)

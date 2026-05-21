@@ -1,0 +1,58 @@
+---
+title: "Choose Your Integration"
+description: "Pick the right Dollr API flow — invoice collection, direct checkout, payouts, or realtime updates."
+keywords: ["integration path", "invoice API", "checkout API", "payout", "Dollr flows"]
+---
+
+# Choose Your Integration
+
+Use this page to pick a starting path. Every flow uses the same [authentication](/authentication) and [API conventions](/api-conventions).
+
+## Collection (money in)
+
+| Path | Best when | Start here |
+|------|-----------|------------|
+| **Invoice / order (document-first)** | You issue formal bills or e-commerce orders; you control line items and publish timing | [Quick Start](/quickstart) · [Node.js](/guides/collect-with-nodejs) · [Python](/guides/collect-with-python) |
+| **Direct checkout** | You want one API call to create source + session from payer details | [Collect via checkout](/guides/collect-via-checkout) |
+| **Payment link only** | Customer pays via hosted link; minimal backend | [Payment links](/api/links) + [Invoices](/api/invoices) |
+
+<Steps>
+  <Step title="Document-first">
+    Party → counterparty → invoice/order → publish → checkout session → payment account → execute → poll status.
+  </Step>
+  <Step title="Checkout shortcut">
+    `POST /v1/checkouts/create` with payer + line items → session → payment account → execute.
+  </Step>
+</Steps>
+
+## Payouts & transfers (money out)
+
+| Path | Best when | Start here |
+|------|-----------|------------|
+| **Payout** | Send to a mobile wallet or registered account | [Integration guide — Payout](/guides/integration#issue-a-payout) |
+| **Transfer** | Move between Dollr wallets | [Integration guide](/guides/integration) |
+| **Refund** | Reverse a prior collection | [Integration guide](/guides/integration) |
+
+## Status updates
+
+| Path | Best when | Start here |
+|------|-----------|------------|
+| **Polling** | Simple backends; few concurrent payments | `GET /v1/status/collection/\{reference_id\}` — [Status](/api/status) |
+| **Realtime keys** | Live UI; reduce polling load | [Realtime status](/guides/realtime-status) |
+
+## Markets & methods
+
+Before executing, confirm the customer's **method** and **provider** for their country: [Payments by market](/reference/payments-by-market).
+
+Optional: `GET /v1/predictions/mmo-provider-info` to infer MoMo operator from phone — [Predictions](/api/predictions).
+
+## Try it yourself
+
+<CardGroup cols={2}>
+  <Card title="API Reference playground" icon="play" href="/api-reference/executions/collect">
+    Run collect, payout, and status calls interactively.
+  </Card>
+  <Card title="Examples & Postman" icon="code" href="/reference/examples">
+    Sample requests and external collections.
+  </Card>
+</CardGroup>

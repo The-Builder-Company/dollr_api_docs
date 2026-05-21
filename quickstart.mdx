@@ -197,8 +197,9 @@ const counterpartyId = cp.id;
 
 </CodeGroup>
 
-Note: This step is required for the direct invoice flow shown here. If you use the checkout-source shortcut (`POST /v1/checkouts/create`), Dollr can create or match the Party and Counterparty automatically from payer details.
-    ```
+<Note>
+This step is required for the direct invoice flow shown here. If you use the checkout-source shortcut (`POST /v1/checkouts/create`), Dollr can create or match the Party and Counterparty automatically from payer details.
+</Note>
 
 ---
 
@@ -482,12 +483,23 @@ Use `/v1/invoices/receipt/\{id\}` for invoices and `/v1/orders/receipt/\{id\}` f
 
 ## What's Next
 
-| Task | Where to go |
-|---|---|
-| Full invoice and order management | [Invoices](/api/invoices) · [Orders](/api/orders) |
-| Send payouts to mobile wallets | [Sessions](/api/sessions) · [Executions](/api/executions) |
-| Preview fees before executing | [Predictions](/api/predictions) |
-| Live status push (no polling) | [Realtime Keys](/api/realtime-keys) |
-| Error handling and retries | [Error Handling](/guides/error-handling) |
-| Full step-by-step flows | [Integration Guide](/guides/integration) |
-| Term definitions | [Glossary](/reference/glossary) |
+<CardGroup cols={2}>
+  <Card title="Node.js guide" icon="node-js" href="/guides/collect-with-nodejs">
+    Same flow focused on JavaScript.
+  </Card>
+  <Card title="Direct checkout" icon="cart-shopping" href="/guides/collect-via-checkout">
+    Skip manual party/invoice steps.
+  </Card>
+  <Card title="Integration guide" icon="map" href="/guides/integration">
+    Payouts, transfers, and refunds.
+  </Card>
+  <Card title="Realtime status" icon="bolt" href="/guides/realtime-status">
+    Push updates instead of polling.
+  </Card>
+  <Card title="API Reference" icon="braces" href="/api-reference/executions/collect">
+    Try every endpoint interactively.
+  </Card>
+  <Card title="Error catalog" icon="triangle-exclamation" href="/reference/error-catalog">
+    Common errors and fixes.
+  </Card>
+</CardGroup>

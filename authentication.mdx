@@ -1,0 +1,112 @@
+---
+title: "Authentication"
+description: "Obtain and use Dollr API access tokens with OAuth 2.0 client credentials."
+keywords: ["OAuth", "JWT", "API keys", "Bearer token", "Dollr authentication"]
+---
+
+# Authentication
+
+The Dollr API uses **OAuth 2.0 Client Credentials**. Exchange your Client ID and Client Secret for a short-lived JWT, then send `Authorization: Bearer <token>` on every protected request.
+
+<Note>
+**Try in API Reference:** [Obtain token](/api-reference/jwt/client-obtain-token)
+</Note>
+
+## Prerequisites
+
+You need a verified merchant account and API credentials from [merchant.heydollr.app](https://merchant.heydollr.app) → **API Keys**.
+
+Until verification completes, some features (payouts, payment links, API keys, refunds) may be restricted. See the merchant portal for your account status.
+
+## Obtain an access token
+
+```http
+POST /v1/jwt/client/obtain/token
+```
+
+No Bearer token is required for this call.
+
+| Field | Type | Required | Description |
+|-------|------|----------|-------------|
+| `client_id` | string | Yes | Client ID from the merchant portal |
+| `client_secret` | string | Yes | Client secret (shown once at creation) |
+
+**Response**
+
+| Field | Type | Description |
+|-------|------|-------------|
+| `access_token` | string | JWT for subsequent requests |
+| `expires_in` | integer | Validity in **minutes** |
+
+```json
+{
+  "access_token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...",
+  "expires_in": 60
+}
+```
+
+<CodeGroup>
+
+```bash cURL
+curl -X POST "https://api.heydollr.app/v1/jwt/client/obtain/token" \
+  -H "Content-Type: application/json" \
+  -d '{
+    "client_id": "your-client-id",
+    "client_secret": "your-client-secret"
+  }'
+```
+
+```python Python
+import requests
+
+BASE_URL = "https://api.heydollr.app"
+res = requests.post(f"{BASE_URL}/v1/jwt/client/obtain/token", json={
+    "client_id":     "your-client-id",
+    "client_secret": "your-client-secret",
+})
+data = res.json()
+token = data["access_token"]
+headers = {"Authorization": f"Bearer {token}", "Content-Type": "application/json"}
+```
+
+```javascript Node.js
+const BASE_URL = "https://api.heydollr.app";
+
+const { access_token } = await fetch(`${BASE_URL}/v1/jwt/client/obtain/token`, {
+  method: "POST",
+  headers: { "Content-Type": "application/json" },
+  body: JSON.stringify({
+    client_id:     "your-client-id",
+    client_secret: "your-client-secret",
+  }),
+}).then((r) => r.json());
+
+const headers = {
+  Authorization: `Bearer ${access_token}`,
+  "Content-Type": "application/json",
+};
+```
+
+</CodeGroup>
+
+## Use the Bearer token
+
+```http
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...
+```
+
+<Tip>
+Refresh proactively — request a new token when fewer than **5 minutes** remain (`expires_in` is in minutes). Expired tokens return **401**.
+</Tip>
+
+## Security
+
+- Store secrets in a vault or environment variables on your server.
+- Rotate credentials from the merchant portal if a secret is exposed.
+- Do not log full tokens in production logs.
+
+## Related
+
+- [API conventions](/api-conventions) — request format and errors
+- [Quick Start](/quickstart) — first end-to-end collection
+- [Error handling](/guides/error-handling) — 401 and retry patterns

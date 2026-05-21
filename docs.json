@@ -40,6 +40,12 @@
       "languages": ["bash", "python", "javascript", "php"]
     }
   },
+  "contextual": {
+    "options": ["copy", "view", "chatgpt", "claude", "perplexity", "mcp", "cursor", "vscode"]
+  },
+  "metadata": {
+    "timestamp": true
+  },
   "navigation": {
     "anchors": [
       {
@@ -70,14 +76,32 @@
           {
             "group": "Getting Started",
             "icon": "rocket",
-            "pages": ["index", "quickstart"]
+            "pages": [
+              "index",
+              "quickstart",
+              "guides/choose-integration",
+              "authentication",
+              "api-conventions"
+            ]
           },
           {
-            "group": "API Guide",
-            "icon": "square-terminal",
+            "group": "Guides",
+            "icon": "map",
             "pages": [
-              "api/parties",
-              "api/counterparties",
+              "guides/collect-with-nodejs",
+              "guides/collect-with-python",
+              "guides/collect-via-checkout",
+              "guides/integration",
+              "guides/realtime-status",
+              "guides/error-handling"
+            ]
+          },
+          {
+            "group": "Concepts",
+            "icon": "lightbulb",
+            "pages": [
+              "concepts/parties-and-counterparties",
+              "concepts/sessions-and-executions",
               "api/invoices",
               "api/orders",
               "api/checkouts",
@@ -93,17 +117,25 @@
             ]
           },
           {
-            "group": "Guides",
-            "icon": "map",
-            "pages": ["guides/integration", "guides/error-handling"]
+            "group": "API Concepts",
+            "icon": "square-terminal",
+            "pages": [
+              "api/parties",
+              "api/counterparties"
+            ]
+          },
+          {
+            "group": "Knowledge Base",
+            "icon": "circle-question",
+            "pages": ["reference/error-catalog", "guides/error-handling"]
           },
           {
             "group": "Resources",
             "icon": "book-open",
             "pages": [
               "reference/payments-by-market",
-              "reference/error-catalog",
               "reference/status-and-incidents",
+              "reference/examples",
               "reference/sdks",
               "reference/glossary",
               "reference/support"
@@ -138,10 +170,10 @@
         "header": "Developers",
         "items": [
           { "label": "Quick Start", "href": "/quickstart" },
+          { "label": "Collect with Node.js", "href": "/guides/collect-with-nodejs" },
           { "label": "Payments by Market", "href": "/reference/payments-by-market" },
-          { "label": "Integration Guide", "href": "/guides/integration" },
           { "label": "Error Catalog", "href": "/reference/error-catalog" },
-          { "label": "Status & Incidents", "href": "/reference/status-and-incidents" },
+          { "label": "Examples", "href": "/reference/examples" },
           { "label": "OpenAPI Spec", "href": "https://api.heydollr.app/openapi.json" }
         ]
       }
@@ -163,13 +195,16 @@
     { "source": "/docs/quickstart", "destination": "/quickstart" },
     { "source": "/docs/api/:path*", "destination": "/api/:path*" },
     { "source": "/docs/guides/:path*", "destination": "/guides/:path*" },
-    { "source": "/docs/reference/:path*", "destination": "/reference/:path*" }
+    { "source": "/docs/reference/:path*", "destination": "/reference/:path*" },
+    { "source": "/docs/authentication", "destination": "/authentication" },
+    { "source": "/docs/api-conventions", "destination": "/api-conventions" },
+    { "source": "/docs/concepts/:path*", "destination": "/concepts/:path*" }
   ],
   "errors": {
     "404": {
       "redirect": false,
       "title": "Page not found",
-      "description": "This page doesn't exist. Head to the [overview](/) or [quick start](/quickstart)."
+      "description": "This page doesn't exist. Head to the [introduction](/) or [quick start](/quickstart)."
     }
   }
 }

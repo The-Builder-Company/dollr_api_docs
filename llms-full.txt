@@ -1,0 +1,77 @@
+# Dollr Developer Documentation (full index)
+
+> Machine-readable index of https://docs.heydollr.app — Mintlify site, API v1, base URL https://api.heydollr.app
+
+## Site
+
+- Production: https://docs.heydollr.app
+- OpenAPI: https://api.heydollr.app/openapi.json
+- Merchant portal: https://merchant.heydollr.app
+- Compact context: llms.txt
+
+## Getting started
+
+- / — Introduction hub (Card-based navigation)
+- /quickstart — First collection (invoice flow, cURL/Python/Node)
+- /guides/choose-integration — Pick invoice vs checkout vs payout vs realtime
+- /authentication — OAuth 2.0 client credentials
+- /api-conventions — JSON, phones, currencies, HTTP codes
+
+## Guides
+
+- /guides/collect-with-nodejs — Invoice collection in JavaScript
+- /guides/collect-with-python — Invoice collection in Python
+- /guides/collect-via-checkout — POST /v1/checkouts/create shortcut
+- /guides/integration — Collection, payout, transfer, refund walkthroughs
+- /guides/realtime-status — Realtime keys vs polling
+- /guides/error-handling — Retries, idempotency, status codes
+
+## Concepts
+
+- /concepts/parties-and-counterparties — Party, counterparty, invoice vs order
+- /concepts/sessions-and-executions — Sessions, executions, idempotency, dual status models
+
+## API concept pages (link to /api-reference/* for schemas)
+
+- /api/parties
+- /api/counterparties
+- /api/invoices
+- /api/orders
+- /api/checkouts
+- /api/sessions
+- /api/executions
+- /api/status
+- /api/payment-accounts
+- /api/links
+- /api/predictions
+- /api/fees
+- /api/merchants
+- /api/realtime-keys
+
+## Knowledge base & resources
+
+- /reference/payments-by-market — Methods and providers by country
+- /reference/error-catalog — Common errors and fixes
+- /reference/status-and-incidents — Polling, PROCESSING, incidents
+- /reference/examples — OpenAPI, Postman, learning path
+- /reference/sdks
+- /reference/glossary
+- /reference/support
+
+## API Reference (OpenAPI-generated)
+
+Interactive paths under /api-reference/ — use OpenAPI JSON for complete operation list.
+
+Key entry points:
+- /api-reference/jwt/client-obtain-token
+- /api-reference/parties/create-party
+- /api-reference/invoices/create-invoice
+- /api-reference/checkouts/create-checkout-source
+- /api-reference/sessions/create-checkout-session
+- /api-reference/executions/collect
+- /api-reference/status/get-collection-status
+- /api-reference/realtime-keys/get-collection-realtime-key
+
+## Legacy redirects
+
+/docs/* → equivalent root paths (see docs.json redirects)
