@@ -13,7 +13,7 @@ Official documentation for the [Dollr Open API](https://api.heydollr.app), publi
 | `api/*.md` | Short concept pages (link to API Reference) |
 | `reference/*.md` | Market matrix, errors, support |
 | `docs.json` | Navigation, redirects, theme |
-| `llms.txt`, `llms-full.txt`, `ASSISTANT.md` | AI context |
+| `llms.txt`, `llms-full.txt`, `reference/ai-context.mdx`, `ASSISTANT.md` | AI / MCP context |
 
 Use **`.mdx`** for pages with Mintlify components (`Card`, `Steps`, `CodeGroup`, etc.).
 

@@ -1,0 +1,86 @@
+---
+title: "AI & MCP Integration"
+description: "Use Dollr docs with LLMs — llms.txt, OpenAPI, documentation MCP, and support checklist."
+keywords: ["llms.txt", "MCP", "AI agents", "OpenAPI", "Dollr documentation"]
+---
+
+# AI & MCP Integration
+
+Use this page when wiring Dollr documentation into ChatGPT, Claude, Cursor, VS Code, or your own RAG pipeline.
+
+<Note>
+The Dollr **payment API** (`https://api.heydollr.app`) is separate from the **documentation MCP** (`https://docs.heydollr.app/mcp`). MCP only helps AI tools **read** these docs — it does not execute payments.
+</Note>
+
+## Quick links
+
+| Resource | URL | Use case |
+|----------|-----|----------|
+| **llms.txt** | [docs.heydollr.app/llms.txt](https://docs.heydollr.app/llms.txt) | Compact site index + flows for agent context |
+| **llms-full.txt** | [docs.heydollr.app/llms-full.txt](https://docs.heydollr.app/llms-full.txt) | Every doc path with descriptions |
+| **OpenAPI** | [api.heydollr.app/openapi.json](https://api.heydollr.app/openapi.json) | Schemas, codegen, Postman import |
+| **Docs MCP** | `https://docs.heydollr.app/mcp` | Read/search published docs from an MCP client |
+
+## Copy page Markdown
+
+On any doc page, open the **contextual menu** (top of page) → **Copy page**. Paste into your AI chat for questions about that specific guide or API concept.
+
+For whole-site context, prefer **llms.txt** or **llms-full.txt** over copying many pages manually.
+
+## Documentation MCP (read-only)
+
+Mintlify hosts a **documentation MCP** endpoint for this site. It lets compatible clients search and retrieve Dollr doc content.
+
+**Endpoint:** `https://docs.heydollr.app/mcp`
+
+Use the contextual menu item **Copy docs MCP URL** on any page to copy this URL.
+
+### Manual setup (Cursor)
+
+Add to your user or project `mcp.json`:
+
+```json
+{
+  "mcpServers": {
+    "dollr-docs": {
+      "url": "https://docs.heydollr.app/mcp"
+    }
+  }
+}
+```
+
+Reload the editor, then ask: *“Search Dollr docs for invoice collection flow.”*
+
+### Manual setup (Claude Desktop)
+
+Add a custom connector or MCP server pointing at `https://docs.heydollr.app/mcp` per Anthropic’s current MCP documentation.
+
+### Manual setup (other clients)
+
+Any MCP client that supports HTTP/SSE remote servers can use the same URL. Refer to your client’s docs for the exact config shape.
+
+<Warning>
+Do not put Dollr **Client ID** or **Client Secret** into MCP config. API secrets belong only in your backend when calling `https://api.heydollr.app`.
+</Warning>
+
+## Ask about the current page
+
+The contextual menu also includes **Open in Claude** and **Open in ChatGPT** — they start a conversation with the **current page** as context. Use those for one-off questions; use **llms.txt** + MCP for building integrations.
+
+## Agent guardrails (summary)
+
+When implementing Dollr for production:
+
+1. **Auth** — OAuth client credentials; `expires_in` is in **minutes**; refresh before expiry.
+2. **Idempotency** — Generate UUID v4 `reference_id` **before** `POST /v1/executions/*`; poll status before retrying.
+3. **MoMo** — `PROCESSING` can last minutes; do not re-execute with a new `reference_id` during that window.
+4. **Secrets** — Server-side only; never in mobile apps or browser bundles.
+5. **Support payload** — Include `reference_id`, HTTP status, redacted request/response, `method`, `provider`, market.
+
+Full checklist: [Support](/reference/support) · Errors: [Knowledge Base](/knowledge-base)
+
+## Related
+
+- [Quick Start](/quickstart)
+- [Examples & tools](/reference/examples)
+- [ASSISTANT.md](https://github.com/The-Builder-Company/dollr_api_docs/blob/main/ASSISTANT.md) — repo context file for coding agents

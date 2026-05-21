@@ -3,6 +3,7 @@
 > Dollr is a payment infrastructure platform for businesses operating in Africa. It provides a single REST API to collect mobile money and card payments, send payouts, process transfers, and issue refunds — abstracting MTN, Orange, Airtel, and international card networks into one consistent interface.
 >
 > **Production docs:** https://docs.heydollr.app  
+> **AI / MCP:** https://docs.heydollr.app/reference/ai-context · https://docs.heydollr.app/llms.txt · Docs MCP `https://docs.heydollr.app/mcp`  
 > **API base URL:** https://api.heydollr.app  
 > **OpenAPI:** https://api.heydollr.app/openapi.json  
 > **Merchant portal:** https://merchant.heydollr.app  

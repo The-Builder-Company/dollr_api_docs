@@ -41,7 +41,37 @@
     }
   },
   "contextual": {
-    "options": ["copy", "view", "chatgpt", "claude", "perplexity", "mcp", "cursor", "vscode"]
+    "display": "header",
+    "options": [
+      "copy",
+      "view",
+      {
+        "title": "OpenAPI spec",
+        "description": "Dollr v1 OpenAPI JSON — Postman, Insomnia, codegen, and API Reference source",
+        "icon": "braces",
+        "href": "https://api.heydollr.app/openapi.json"
+      },
+      {
+        "title": "Docs index (llms.txt)",
+        "description": "Compact site index, auth flows, and links for LLM / RAG context",
+        "icon": "book",
+        "href": "https://docs.heydollr.app/llms.txt"
+      },
+      {
+        "title": "Copy docs MCP URL",
+        "description": "Read-only MCP to search Dollr docs — setup in AI & MCP guide",
+        "icon": "link",
+        "href": "$mcp"
+      },
+      {
+        "title": "AI & MCP guide",
+        "description": "llms-full.txt, manual MCP setup, and agent guardrails",
+        "icon": "robot",
+        "href": "/reference/ai-context"
+      },
+      "claude",
+      "chatgpt"
+    ]
   },
   "metadata": {
     "timestamp": true
@@ -161,6 +191,7 @@
               "reference/payments-by-market",
               "reference/status-and-incidents",
               "reference/examples",
+              "reference/ai-context",
               "reference/sdks",
               "reference/glossary",
               "reference/support"
@@ -200,6 +231,7 @@
           { "label": "Knowledge Base", "href": "/knowledge-base" },
           { "label": "Error Catalog", "href": "/reference/error-catalog" },
           { "label": "Examples", "href": "/reference/examples" },
+          { "label": "AI & MCP", "href": "/reference/ai-context" },
           { "label": "OpenAPI Spec", "href": "https://api.heydollr.app/openapi.json" }
         ]
       }

@@ -76,6 +76,7 @@
 - /reference/error-catalog — Common errors and fixes (table + KB links)
 - /reference/status-and-incidents — Polling, PROCESSING, incidents
 - /reference/examples — OpenAPI, Postman, learning path
+- /reference/ai-context — llms.txt, MCP manual setup, agent guardrails
 - /reference/sdks
 - /reference/glossary
 - /reference/support
