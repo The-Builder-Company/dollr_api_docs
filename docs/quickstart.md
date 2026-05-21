@@ -1,6 +1,7 @@
 ---
 title: "Quick Start"
 description: "Go from zero to a successful payment collection in under 10 minutes."
+sidebarTitle: "Quick Start"
 ---
 
 # Quick Start
@@ -472,16 +473,16 @@ GET /v1/invoices/receipt/{id}
 GET /v1/orders/receipt/{id}
 ```
 
-Use `/v1/invoices/receipt/{id}` for invoices and `/v1/orders/receipt/{id}` for orders.
+Use `/v1/invoices/receipt/\{id\}` for invoices and `/v1/orders/receipt/\{id\}` for orders.
 
 ## What's Next
 
 | Task | Where to go |
 |---|---|
-| Full invoice and order management | [Invoices](api/invoices.md) · [Orders](api/orders.md) |
-| Send payouts to mobile wallets | [Sessions](api/sessions.md) · [Executions](api/executions.md) |
-| Preview fees before executing | [Predictions](api/predictions.md) |
-| Live status push (no polling) | [Realtime Keys](api/realtime-keys.md) |
-| Error handling and retries | [Error Handling](guides/error-handling.md) |
-| Full step-by-step flows | [Integration Guide](guides/integration.md) |
-| Term definitions | [Glossary](reference/glossary.md) |
+| Full invoice and order management | [Invoices](/api/invoices) · [Orders](/api/orders) |
+| Send payouts to mobile wallets | [Sessions](/api/sessions) · [Executions](/api/executions) |
+| Preview fees before executing | [Predictions](/api/predictions) |
+| Live status push (no polling) | [Realtime Keys](/api/realtime-keys) |
+| Error handling and retries | [Error Handling](/guides/error-handling) |
+| Full step-by-step flows | [Integration Guide](/guides/integration) |
+| Term definitions | [Glossary](/reference/glossary) |

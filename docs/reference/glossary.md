@@ -47,7 +47,7 @@ All currency codes follow ISO 4217 — three uppercase letters (e.g., `USD`, `LR
 ## E
 
 <span id="execution">**Execution**</span>
-The API call that triggers actual movement of funds. Executions require an active [Session](#session) and a unique [Reference ID](#reference-id). Four execution types exist: `COLLECTION`, `PAYOUT`, `TRANSFER`, `REFUND`. See the [Executions](../api/executions.md) page.
+The API call that triggers actual movement of funds. Executions require an active [Session](#session) and a unique [Reference ID](#reference-id). Four execution types exist: `COLLECTION`, `PAYOUT`, `TRANSFER`, `REFUND`. See the [Executions](/api/executions) page.
 
 **ExecutionResponse**
 The response object returned by all execution and status endpoints. Contains `reference_id`, `status`, `operation_type`, `payer_amount`, `payee_amount`, `provider_transaction_id`, and gateway/wallet messages.
@@ -89,7 +89,7 @@ The initial status of a newly created invoice or order. While `IDLE`, the docume
 See [Reference ID](#reference-id).
 
 **Invoice**
-A formal billing document with an auto-generated invoice number (`INV-YYYY-NNNNN`), an optional due date, and line items. Follows the lifecycle: `IDLE → ACTIVE → PROCESSING → PAID / CANCELED`. See [Invoices](../api/invoices.md).
+A formal billing document with an auto-generated invoice number (`INV-YYYY-NNNNN`), an optional due date, and line items. Follows the lifecycle: `IDLE → ACTIVE → PROCESSING → PAID / CANCELED`. See [Invoices](/api/invoices).
 
 **ISO 4217**
 The international standard for currency codes. All currency values in the Dollr API use 3-letter ISO 4217 codes in uppercase.
@@ -138,7 +138,7 @@ Describes the direction and nature of a transaction:
 | `REFUND` | Return funds from a completed collection |
 
 **Order**
-An informal payment document without a formal invoice number or due date. Suited for retail and e-commerce. Follows the same lifecycle as invoices. See [Orders](../api/orders.md).
+An informal payment document without a formal invoice number or due date. Suited for retail and e-commerce. Follows the same lifecycle as invoices. See [Orders](/api/orders).
 
 **ORANGE_MONEY_LBR**
 Payment method identifier for Orange Money in Liberia. Routed via PawaPay.
@@ -157,13 +157,13 @@ An owner type representing a formally registered company or NGO. Requires KYB ve
 A terminal document status. The invoice or order has been successfully paid. A receipt is available after this state is reached.
 
 <span id="party">**Party**</span>
-A contact record representing a person or entity — identified by name, phone number, and optionally email and country code. Parties are the people your business transacts with. A Party becomes meaningful in context through a [Counterparty](#counterparty) relationship. See [Parties](../api/parties.md).
+A contact record representing a person or entity — identified by name, phone number, and optionally email and country code. Parties are the people your business transacts with. A Party becomes meaningful in context through a [Counterparty](#counterparty) relationship. See [Parties](/api/parties).
 
 **PAWAPAY**
 The payment gateway that routes mobile money transactions across Africa. Dollr uses PawaPay for MTN Mobile Money, Orange Money, and Airtel Money across Liberia and Rwanda.
 
 **Payment Account**
-A record binding a specific account number (mobile wallet, card) to a Party and payment method. Required before executing a collection or payout. See [Payment Accounts](../api/payment-accounts.md).
+A record binding a specific account number (mobile wallet, card) to a Party and payment method. Required before executing a collection or payout. See [Payment Accounts](/api/payment-accounts).
 
 **Payment Link**
 An invoice or order shared via URL that customers can pay directly in a browser — without a Dollr account. Enabled by setting `as_payment_link: true` when creating an invoice or order.
@@ -197,13 +197,13 @@ The payment network or gateway routing the transaction. Note: `provider` identif
 ## R
 
 **Realtime Key**
-A short-lived token (expires in seconds) used to subscribe to live payment status push updates for an active checkout session. Eliminates the need to poll `GET /v1/status/*`. See [Realtime Keys](../api/realtime-keys.md).
+A short-lived token (expires in seconds) used to subscribe to live payment status push updates for an active checkout session. Eliminates the need to poll `GET /v1/status/*`. See [Realtime Keys](/api/realtime-keys).
 
 **Receipt**
 A post-payment document available once an invoice or order reaches `PAID` status. Contains the full fee breakdown, FX rate, provider transaction ID, and line items.
 
 <span id="reference-id">**Reference ID**</span>
-A UUID v4 string you generate and supply with every execution call. This is your **idempotency key** — it identifies the transaction uniquely in Dollr's system. If a network error occurs, query `GET /v1/status/{type}/{reference_id}` with the original reference ID before generating a new one and retrying. Never reuse a reference ID for a different transaction.
+A UUID v4 string you generate and supply with every execution call. This is your **idempotency key** — it identifies the transaction uniquely in Dollr's system. If a network error occurs, query `GET /v1/status/\{type\}/\{reference_id\}` with the original reference ID before generating a new one and retrying. Never reuse a reference ID for a different transaction.
 
 **Refund**
 An operation that returns funds to a customer from a previously completed collection. Requires creating a refund session with the original `payment_intent_id` and then executing via `POST /v1/executions/refund`.
@@ -218,7 +218,7 @@ Describes how a counterparty relates to your merchant account:
 ## S
 
 <span id="session">**Session**</span>
-Declares payment intent before funds move. A session captures what you intend to do (checkout, payout, transfer, refund), with whom, and for how much. Sessions expire if not executed within the specified window. See [Sessions](../api/sessions.md).
+Declares payment intent before funds move. A session captures what you intend to do (checkout, payout, transfer, refund), with whom, and for how much. Sessions expire if not executed within the specified window. See [Sessions](/api/sessions).
 
 **Source Type**
 Specifies the type of document backing a checkout session or prediction:

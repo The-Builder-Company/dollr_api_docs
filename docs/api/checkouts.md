@@ -24,7 +24,7 @@ POST /v1/checkouts/create
 | `party_name` | string | Yes | Full name of the paying party |
 | `party_phone` | string | Yes | Phone in E.164 digits only, without `+` (e.g. `231771234567`) |
 | `party_email` | string \| null | No | Email address of the paying party |
-| `party_relationship` | enum \| null | No | Relationship type — see [Relationship Types](counterparties.md#relationship-types) |
+| `party_relationship` | enum \| null | No | Relationship type — see [Relationship Types](/api/counterparties#relationship-types) |
 | `currency` | string | Yes | ISO 4217 currency code (e.g. `USD`, `LRD`) |
 | `items` | array | Yes | Line items for the payment source — see [Item Fields](#item-fields) below |
 | `reference_id` | string \| null | No | Your internal reference ID |

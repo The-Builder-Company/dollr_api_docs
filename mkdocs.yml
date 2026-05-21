@@ -82,4 +82,6 @@ nav:
     - Integration Guide: guides/integration.md
     - Error Handling: guides/error-handling.md
   - Reference:
+    - SDKs: reference/sdks.md
     - Glossary: reference/glossary.md
+    - Support: reference/support.md

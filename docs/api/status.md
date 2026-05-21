@@ -14,7 +14,7 @@ GET /v1/status/transfer/{reference_id}
 GET /v1/status/refund/{reference_id}
 ```
 
-All four endpoints return an `ExecutionResponse` (see [ExecutionResponse Schema](executions.md#executionresponse-schema)).
+All four endpoints return an `ExecutionResponse` (see [ExecutionResponse Schema](/api/executions#executionresponse-schema)).
 
 To poll the payment status of an invoice or order directly, use [Check Payment Source Status](#check-payment-source-status).
 
@@ -251,7 +251,7 @@ func main() {
 }
 ```
 
-Note: The `GET /v1/status/source` endpoint returns the payment source (invoice/order) lifecycle status. Execution endpoints such as `GET /v1/status/collection/{reference_id}` return an `ExecutionResponse` that reflects funds-movement status. Treat source status and execution status as separate state models.
+Note: The `GET /v1/status/source` endpoint returns the payment source (invoice/order) lifecycle status. Execution endpoints such as `GET /v1/status/collection/\{reference_id\}` return an `ExecutionResponse` that reflects funds-movement status. Treat source status and execution status as separate state models.
 
 </CodeGroup>
 

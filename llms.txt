@@ -76,34 +76,34 @@ Dollr uses OAuth 2.0 Client Credentials. POST your `client_id` and `client_secre
 
 ## Getting Started
 
-- [Overview & Introduction](https://docs.heydollr.app/docs/index): Platform overview, authentication, API conventions, and core concepts
-- [Quick Start](https://docs.heydollr.app/docs/quickstart): Complete working example from zero to a successful payment collection in under 10 minutes
+- [Overview & Introduction](https://docs.heydollr.app/): Platform overview, authentication, API conventions, and core concepts
+- [Quick Start](https://docs.heydollr.app/quickstart): Complete working example from zero to a successful payment collection in under 10 minutes
 
 ## API Reference
 
-- [Parties](https://docs.heydollr.app/docs/api/parties): Create and manage contact records (name, phone, email, country)
-- [Counterparties](https://docs.heydollr.app/docs/api/counterparties): Link a Party to your merchant account with a relationship type
-- [Invoices](https://docs.heydollr.app/docs/api/invoices): Create, manage, add items to, publish, and retrieve receipts for invoices
-- [Orders](https://docs.heydollr.app/docs/api/orders): Create and manage payment orders for retail and e-commerce
-- [Checkouts](https://docs.heydollr.app/docs/api/checkouts): Create checkout sources directly from payer details without a prior invoice
-- [Sessions](https://docs.heydollr.app/docs/api/sessions): Declare payment intent for collections, payouts, transfers, and refunds
-- [Executions](https://docs.heydollr.app/docs/api/executions): Submit an active Session to move funds; all execution types covered
-- [Transaction Status](https://docs.heydollr.app/docs/api/status): Query execution status by `reference_id` for any operation type
-- [Payment Accounts](https://docs.heydollr.app/docs/api/payment-accounts): Register and retrieve mobile wallets and card accounts for a Party
-- [Payment Links](https://docs.heydollr.app/docs/api/links): Generate and manage shareable payment links tied to invoices or orders
-- [Predictions](https://docs.heydollr.app/docs/api/predictions): Preview fees and FX rates before executing; detect mobile money provider from phone number
-- [Fees](https://docs.heydollr.app/docs/api/fees): Retrieve gateway and platform fee schedules for your merchant account
-- [Merchants](https://docs.heydollr.app/docs/api/merchants): Retrieve and update your merchant profile
-- [Realtime Keys](https://docs.heydollr.app/docs/api/realtime-keys): Generate short-lived keys for subscribing to live transaction events (no polling)
+- [Parties](https://docs.heydollr.app/api/parties): Create and manage contact records (name, phone, email, country)
+- [Counterparties](https://docs.heydollr.app/api/counterparties): Link a Party to your merchant account with a relationship type
+- [Invoices](https://docs.heydollr.app/api/invoices): Create, manage, add items to, publish, and retrieve receipts for invoices
+- [Orders](https://docs.heydollr.app/api/orders): Create and manage payment orders for retail and e-commerce
+- [Checkouts](https://docs.heydollr.app/api/checkouts): Create checkout sources directly from payer details without a prior invoice
+- [Sessions](https://docs.heydollr.app/api/sessions): Declare payment intent for collections, payouts, transfers, and refunds
+- [Executions](https://docs.heydollr.app/api/executions): Submit an active Session to move funds; all execution types covered
+- [Transaction Status](https://docs.heydollr.app/api/status): Query execution status by `reference_id` for any operation type
+- [Payment Accounts](https://docs.heydollr.app/api/payment-accounts): Register and retrieve mobile wallets and card accounts for a Party
+- [Payment Links](https://docs.heydollr.app/api/links): Generate and manage shareable payment links tied to invoices or orders
+- [Predictions](https://docs.heydollr.app/api/predictions): Preview fees and FX rates before executing; detect mobile money provider from phone number
+- [Fees](https://docs.heydollr.app/api/fees): Retrieve gateway and platform fee schedules for your merchant account
+- [Merchants](https://docs.heydollr.app/api/merchants): Retrieve and update your merchant profile
+- [Realtime Keys](https://docs.heydollr.app/api/realtime-keys): Generate short-lived keys for subscribing to live transaction events (no polling)
 
 ## Guides
 
-- [Integration Guide](https://docs.heydollr.app/docs/guides/integration): Full end-to-end walkthroughs for collection, payout, transfer, and refund flows with code examples
-- [Error Handling](https://docs.heydollr.app/docs/guides/error-handling): Retry logic with exponential backoff, idempotency rules, and status code reference
+- [Integration Guide](https://docs.heydollr.app/guides/integration): Full end-to-end walkthroughs for collection, payout, transfer, and refund flows with code examples
+- [Error Handling](https://docs.heydollr.app/guides/error-handling): Retry logic with exponential backoff, idempotency rules, and status code reference
 
 ## Optional
 
-- [Glossary](https://docs.heydollr.app/docs/reference/glossary): Definitions for every term and enum value used in the API
-- [SDKs](https://docs.heydollr.app/docs/reference/sdks): Official Dollr SDKs (in development) and community-built libraries
-- [Support](https://docs.heydollr.app/docs/reference/support): Help center, in-app bug/feature reporting, and developer contact
+- [Glossary](https://docs.heydollr.app/reference/glossary): Definitions for every term and enum value used in the API
+- [SDKs](https://docs.heydollr.app/reference/sdks): Official Dollr SDKs (in development) and community-built libraries
+- [Support](https://docs.heydollr.app/reference/support): Help center, in-app bug/feature reporting, and developer contact
 - [OpenAPI Specification](https://api.heydollr.app/openapi.json): Machine-readable full API spec for code generation, Postman import, and tooling

@@ -275,7 +275,7 @@ Tokens expire after the period stated in `expires_in`. Implement proactive refre
 All endpoints are prefixed with the API version. The current version is `v1`.
 
 ```
-https://api.heydollr.app/v1/{resource}
+https://api.heydollr.app/v1/\{resource\}
 ```
 
 Future breaking changes will be introduced under a new version prefix.

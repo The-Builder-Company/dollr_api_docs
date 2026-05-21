@@ -4,11 +4,11 @@
   "description": "Official API documentation for Dollr — accept payments, send payouts, and move money across Africa with a single unified API.",
   "theme": "mint",
   "logo": {
-    "light": "/docs/assets/logo.png",
-    "dark": "/docs/assets/logo.png",
+    "light": "/assets/logo.png",
+    "dark": "/assets/logo.png",
     "href": "https://heydollr.app"
   },
-  "favicon": "/docs/assets/favicon.png",
+  "favicon": "/assets/favicon.png",
   "colors": {
     "primary": "#082255",
     "light": "#1a4080",
@@ -65,43 +65,40 @@
           {
             "group": "Getting Started",
             "icon": "rocket",
-            "pages": ["docs/index", "docs/quickstart"]
+            "pages": ["index", "quickstart"]
           },
           {
             "group": "API Guide",
             "icon": "square-terminal",
             "pages": [
-              "docs/api/parties",
-              "docs/api/counterparties",
-              "docs/api/invoices",
-              "docs/api/orders",
-              "docs/api/checkouts",
-              "docs/api/sessions",
-              "docs/api/executions",
-              "docs/api/status",
-              "docs/api/payment-accounts",
-              "docs/api/links",
-              "docs/api/predictions",
-              "docs/api/fees",
-              "docs/api/merchants",
-              "docs/api/realtime-keys"
+              "api/parties",
+              "api/counterparties",
+              "api/invoices",
+              "api/orders",
+              "api/checkouts",
+              "api/sessions",
+              "api/executions",
+              "api/status",
+              "api/payment-accounts",
+              "api/links",
+              "api/predictions",
+              "api/fees",
+              "api/merchants",
+              "api/realtime-keys"
             ]
           },
           {
             "group": "Guides",
             "icon": "map",
-            "pages": [
-              "docs/guides/integration",
-              "docs/guides/error-handling"
-            ]
+            "pages": ["guides/integration", "guides/error-handling"]
           },
           {
             "group": "Resources",
             "icon": "book-open",
             "pages": [
-              "docs/reference/sdks",
-              "docs/reference/glossary",
-              "docs/reference/support"
+              "reference/sdks",
+              "reference/glossary",
+              "reference/support"
             ]
           }
         ]
@@ -132,8 +129,8 @@
       {
         "header": "Developers",
         "items": [
-          { "label": "Quick Start", "href": "/docs/quickstart" },
-          { "label": "Integration Guide", "href": "/docs/guides/integration" },
+          { "label": "Quick Start", "href": "/quickstart" },
+          { "label": "Integration Guide", "href": "/guides/integration" },
           { "label": "OpenAPI Spec", "href": "https://api.heydollr.app/openapi.json" }
         ]
       }
@@ -149,13 +146,16 @@
     }
   },
   "redirects": [
-    { "source": "/", "destination": "/docs/index" }
+    { "source": "/docs", "destination": "/" },
+    { "source": "/docs/index", "destination": "/" },
+    { "source": "/docs/quickstart", "destination": "/quickstart" },
+    { "source": "/docs/:path*", "destination": "/:path*" }
   ],
   "errors": {
     "404": {
       "redirect": false,
       "title": "Page not found",
-      "description": "This page doesn't exist. Head to the [overview](/docs/index) or [quick start](/docs/quickstart)."
+      "description": "This page doesn't exist. Head to the [overview](/) or [quick start](/quickstart)."
     }
   }
 }
