@@ -46,26 +46,8 @@
       "copy",
       "view",
       {
-        "title": "OpenAPI spec",
-        "description": "Dollr v1 OpenAPI JSON — Postman, Insomnia, codegen, and API Reference source",
-        "icon": "braces",
-        "href": "https://api.heydollr.app/openapi.json"
-      },
-      {
-        "title": "Docs index (llms.txt)",
-        "description": "Compact site index, auth flows, and links for LLM / RAG context",
-        "icon": "book",
-        "href": "https://docs.heydollr.app/llms.txt"
-      },
-      {
-        "title": "Copy docs MCP URL",
-        "description": "Read-only MCP to search Dollr docs — setup in AI & MCP guide",
-        "icon": "link",
-        "href": "$mcp"
-      },
-      {
         "title": "AI & MCP guide",
-        "description": "llms-full.txt, manual MCP setup, and agent guardrails",
+        "description": "llms.txt, MCP setup, and agent guardrails for Dollr integrations",
         "icon": "robot",
         "href": "/reference/ai-context"
       },
@@ -120,6 +102,8 @@
             "pages": [
               "guides/collect-with-nodejs",
               "guides/collect-with-python",
+              "guides/collect-with-django",
+              "guides/collect-with-ruby",
               "guides/collect-with-php",
               "guides/collect-with-java",
               "guides/collect-with-go",
@@ -133,6 +117,7 @@
             "group": "Guides",
             "icon": "map",
             "pages": [
+              "guides/payout-with-nodejs",
               "guides/collect-via-checkout",
               "guides/integration",
               "guides/realtime-status",

@@ -1,0 +1,104 @@
+---
+title: "Collect with Ruby"
+description: "Collect a payment via invoice using the Dollr API from Ruby."
+keywords: ["Ruby", "Net::HTTP", "Dollr integration", "collect payment", "invoice API"]
+---
+
+# Collect with Ruby
+
+End-to-end **invoice collection** with Ruby 3.x and the standard library (`net/http`, `json`). For other languages, see [Quick Start](/quickstart).
+
+<Note>
+**API Reference:** [Obtain token](/api-reference/jwt/client-obtain-token) · [Collect](/api-reference/executions/collect)
+</Note>
+
+## Prerequisites
+
+- Ruby 3.0+
+- `gem install json` (stdlib `json` is built in)
+- API credentials via environment variables — server-side only
+
+## Steps
+
+<Steps>
+  <Step title="Authenticate">
+    ```ruby
+    require "net/http"
+    require "json"
+    require "uri"
+
+    BASE_URL = "https://api.heydollr.app"
+
+    def dollr_post(path, body, token = nil)
+      uri = URI("#{BASE_URL}#{path}")
+      req = Net::HTTP::Post.new(uri)
+      req["Content-Type"] = "application/json"
+      req["Authorization"] = "Bearer #{token}" if token
+      req.body = body.to_json
+      res = Net::HTTP.start(uri.hostname, uri.port, use_ssl: true) { |h| h.request(req) }
+      JSON.parse(res.body)
+    end
+
+    token_res = dollr_post("/v1/jwt/client/obtain/token", {
+      client_id:     ENV["DOLLR_CLIENT_ID"],
+      client_secret: ENV["DOLLR_CLIENT_SECRET"],
+    })
+    token = token_res["access_token"]
+    ```
+  </Step>
+  <Step title="Party, counterparty, invoice">
+    ```ruby
+    party = dollr_post("/v1/parties/create", {
+      fullname: "Amara Kamara", phone: "231771234567",
+      email: "amara@example.com", country_code: "LR",
+    }, token)
+
+    cp = dollr_post("/v1/counterparties/create", {
+      relationship_type: "CUSTOMER", party_id: party["id"],
+    }, token)
+
+    invoice = dollr_post("/v1/invoices/create", {
+      counterparty_id: cp["id"], currency: "USD",
+      note: "Consulting", fee_bearer: "PAYER", as_payment_link: true,
+    }, token)
+    ```
+  </Step>
+  <Step title="Publish, session, execute">
+    ```ruby
+    require "securerandom"
+
+    invoice_id = invoice["id"]
+    dollr_post("/v1/invoices/#{invoice_id}/items/add", {
+      name: "Strategy Session", currency: "USD", qty: 1, amount: 250.0,
+    }, token)
+    # PUT publish — use Net::HTTP::Put
+
+    reference_id = SecureRandom.uuid
+    session = dollr_post("/v1/sessions/checkout", {
+      source_id: invoice_id, source_type: "INVOICE",
+    }, token)
+
+    dollr_post("/v1/executions/collection", {
+      session_id:         session["id"].to_s,
+      payment_account_id: "YOUR_PAYMENT_ACCOUNT_ID",
+      currency:           "USD",
+      reference_id:       reference_id,
+    }, token)
+    ```
+    Register a [payment account](/api/payment-accounts) before execute. Store `reference_id` before the HTTP call.
+  </Step>
+  <Step title="Poll status">
+    ```ruby
+    uri = URI("#{BASE_URL}/v1/status/collection/#{reference_id}")
+    req = Net::HTTP::Get.new(uri)
+    req["Authorization"] = "Bearer #{token}"
+    res = Net::HTTP.start(uri.hostname, uri.port, use_ssl: true) { |h| h.request(req) }
+    status = JSON.parse(res.body)
+    ```
+  </Step>
+</Steps>
+
+## Related
+
+- [Payout with Node.js](/guides/payout-with-nodejs) · [Integration guide](/guides/integration)
+- [Quick Start](/quickstart)

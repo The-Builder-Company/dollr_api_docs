@@ -459,7 +459,11 @@ Use the invoice or order system ID from your published source.
 
 ### Integrate by stack
 
-- [Node.js](/guides/collect-with-nodejs) · [Python](/guides/collect-with-python) · [PHP](/guides/collect-with-php) · [Java](/guides/collect-with-java) · [Go](/guides/collect-with-go) · [Rust](/guides/collect-with-rust) · [.NET](/guides/collect-with-dotnet) · [Next.js](/guides/collect-with-nextjs) · [Laravel](/guides/collect-with-laravel)
+- [Node.js](/guides/collect-with-nodejs) · [Python](/guides/collect-with-python) · [Django](/guides/collect-with-django) · [Ruby](/guides/collect-with-ruby) · [PHP](/guides/collect-with-php) · [Java](/guides/collect-with-java) · [Go](/guides/collect-with-go) · [Rust](/guides/collect-with-rust) · [.NET](/guides/collect-with-dotnet) · [Next.js](/guides/collect-with-nextjs) · [Laravel](/guides/collect-with-laravel)
+
+### Payouts
+
+- [Payout with Node.js](/guides/payout-with-nodejs)
 
 ### More guides
 

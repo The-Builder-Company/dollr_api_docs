@@ -21,6 +21,8 @@
 
 - /guides/collect-with-nodejs — JavaScript (fetch)
 - /guides/collect-with-python — Python (requests)
+- /guides/collect-with-django — Django (requests service)
+- /guides/collect-with-ruby — Ruby (Net::HTTP)
 - /guides/collect-with-php — PHP (cURL)
 - /guides/collect-with-java — Java (HttpClient)
 - /guides/collect-with-go — Go (net/http)
@@ -31,6 +33,7 @@
 
 ## Guides
 
+- /guides/payout-with-nodejs — Payout flow (Node.js)
 - /guides/collect-via-checkout — POST /v1/checkouts/create shortcut
 - /guides/integration — Collection, payout, transfer, refund walkthroughs
 - /guides/realtime-status — Realtime keys vs polling

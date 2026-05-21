@@ -1,0 +1,113 @@
+---
+title: "Collect with Django"
+description: "Collect a payment via invoice using the Dollr API in a Django app."
+keywords: ["Django", "Python", "Dollr integration", "collect payment", "invoice API"]
+---
+
+# Collect with Django
+
+Call the Dollr API from a **Django service layer** or view — never from templates with secrets. Uses `requests` (add to your project dependencies).
+
+<Note>
+**API Reference:** [Obtain token](/api-reference/jwt/client-obtain-token) · [Collect](/api-reference/executions/collect)
+</Note>
+
+## Prerequisites
+
+- Django 4+ / 5+
+- `pip install requests`
+- Settings in `settings.py` (or environment):
+
+```python
+DOLLR_BASE_URL = "https://api.heydollr.app"
+DOLLR_CLIENT_ID = env("DOLLR_CLIENT_ID")
+DOLLR_CLIENT_SECRET = env("DOLLR_CLIENT_SECRET")
+```
+
+## Steps
+
+<Steps>
+  <Step title="Dollr client service">
+    ```python
+    # myapp/services/dollr.py
+    import uuid
+    import requests
+    from django.conf import settings
+
+    class DollrClient:
+        def __init__(self):
+            self.base = settings.DOLLR_BASE_URL
+
+        def token(self) -> str:
+            r = requests.post(f"{self.base}/v1/jwt/client/obtain/token", json={
+                "client_id": settings.DOLLR_CLIENT_ID,
+                "client_secret": settings.DOLLR_CLIENT_SECRET,
+            }, timeout=30)
+            r.raise_for_status()
+            return r.json()["access_token"]
+
+        def headers(self):
+            return {
+                "Authorization": f"Bearer {self.token()}",
+                "Content-Type": "application/json",
+            }
+    ```
+    Cache the token in Redis or memory with TTL — do not request a new token on every field in a form post.
+  </Step>
+  <Step title="Create invoice flow">
+    ```python
+    client = DollrClient()
+    h = client.headers()
+
+    party = requests.post(f"{client.base}/v1/parties/create", headers=h, json={
+        "fullname": "Amara Kamara", "phone": "231771234567",
+        "country_code": "LR",
+    }, timeout=30).json()
+
+    cp = requests.post(f"{client.base}/v1/counterparties/create", headers=h, json={
+        "relationship_type": "CUSTOMER", "party_id": party["id"],
+    }, timeout=30).json()
+
+    invoice = requests.post(f"{client.base}/v1/invoices/create", headers=h, json={
+        "counterparty_id": cp["id"], "currency": "USD",
+        "fee_bearer": "PAYER", "as_payment_link": True,
+    }, timeout=30).json()
+    ```
+  </Step>
+  <Step title="Publish and collect">
+    ```python
+    invoice_id = invoice["id"]
+    requests.post(f"{client.base}/v1/invoices/{invoice_id}/items/add", headers=h, json={
+        "name": "Strategy Session", "currency": "USD", "qty": 1, "amount": 250.00,
+    }, timeout=30)
+    requests.put(f"{client.base}/v1/invoices/publish/{invoice_id}", headers=h, timeout=30)
+
+    reference_id = str(uuid.uuid4())
+    session = requests.post(f"{client.base}/v1/sessions/checkout", headers=h, json={
+        "source_id": invoice_id, "source_type": "INVOICE",
+    }, timeout=30).json()
+
+    requests.post(f"{client.base}/v1/executions/collection", headers=h, json={
+        "session_id": str(session["id"]),
+        "payment_account_id": payment_account_id,
+        "currency": "USD",
+        "reference_id": reference_id,
+    }, timeout=30)
+    ```
+  </Step>
+  <Step title="Poll status">
+    ```python
+    status = requests.get(
+        f"{client.base}/v1/status/collection/{reference_id}",
+        headers=h, timeout=30,
+    ).json()
+    ```
+    Prefer a Celery task for polling MoMo `PROCESSING` states.
+  </Step>
+</Steps>
+
+## Related
+
+- [Collect with Python](/guides/collect-with-python) — plain `requests` script
+- [Payout with Node.js](/guides/payout-with-nodejs)
+- [Quick Start](/quickstart)

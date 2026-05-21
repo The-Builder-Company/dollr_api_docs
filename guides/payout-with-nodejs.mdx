@@ -1,0 +1,126 @@
+---
+title: "Payout with Node.js"
+description: "Send a mobile-money payout using the Dollr API from Node.js."
+keywords: ["payout", "Node.js", "mobile money", "Dollr API", "executions"]
+---
+
+# Payout with Node.js
+
+Send funds to a recipient’s registered wallet using **payout sessions** and **executions**. For collection, see [Collect with Node.js](/guides/collect-with-nodejs).
+
+<Note>
+**API Reference:** [Payout session](/api-reference/sessions/create-payout-session) · [Payout](/api-reference/executions/payout) · [Payout status](/api-reference/status/get-payout-status)
+</Note>
+
+<Warning>
+Payouts require a **fully verified** merchant account. If you receive **403**, see [Forbidden / unverified](/knowledge-base/forbidden-403-unverified).
+</Warning>
+
+## Prerequisites
+
+- Node.js 18+ with `fetch` (or undici)
+- Recipient [party](/api/parties) and [counterparty](/api/counterparties) (or create them first)
+- [Payment account](/api/payment-accounts) for the recipient with `operation_type=PAYOUT`
+- Server-side only — never expose Client Secret in the browser
+
+## Flow overview
+
+1. Authenticate → Bearer token  
+2. Ensure party / counterparty exist  
+3. `POST /v1/payment-accounts/create?operation_type=PAYOUT`  
+4. `POST /v1/sessions/payout`  
+5. `POST /v1/executions/payout` with stored UUID `reference_id`  
+6. `GET /v1/status/payout/:reference_id`
+
+## Steps
+
+<Steps>
+  <Step title="Authenticate">
+    ```javascript
+    const BASE_URL = "https://api.heydollr.app";
+
+    const tokenRes = await fetch(`${BASE_URL}/v1/jwt/client/obtain/token`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        client_id: process.env.DOLLR_CLIENT_ID,
+        client_secret: process.env.DOLLR_CLIENT_SECRET,
+      }),
+    });
+    const tokenData = await tokenRes.json();
+    const headers = {
+      Authorization: `Bearer ${tokenData.access_token}`,
+      "Content-Type": "application/json",
+    };
+    ```
+  </Step>
+  <Step title="Payment account (recipient wallet)">
+    ```javascript
+    const account = await fetch(
+      `${BASE_URL}/v1/payment-accounts/create?operation_type=PAYOUT`,
+      {
+        method: "POST",
+        headers,
+        body: JSON.stringify({
+          account_name: "Beneficiary MTN Wallet",
+          provider: "MTN_MOMO_LBR",
+          method: "MTN_MOMO_LBR",
+          party_id: partyId,
+          country_code: "LR",
+          insensitive_account_number: "231771234567",
+        }),
+      }
+    ).then((r) => r.json());
+    ```
+    Use [MMO prediction](/api/predictions) to resolve `method` and `provider` from phone when possible.
+  </Step>
+  <Step title="Payout session">
+    ```javascript
+    const session = await fetch(`${BASE_URL}/v1/sessions/payout`, {
+      method: "POST",
+      headers,
+      body: JSON.stringify({
+        wallet_id: walletId,
+        payment_account_id: String(account.id),
+        amount: 100.0,
+        currency: "USD",
+        expires_at: new Date(Date.now() + 3600000).toISOString(),
+      }),
+    }).then((r) => r.json());
+    ```
+    Field names must match [API Reference](/api-reference/sessions/create-payout-session) for your environment.
+  </Step>
+  <Step title="Execute payout">
+    ```javascript
+    const referenceId = crypto.randomUUID();
+
+    const execution = await fetch(`${BASE_URL}/v1/executions/payout`, {
+      method: "POST",
+      headers,
+      body: JSON.stringify({
+        session_id: String(session.id),
+        reference_id: referenceId,
+      }),
+    }).then((r) => r.json());
+    ```
+    Persist `referenceId` in your database **before** awaiting the response.
+  </Step>
+  <Step title="Poll status">
+    ```javascript
+    const status = await fetch(
+      `${BASE_URL}/v1/status/payout/${referenceId}`,
+      { headers }
+    ).then((r) => r.json());
+
+    console.log(status.status); // PENDING → PROCESSING → COMPLETED | FAILED
+    ```
+    Do not submit a second payout with a new `reference_id` while status is `PROCESSING`.
+  </Step>
+</Steps>
+
+## Related
+
+- [Integration guide — Payout](/guides/integration#issue-a-payout)
+- [Sessions & executions](/concepts/sessions-and-executions)
+- [Forbidden 403](/knowledge-base/forbidden-403-unverified)
+- [Collect with Node.js](/guides/collect-with-nodejs)
