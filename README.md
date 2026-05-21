@@ -15,6 +15,8 @@ Official documentation for the [Dollr Open API](https://api.heydollr.app), publi
 | `reference/*.md`                                                        | Market matrix, errors, support                                                                        |
 | `docs.json`                                                             | Navigation, redirects, theme                                                                          |
 | `llms.txt`, `llms-full.txt`, `reference/ai-context.mdx`, `ASSISTANT.md` | AI / MCP context                                                                                      |
+| `assets/javascripts/assistant-default-open.js`                          | Opens Mintlify Assistant panel by default (requires Dashboard enable)                               |
+| `snippets/invoice-or-order.mdx`                                         | Shared note on invoice vs order in stack guides                                                       |
 
 
 Use `**.mdx`** for pages with Mintlify components (`Card`, `Steps`, `CodeGroup`, etc.).
@@ -38,10 +40,11 @@ After deploy, [.github/workflows/docs-health.yml](.github/workflows/docs-health.
 ## Structure
 
 
-| Tab               | Content                                        |
-| ----------------- | ---------------------------------------------- |
-| **Documentation** | Introduction, guides, concepts, knowledge base |
-| **API Reference** | OpenAPI-generated interactive endpoints        |
+| Tab               | Content                                                                                    |
+| ----------------- | ------------------------------------------------------------------------------------------ |
+| **Documentation** | Collapsible sidebar groups (Getting Started, Guides, Core concepts, stack, KB, Resources) |
+| **Build with AI** | Vibe Coding, stack guides, AI resources — nested collapsible groups                        |
+| **API Reference** | OpenAPI-generated interactive endpoints (collapsible under **Endpoints**)                |
 
 
 Guides explain *how* to integrate; API Reference is the source of truth for request/response fields.

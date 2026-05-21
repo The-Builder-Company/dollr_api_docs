@@ -1,6 +1,7 @@
 ---
 title: "Invoices"
 description: "Create, manage, and publish invoices with line items and payment links."
+icon: "file-text"
 ---
 
 # Invoices

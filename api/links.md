@@ -1,6 +1,7 @@
 ---
 title: "Payment Links"
 description: "Generate hosted payment and receipt URLs for invoices and orders."
+icon: "link"
 ---
 
 # Payment Links

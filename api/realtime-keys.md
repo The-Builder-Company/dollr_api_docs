@@ -1,6 +1,7 @@
 ---
 title: "Realtime Keys"
 description: "Short-lived tokens for live payment status on a checkout session."
+icon: "radio-tower"
 ---
 
 # Realtime Keys

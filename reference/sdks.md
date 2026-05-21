@@ -1,6 +1,7 @@
 ---
 title: "SDKs"
 description: "Official and community-built SDKs for integrating Dollr into your application."
+icon: "boxes"
 ---
 
 # SDKs

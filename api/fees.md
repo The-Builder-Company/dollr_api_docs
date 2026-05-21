@@ -1,6 +1,7 @@
 ---
 title: "Fees"
 description: "Gateway, platform, and merchant tier fee information."
+icon: "percent"
 ---
 
 # Fees

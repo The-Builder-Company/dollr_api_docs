@@ -2,6 +2,7 @@
 title: "Support"
 description: "Get help with the Dollr API, report bugs, and submit feature requests."
 keywords: ["Dollr support", "API help", "developer contact"]
+icon: "life-ring"
 ---
 
 # Support

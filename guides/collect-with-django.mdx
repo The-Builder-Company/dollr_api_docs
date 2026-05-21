@@ -1,10 +1,15 @@
 ---
 title: "Collect with Django"
-description: "Collect a payment via invoice using the Dollr API in a Django app."
+description: "Collect a payment via invoice (orders use the same flow) using the Dollr API in a Django app."
 keywords: ["Django", "Python", "Dollr integration", "collect payment", "invoice API"]
+icon: "django"
 ---
 
 # Collect with Django
+
+import InvoiceOrOrder from '/snippets/invoice-or-order.mdx';
+
+<InvoiceOrOrder />
 
 Call the Dollr API from a **Django service layer** or view — never from templates with secrets. Uses `requests` (add to your project dependencies).
 

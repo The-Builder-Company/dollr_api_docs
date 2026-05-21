@@ -3,6 +3,7 @@ title: "Quick Start"
 description: "Go from zero to a successful payment collection in under 10 minutes."
 keywords: ["quickstart", "Dollr tutorial", "collect payment", "invoice API"]
 sidebarTitle: "Quick Start"
+icon: "rocket"
 ---
 
 # Quick Start
@@ -273,6 +274,21 @@ const published = await fetch(`${BASE_URL}/v1/invoices/publish/${invoiceId}`, {
 }).then(r => r.json());
 console.log("Status:", published.status); // ACTIVE
 ```
+
+### Same flow with orders
+
+For e-commerce or retail checkouts, swap invoice endpoints for orders and use `source_type: "ORDER"` in Step 5:
+
+```bash
+curl -X POST "https://api.heydollr.app/v1/orders/create" \
+  -H "Authorization: Bearer YOUR_ACCESS_TOKEN" \
+  -H "Content-Type: application/json" \
+  -d '{"counterparty_id": 15, "currency": "USD", "note": "Order #1042", "fee_bearer": "PAYER"}'
+
+# Add items → publish → checkout session with source_type ORDER
+```
+
+See [Orders](/api/orders). Stack guides under **Integrate by stack** use invoices as the default example; the steps are the same.
 
 ---
 

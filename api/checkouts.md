@@ -1,6 +1,7 @@
 ---
 title: "Checkouts"
 description: "Create checkout sources directly from payer details without a prior invoice."
+icon: "shopping-bag"
 ---
 
 # Checkouts

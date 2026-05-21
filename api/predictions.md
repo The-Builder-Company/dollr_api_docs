@@ -1,6 +1,7 @@
 ---
 title: "Predictions"
 description: "Preview fees, FX, and mobile-money operator detection before executing payments."
+icon: "chart-line"
 ---
 
 # Predictions

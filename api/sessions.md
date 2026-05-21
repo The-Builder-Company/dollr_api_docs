@@ -1,6 +1,7 @@
 ---
 title: "Sessions"
 description: "Declare checkout, payout, transfer, or refund intent before executing funds movement."
+icon: "link-2"
 ---
 
 # Sessions

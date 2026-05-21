@@ -1,6 +1,7 @@
 ---
 title: "Parties"
 description: "Create and manage contact records for people or entities you transact with."
+icon: "user"
 ---
 
 # Parties

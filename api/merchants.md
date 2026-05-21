@@ -1,6 +1,7 @@
 ---
 title: "Merchants"
 description: "Retrieve merchant profile and configuration from the API."
+icon: "building-2"
 ---
 
 # Merchants

@@ -3,6 +3,9 @@
   "name": "Dollr Developer Docs",
   "description": "Official API documentation for Dollr — accept payments, send payouts, and move money across Africa with a single unified API.",
   "theme": "mint",
+  "icons": {
+    "library": "fontawesome"
+  },
   "logo": {
     "light": "/assets/logo.png",
     "dark": "/assets/logo.png",
@@ -46,6 +49,7 @@
   "contextual": {
     "display": "header",
     "options": [
+      "assistant",
       "copy",
       "view",
       {
@@ -84,6 +88,11 @@
         "url": "https://api.heydollr.app/openapi.json"
       },
       {
+        "anchor": "Ask AI",
+        "icon": "messages",
+        "url": "/?assistant=open"
+      },
+      {
         "anchor": "Build with AI",
         "icon": "sparkles",
         "url": "/vibe-coding"
@@ -94,60 +103,88 @@
         "tab": "Documentation",
         "groups": [
           {
-            "group": "Getting Started",
-            "icon": "rocket",
+            "group": "Documentation",
+            "icon": "book-open",
             "pages": [
-              "index",
-              "quickstart",
-              "guides/choose-integration",
-              "authentication",
-              "api-conventions"
-            ]
-          },
-          {
-            "group": "Guides",
-            "icon": "map",
-            "pages": [
-              "guides/payout-with-nodejs",
-              "guides/collect-via-checkout",
-              "guides/integration",
-              "guides/realtime-status",
-              "guides/error-handling"
-            ]
-          },
-          {
-            "group": "Concepts",
-            "icon": "lightbulb",
-            "pages": [
-              "concepts/parties-and-counterparties",
-              "concepts/sessions-and-executions",
-              "api/invoices",
-              "api/orders",
-              "api/checkouts",
-              "api/sessions",
-              "api/executions",
-              "api/status",
-              "api/payment-accounts",
-              "api/links",
-              "api/predictions",
-              "api/fees",
-              "api/merchants",
-              "api/realtime-keys"
-            ]
-          },
-          {
-            "group": "API Concepts",
-            "icon": "square-terminal",
-            "pages": [
-              "api/parties",
-              "api/counterparties"
-            ]
-          },
-          {
-            "group": "Explore",
-            "icon": "folder-tree",
-            "expanded": false,
-            "pages": [
+              {
+                "group": "Getting Started",
+                "icon": "rocket",
+                "expanded": true,
+                "pages": [
+                  "index",
+                  "quickstart",
+                  "guides/choose-integration",
+                  "authentication",
+                  "api-conventions"
+                ]
+              },
+              {
+                "group": "Guides",
+                "icon": "map",
+                "expanded": false,
+                "pages": [
+                  "guides/collect-via-checkout",
+                  "guides/payout-with-nodejs",
+                  "guides/integration",
+                  "guides/realtime-status",
+                  "guides/error-handling"
+                ]
+              },
+              {
+                "group": "Core concepts",
+                "icon": "lightbulb",
+                "expanded": false,
+                "pages": [
+                  {
+                    "group": "Fundamentals",
+                    "icon": "puzzle",
+                    "expanded": false,
+                    "pages": [
+                      "concepts/parties-and-counterparties",
+                      "concepts/sessions-and-executions"
+                    ]
+                  },
+                  {
+                    "group": "Payment sources",
+                    "icon": "receipt",
+                    "expanded": false,
+                    "pages": [
+                      "api/invoices",
+                      "api/orders",
+                      "api/checkouts",
+                      "api/links"
+                    ]
+                  },
+                  {
+                    "group": "Collect & status",
+                    "icon": "credit-card",
+                    "expanded": false,
+                    "pages": [
+                      "api/sessions",
+                      "api/executions",
+                      "api/status",
+                      "api/payment-accounts"
+                    ]
+                  },
+                  {
+                    "group": "Platform",
+                    "icon": "building",
+                    "expanded": false,
+                    "pages": [
+                      "api/predictions",
+                      "api/fees",
+                      "api/merchants",
+                      "api/realtime-keys"
+                    ]
+                  }
+                ]
+              },
+              {
+                "group": "Parties API",
+                "icon": "users",
+                "expanded": false,
+                "pages": ["api/parties", "api/counterparties"]
+              },
               {
                 "group": "Integrate by stack",
                 "icon": "code",
@@ -172,21 +209,28 @@
                 "expanded": false,
                 "pages": [
                   "knowledge-base/index",
-                  "knowledge-base/invalid-credentials-401",
-                  "knowledge-base/forbidden-403-unverified",
-                  "knowledge-base/validation-422",
-                  "knowledge-base/duplicate-reference-id",
-                  "knowledge-base/session-expired-or-invalid",
-                  "knowledge-base/payment-processing-status",
-                  "knowledge-base/rate-limit-429",
-                  "knowledge-base/server-error-5xx",
+                  {
+                    "group": "Error articles",
+                    "icon": "triangle-alert",
+                    "expanded": false,
+                    "pages": [
+                      "knowledge-base/invalid-credentials-401",
+                      "knowledge-base/forbidden-403-unverified",
+                      "knowledge-base/validation-422",
+                      "knowledge-base/duplicate-reference-id",
+                      "knowledge-base/session-expired-or-invalid",
+                      "knowledge-base/payment-processing-status",
+                      "knowledge-base/rate-limit-429",
+                      "knowledge-base/server-error-5xx"
+                    ]
+                  },
                   "reference/error-catalog",
                   "guides/error-handling"
                 ]
               },
               {
                 "group": "Resources",
-                "icon": "book-open",
+                "icon": "book-marked",
                 "expanded": false,
                 "pages": [
                   "reference/payments-by-market",
@@ -207,41 +251,48 @@
         "icon": "sparkles",
         "groups": [
           {
-            "group": "Vibe Coding",
+            "group": "Build with AI",
             "icon": "sparkles",
             "pages": [
-              "vibe-coding/index",
-              "vibe-coding/start-here",
-              "vibe-coding/prompt-library"
-            ]
-          },
-          {
-            "group": "Integrate by stack",
-            "icon": "code",
-            "expanded": false,
-            "pages": [
-              "guides/collect-with-nodejs",
-              "guides/collect-with-python",
-              "guides/collect-with-django",
-              "guides/collect-with-ruby",
-              "guides/collect-with-php",
-              "guides/collect-with-java",
-              "guides/collect-with-go",
-              "guides/collect-with-rust",
-              "guides/collect-with-dotnet",
-              "guides/collect-with-nextjs",
-              "guides/collect-with-laravel"
-            ]
-          },
-          {
-            "group": "AI resources",
-            "icon": "robot",
-            "expanded": false,
-            "pages": [
-              "reference/ai-context",
-              "reference/examples",
-              "guides/payout-with-nodejs",
-              "knowledge-base/index"
+              {
+                "group": "Vibe Coding",
+                "icon": "sparkles",
+                "expanded": true,
+                "pages": [
+                  "vibe-coding/index",
+                  "vibe-coding/start-here",
+                  "vibe-coding/prompt-library"
+                ]
+              },
+              {
+                "group": "Integrate by stack",
+                "icon": "code",
+                "expanded": false,
+                "pages": [
+                  "guides/collect-with-nodejs",
+                  "guides/collect-with-python",
+                  "guides/collect-with-django",
+                  "guides/collect-with-ruby",
+                  "guides/collect-with-php",
+                  "guides/collect-with-java",
+                  "guides/collect-with-go",
+                  "guides/collect-with-rust",
+                  "guides/collect-with-dotnet",
+                  "guides/collect-with-nextjs",
+                  "guides/collect-with-laravel"
+                ]
+              },
+              {
+                "group": "AI resources",
+                "icon": "robot",
+                "expanded": false,
+                "pages": [
+                  "reference/ai-context",
+                  "reference/examples",
+                  "guides/payout-with-nodejs",
+                  "knowledge-base/index"
+                ]
+              }
             ]
           }
         ]
@@ -250,8 +301,16 @@
         "tab": "API Reference",
         "groups": [
           {
-            "group": "Endpoints",
-            "openapi": "https://api.heydollr.app/openapi.json"
+            "group": "API Reference",
+            "icon": "braces",
+            "pages": [
+              {
+                "group": "Endpoints",
+                "icon": "square-terminal",
+                "expanded": false,
+                "openapi": "https://api.heydollr.app/openapi.json"
+              }
+            ]
           }
         ]
       }

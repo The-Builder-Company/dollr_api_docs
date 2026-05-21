@@ -2,6 +2,7 @@
 title: "AI & MCP Integration"
 description: "Use Dollr docs with LLMs — llms.txt, OpenAPI, documentation MCP, and support checklist."
 keywords: ["llms.txt", "MCP", "AI agents", "OpenAPI", "Dollr documentation"]
+icon: "bot"
 ---
 
 # AI & MCP Integration
@@ -33,7 +34,7 @@ Mintlify hosts a **documentation MCP** endpoint for this site. It lets compatibl
 
 **Endpoint:** `https://docs.heydollr.app/mcp`
 
-Use the contextual menu item **Copy docs MCP URL** on any page to copy this URL.
+Use the MCP endpoint URL above in your client config.
 
 ### Manual setup (Cursor)
 
@@ -62,6 +63,16 @@ Any MCP client that supports HTTP/SSE remote servers can use the same URL. Refer
 <Warning>
 Do not put Dollr **Client ID** or **Client Secret** into MCP config. API secrets belong only in your backend when calling `https://api.heydollr.app`.
 </Warning>
+
+## Mintlify Assistant (built-in)
+
+The docs site includes Mintlify’s **Assistant** panel on the right (sparkle icon in the header, or **Ask AI** in the sidebar anchors). It answers from published Dollr documentation.
+
+- **Open on load:** Pages use `?assistant=open` and a small site script so the panel opens by default; readers can **close** or **expand** it. Closing it once keeps it closed for that browser session.
+- **Enable in production:** Turn on **Assistant** in [Mintlify Dashboard → Assistant](https://dashboard.mintlify.com/products/assistant) for the connected `dollr_api_docs` project. Configure starter questions (for example: “How do I collect with an order instead of an invoice?”).
+- **Keyboard shortcut:** ⌘I (macOS) / Ctrl+I (Windows).
+
+The contextual menu includes **Assistant** alongside Copy page, View, Claude, and ChatGPT.
 
 ## Ask about the current page
 
