@@ -7,9 +7,9 @@ sidebarTitle: "Quick Start"
 
 # Quick Start
 
-<Note>
-**Try in API Reference:** [Obtain token](/api-reference/jwt/client-obtain-token) · [Create invoice](/api-reference/invoices/create-invoice) · [Collect](/api-reference/executions/collect) · [Collection status](/api-reference/status/get-collection-status)
-</Note>
+> **Note:**
+> **Try in API Reference:** [Obtain token](/api-reference/jwt/client-obtain-token) · [Create invoice](/api-reference/invoices/create-invoice) · [Collect](/api-reference/executions/collect) · [Collection status](/api-reference/status/get-collection-status)
+
 
 Get from zero to your first successful payment collection in under 10 minutes.
 
@@ -37,9 +37,7 @@ Exchange your credentials for a JWT Bearer token. Every API call requires this t
 POST /v1/jwt/client/obtain/token
 ```
 
-<CodeGroup>
-
-```bash cURL
+```bash
 curl -X POST "https://api.heydollr.app/v1/jwt/client/obtain/token" \
   -H "Content-Type: application/json" \
   -d '{
@@ -48,7 +46,7 @@ curl -X POST "https://api.heydollr.app/v1/jwt/client/obtain/token" \
   }'
 ```
 
-```python Python
+```python
 import requests
 
 BASE_URL = "https://api.heydollr.app"
@@ -61,7 +59,7 @@ token = res.json()["access_token"]
 headers = {"Authorization": f"Bearer {token}", "Content-Type": "application/json"}
 ```
 
-```javascript Node.js
+```javascript
 const BASE_URL = "https://api.heydollr.app";
 
 const { access_token } = await fetch(`${BASE_URL}/v1/jwt/client/obtain/token`, {
@@ -79,8 +77,6 @@ const headers = {
 };
 ```
 
-</CodeGroup>
-
 **Response:**
 
 ```json
@@ -90,9 +86,9 @@ const headers = {
 }
 ```
 
-<Tip>
-Tokens expire after `expires_in` **minutes**. Refresh proactively — request a new token when less than 5 minutes remain.
-</Tip>
+> **Tip:**
+> Tokens expire after `expires_in` **minutes**. Refresh proactively — request a new token when less than 5 minutes remain.
+
 
 ---
 
@@ -104,9 +100,7 @@ A Party is a contact record for the person you're collecting from.
 POST /v1/parties/create
 ```
 
-<CodeGroup>
-
-```bash cURL
+```bash
 curl -X POST "https://api.heydollr.app/v1/parties/create" \
   -H "Authorization: Bearer $TOKEN" \
   -H "Content-Type: application/json" \
@@ -118,7 +112,7 @@ curl -X POST "https://api.heydollr.app/v1/parties/create" \
   }'
 ```
 
-```python Python
+```python
 party = requests.post(f"{BASE_URL}/v1/parties/create", headers=headers, json={
     "fullname":     "Amara Kamara",
     "phone":        "231771234567",
@@ -129,7 +123,7 @@ party = requests.post(f"{BASE_URL}/v1/parties/create", headers=headers, json={
 party_id = party["id"]
 ```
 
-```javascript Node.js
+```javascript
 const party = await fetch(`${BASE_URL}/v1/parties/create`, {
   method: "POST", headers,
   body: JSON.stringify({
@@ -142,8 +136,6 @@ const party = await fetch(`${BASE_URL}/v1/parties/create`, {
 
 const partyId = party.id;
 ```
-
-</CodeGroup>
 
 **Response:**
 
@@ -169,16 +161,14 @@ Link the Party to your merchant account with a relationship type.
 POST /v1/counterparties/create
 ```
 
-<CodeGroup>
-
-```bash cURL
+```bash
 curl -X POST "https://api.heydollr.app/v1/counterparties/create" \
   -H "Authorization: Bearer $TOKEN" \
   -H "Content-Type: application/json" \
   -d '{"relationship_type": "CUSTOMER", "party_id": 42}'
 ```
 
-```python Python
+```python
 cp = requests.post(f"{BASE_URL}/v1/counterparties/create", headers=headers, json={
     "relationship_type": "CUSTOMER",
     "party_id":          party_id,
@@ -187,7 +177,7 @@ cp = requests.post(f"{BASE_URL}/v1/counterparties/create", headers=headers, json
 counterparty_id = cp["id"]
 ```
 
-```javascript Node.js
+```javascript
 const cp = await fetch(`${BASE_URL}/v1/counterparties/create`, {
   method: "POST", headers,
   body: JSON.stringify({ relationship_type: "CUSTOMER", party_id: partyId }),
@@ -195,11 +185,9 @@ const cp = await fetch(`${BASE_URL}/v1/counterparties/create`, {
 
 const counterpartyId = cp.id;
 
-</CodeGroup>
+> **Note:**
+> This step is required for the direct invoice flow shown here. If you use the checkout-source shortcut (`POST /v1/checkouts/create`), Dollr can create or match the Party and Counterparty automatically from payer details.
 
-<Note>
-This step is required for the direct invoice flow shown here. If you use the checkout-source shortcut (`POST /v1/checkouts/create`), Dollr can create or match the Party and Counterparty automatically from payer details.
-</Note>
 
 ---
 
@@ -211,9 +199,7 @@ Create the invoice, add a line item, then publish it.
 POST /v1/invoices/create
 ```
 
-<CodeGroup>
-
-```bash cURL
+```bash
 # Create invoice
 curl -X POST "https://api.heydollr.app/v1/invoices/create" \
   -H "Authorization: Bearer $TOKEN" \
@@ -237,7 +223,7 @@ curl -X PUT "https://api.heydollr.app/v1/invoices/publish/101" \
   -H "Authorization: Bearer $TOKEN"
 ```
 
-```python Python
+```python
 # Create invoice
 invoice = requests.post(f"{BASE_URL}/v1/invoices/create", headers=headers, json={
     "counterparty_id": counterparty_id,
@@ -261,7 +247,7 @@ invoice = requests.put(f"{BASE_URL}/v1/invoices/publish/{invoice_id}", headers=h
 print("Status:", invoice["status"])  # ACTIVE
 ```
 
-```javascript Node.js
+```javascript
 // Create invoice
 const invoice = await fetch(`${BASE_URL}/v1/invoices/create`, {
   method: "POST", headers,
@@ -288,23 +274,19 @@ const published = await fetch(`${BASE_URL}/v1/invoices/publish/${invoiceId}`, {
 console.log("Status:", published.status); // ACTIVE
 ```
 
-</CodeGroup>
-
 ---
 
 ## Step 5 — Collect Payment
 
 Create a checkout session, register the customer's wallet, then execute.
 
-<Warning>
-**Generate your reference_id before calling execute**
+> **Warning:**
+> **Generate your reference_id before calling execute**
 
 Store the UUID before the network call. You'll need it to query status if the response is lost.
-</Warning>
 
-<CodeGroup>
 
-```bash cURL
+```bash
 # Detect payment method from phone (optional but recommended)
 curl "https://api.heydollr.app/v1/predictions/mmo-provider-info?phone=231771234567&operation_type=COLLECTION" \
   -H "Authorization: Bearer $TOKEN"
@@ -341,7 +323,7 @@ curl -X POST "https://api.heydollr.app/v1/executions/collection" \
   }"
 ```
 
-```python Python
+```python
 from uuid import uuid4
 
 # Detect payment method from phone
@@ -384,7 +366,7 @@ execution = requests.post(f"{BASE_URL}/v1/executions/collection", headers=header
 print("Execution status:", execution["status"])
 ```
 
-```javascript Node.js
+```javascript
 // Detect payment method from phone
 const mmo = await fetch(
   `${BASE_URL}/v1/predictions/mmo-provider-info?phone=231771234567&operation_type=COLLECTION`,
@@ -427,8 +409,6 @@ const execution = await fetch(`${BASE_URL}/v1/executions/collection`, {
 console.log("Execution status:", execution.status);
 ```
 
-</CodeGroup>
-
 ---
 
 ## Step 6 — Check Payment Status
@@ -437,14 +417,12 @@ console.log("Execution status:", execution.status);
 GET /v1/status/collection/:reference_id
 ```
 
-<CodeGroup>
-
-```bash cURL
+```bash
 curl "https://api.heydollr.app/v1/status/collection/$REFERENCE_ID" \
   -H "Authorization: Bearer $TOKEN"
 ```
 
-```python Python
+```python
 status = requests.get(
     f"{BASE_URL}/v1/status/collection/{reference_id}",
     headers=headers,
@@ -452,19 +430,17 @@ status = requests.get(
 print(status["status"])  # PENDING → PROCESSING → COMPLETED
 ```
 
-```javascript Node.js
+```javascript
 const status = await fetch(`${BASE_URL}/v1/status/collection/${referenceId}`, { headers })
   .then(r => r.json());
 console.log(status.status); // PENDING → PROCESSING → COMPLETED
 ```
 
-</CodeGroup>
-
 **Status progression:** `PENDING` → `PROCESSING` → `COMPLETED` (or `FAILED`)
 
-<Note>
-Mobile money payments may stay in `PROCESSING` for several minutes while the carrier confirms. Do not retry during this window — query status instead.
-</Note>
+> **Note:**
+> Mobile money payments may stay in `PROCESSING` for several minutes while the carrier confirms. Do not retry during this window — query status instead.
+
 
 ---
 
@@ -481,23 +457,10 @@ Use the invoice or order system ID from your published source.
 
 ## What's Next
 
-<CardGroup cols={2}>
-  <Card title="Node.js guide" icon="node-js" href="/guides/collect-with-nodejs">
-    Same flow focused on JavaScript.
-  </Card>
-  <Card title="Direct checkout" icon="cart-shopping" href="/guides/collect-via-checkout">
-    Skip manual party/invoice steps.
-  </Card>
-  <Card title="Integration guide" icon="map" href="/guides/integration">
-    Payouts, transfers, and refunds.
-  </Card>
-  <Card title="Realtime status" icon="bolt" href="/guides/realtime-status">
-    Push updates instead of polling.
-  </Card>
-  <Card title="API Reference" icon="braces" href="/api-reference/executions/collect">
-    Try every endpoint interactively.
-  </Card>
-  <Card title="Error catalog" icon="triangle-exclamation" href="/reference/error-catalog">
-    Common errors and fixes.
-  </Card>
-</CardGroup>
+- [Collect with Node.js](/guides/collect-with-nodejs)
+- [Collect via checkout](/guides/collect-via-checkout)
+- [Integration guide](/guides/integration)
+- [Realtime status](/guides/realtime-status)
+- [API Reference — Collect](/api-reference/executions/collect)
+- [Error catalog](/reference/error-catalog)
+- [Knowledge Base](/knowledge-base)

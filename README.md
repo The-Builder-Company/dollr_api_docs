@@ -6,7 +6,7 @@ Official documentation for the [Dollr Open API](https://api.heydollr.app), publi
 
 | Path | Purpose |
 |------|---------|
-| `index.mdx`, `quickstart.mdx` | Introduction hub and tutorial |
+| `index.mdx`, `quickstart.md` | Introduction hub and tutorial |
 | `authentication.mdx`, `api-conventions.mdx` | Auth and request conventions |
 | `guides/*.mdx` | Task-based integration guides |
 | `concepts/*.mdx` | Core API concepts |
