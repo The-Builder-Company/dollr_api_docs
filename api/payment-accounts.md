@@ -8,13 +8,9 @@ icon: "wallet"
 keywords: ["Dollr payment account", "Dollr wallet API", "Dollr API"]
 ---
 
-# Payment Accounts
-
 Payment accounts bind a [party](/api/parties) to a `method` + `provider` (e.g. `MTN_MOMO_LBR` + `PAWAPAY`) for use in executions.
 
-<Note>
 **Try in API Reference:** [Create payment account](/api-reference/payment-accounts/create-payment-account)
-</Note>
 
 ## When to use
 
@@ -43,3 +39,4 @@ curl -X POST "https://api.heydollr.app/v1/payment-accounts/create?operation_type
 
 - [Payments by market](/reference/payments-by-market)
 - [Quick Start](/quickstart)
+

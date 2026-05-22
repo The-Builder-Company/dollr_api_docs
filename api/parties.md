@@ -8,13 +8,9 @@ icon: "user"
 keywords: ["Dollr party API", "Dollr API", "Dollr customer record"]
 ---
 
-# Parties
-
 Parties are contact records — name, phone, optional email and country — for anyone you collect from or pay out to.
 
-<Note>
 **Try in API Reference:** [Create Party](/api-reference/parties/create-party) · [List Parties](/api-reference/parties/list-parties) · [Retrieve Party](/api-reference/parties/retrieve-parties)
-</Note>
 
 ## When to use
 
@@ -44,3 +40,4 @@ Phone numbers use E.164 **without** the leading `+`. See [API conventions](/api-
 - [Parties & counterparties (concept)](/concepts/parties-and-counterparties)
 - [Quick Start](/quickstart) · [Collect with Node.js](/guides/collect-with-nodejs)
 - [Counterparties](/api/counterparties)
+

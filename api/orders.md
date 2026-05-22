@@ -8,13 +8,9 @@ icon: "box"
 keywords: ["Dollr order API", "Dollr checkout", "Dollr API", "Dollr e-commerce payments"]
 ---
 
-# Orders
-
 Orders are like invoices but without a formal invoice number or required due date — suited for e-commerce and retail checkouts.
 
-<Note>
 **Try in API Reference:** [Create](/api-reference/orders/create-order) · [Add item](/api-reference/orders/add-order-item) · [Publish](/api-reference/orders/publish-order) · [Receipt](/api-reference/orders/retrieve-order-receipt-by-id)
-</Note>
 
 ## When to use
 
@@ -50,3 +46,4 @@ curl -X POST "https://api.heydollr.app/v1/orders/create" \
 ## Related
 
 - [Invoices](/api/invoices) · [Sessions](/api/sessions) · [Quick Start](/quickstart)
+

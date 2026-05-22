@@ -8,43 +8,34 @@ icon: "triangle-exclamation"
 keywords: ["Dollr API errors", "Dollr error handling", "Dollr API troubleshooting"]
 ---
 
-# Error Handling
-
-<Note>
 For field-level messages and common failure modes, see the full [Error catalog](/reference/error-catalog).
-</Note>
 
 ## Rules
 
-<Warning>
 **Store reference_id before executing**
 
 Always persist your `reference_id` before calling any execution endpoint. If the HTTP response is lost due to a network error, query the transaction status using this ID before retrying. Never generate a new `reference_id` unless you have confirmed the original did not result in a transaction.
-</Warning>
 
-<Tip>
+
 **HTTP 422 is a developer error**
 
 Treat `422 Unprocessable Entity` as a signal to fix your request payload. Inspect the `detail` array for field-level validation messages.
-</Tip>
 
-<Warning>
+
 **PROCESSING is not a failure**
 
 Mobile money transactions may remain in `PROCESSING` for several minutes while the carrier confirms the payment. Do not cancel or retry during this window.
-</Warning>
 
-<Note>
+
 **Refresh your Bearer token proactively**
 
 Implement a background refresh that obtains a new token when the remaining validity drops below 5 minutes. Expired tokens return `HTTP 401`.
-</Note>
 
-<Tip>
+
 **Use prediction endpoints first**
 
 Call `/v1/predictions/amount-and-fees` before executing to validate fee calculations and detect FX rate changes before funds move.
-</Tip>
+
 
 ---
 
@@ -82,7 +73,7 @@ Obtain a new token via `POST /v1/jwt/client/obtain/token` and retry.
 
 For network errors and `5xx` responses, implement exponential backoff before retrying.
 
-<CodeGroup>
+
 
 ```python Python
 import time
@@ -168,33 +159,37 @@ async function executeWithRetry(sessionId, paymentAccountId, currency, token, ma
 }
 ```
 
-</CodeGroup>
+
 
 ---
 
 ## HTTP Status Code Reference
 
-| Code | Status | Action |
-|---|---|---|
-| `200` | OK | Success — process the response |
-| `401` | Unauthorized | Refresh your Bearer token and retry |
-| `403` | Forbidden | Check your account permissions |
-| `404` | Not Found | Verify the resource ID is correct |
-| `422` | Unprocessable Entity | Fix your request payload — inspect `detail` array |
-| `429` | Too Many Requests | Back off and retry after the `Retry-After` header value |
-| `500` | Internal Server Error | Retry with backoff; contact support if it persists |
+
+| Code  | Status                | Action                                                  |
+| ----- | --------------------- | ------------------------------------------------------- |
+| `200` | OK                    | Success — process the response                          |
+| `401` | Unauthorized          | Refresh your Bearer token and retry                     |
+| `403` | Forbidden             | Check your account permissions                          |
+| `404` | Not Found             | Verify the resource ID is correct                       |
+| `422` | Unprocessable Entity  | Fix your request payload — inspect `detail` array       |
+| `429` | Too Many Requests     | Back off and retry after the `Retry-After` header value |
+| `500` | Internal Server Error | Retry with backoff; contact support if it persists      |
+
 
 ---
 
 ## Support & Resources
 
-| Resource | URL / Contact |
-|---|---|
-| Error catalog | [reference/error-catalog](/reference/error-catalog) |
-| Status & incidents | [reference/status-and-incidents](/reference/status-and-incidents) |
-| Merchant Portal | [merchant.heydollr.app](https://merchant.heydollr.app) |
-| Help Center | [dollr.tawk.help](https://dollr.tawk.help) |
+
+| Resource             | URL / Contact                                                          |
+| -------------------- | ---------------------------------------------------------------------- |
+| Error catalog        | [reference/error-catalog](/reference/error-catalog)                    |
+| Status & incidents   | [reference/status-and-incidents](/reference/status-and-incidents)      |
+| Merchant Portal      | [merchant.heydollr.app](https://merchant.heydollr.app)                 |
+| Help Center          | [dollr.tawk.help](https://dollr.tawk.help)                             |
 | Open API Spec (JSON) | [api.heydollr.app/openapi.json](https://api.heydollr.app/openapi.json) |
-| Support Email | dev@heydollr.app |
+| Support Email        | [dev@heydollr.app](mailto:dev@heydollr.app)                            |
+
 
 When contacting support about a specific transaction, always include your `reference_id`, the full request body, and the HTTP response body.

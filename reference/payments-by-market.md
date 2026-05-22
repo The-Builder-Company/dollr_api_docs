@@ -8,27 +8,25 @@ icon: "globe"
 keywords: ["Dollr payment methods", "Dollr mobile money Liberia", "Dollr API Rwanda"]
 ---
 
-# Payments by Market
-
 Use this page as the source of truth for which **payment methods** (`method`), **providers** (`provider`), and markets Dollr supports. Enum values and routing can change — check the [OpenAPI spec](https://api.heydollr.app/openapi.json) and [Predictions API](/api/predictions) before going live.
 
-<Note>
 **Provider vs method** — `provider` is the routing network (`PAWAPAY`, `STRIPE`, `PLATFORM`). `method` is the instrument (`MTN_MOMO_LBR`, `CREDIT_CARD`, etc.). Both appear on executions and payment accounts.
-</Note>
 
 ---
 
 ## Method matrix
 
-| Market | Country code | Method (enum) | Provider | Typical use |
-|---|---|---|---|---|
-| Liberia | `LR` | `MTN_MOMO_LBR` | `PAWAPAY` | Collections & payouts via MTN MoMo |
-| Liberia | `LR` | `ORANGE_MONEY_LBR` | `PAWAPAY` | Collections & payouts via Orange Money |
-| Rwanda | `RW` | `AIRTEL_RWA` | `PAWAPAY` | Collections & payouts via Airtel Money |
-| Rwanda | `RW` | `MTN_MOMO_RWA` | `PAWAPAY` | Collections & payouts via MTN MoMo |
-| Rwanda | `RW` | `ORANGE_MONEY_RWA` | `PAWAPAY` | Collections & payouts via Orange Money |
-| International | — | `CREDIT_CARD` | `STRIPE` | Card checkout (customer not required to have MoMo) |
-| Platform | — | `WALLET` | `PLATFORM` | Internal Dollr wallet transfers |
+
+| Market        | Country code | Method (enum)      | Provider   | Typical use                                        |
+| ------------- | ------------ | ------------------ | ---------- | -------------------------------------------------- |
+| Liberia       | `LR`         | `MTN_MOMO_LBR`     | `PAWAPAY`  | Collections & payouts via MTN MoMo                 |
+| Liberia       | `LR`         | `ORANGE_MONEY_LBR` | `PAWAPAY`  | Collections & payouts via Orange Money             |
+| Rwanda        | `RW`         | `AIRTEL_RWA`       | `PAWAPAY`  | Collections & payouts via Airtel Money             |
+| Rwanda        | `RW`         | `MTN_MOMO_RWA`     | `PAWAPAY`  | Collections & payouts via MTN MoMo                 |
+| Rwanda        | `RW`         | `ORANGE_MONEY_RWA` | `PAWAPAY`  | Collections & payouts via Orange Money             |
+| International | —            | `CREDIT_CARD`      | `STRIPE`   | Card checkout (customer not required to have MoMo) |
+| Platform      | —            | `WALLET`           | `PLATFORM` | Internal Dollr wallet transfers                    |
+
 
 ---
 
@@ -54,12 +52,14 @@ Use the returned `method` and `provider` in `POST /v1/payment-accounts/create` a
 
 ## Operations by method
 
-| Operation | MoMo (PAWAPAY) | Card (STRIPE) | Wallet (PLATFORM) |
-|---|---|---|---|
-| Collection | Yes | Yes | N/A (use wallet transfer) |
-| Payout | Yes | Per merchant setup | Yes |
-| Transfer | Via wallet / platform rules | — | Yes |
-| Refund | Per original transaction method | Per card rules | Per platform rules |
+
+| Operation  | MoMo (PAWAPAY)                  | Card (STRIPE)      | Wallet (PLATFORM)         |
+| ---------- | ------------------------------- | ------------------ | ------------------------- |
+| Collection | Yes                             | Yes                | N/A (use wallet transfer) |
+| Payout     | Yes                             | Per merchant setup | Yes                       |
+| Transfer   | Via wallet / platform rules     | —                  | Yes                       |
+| Refund     | Per original transaction method | Per card rules     | Per platform rules        |
+
 
 ---
 
@@ -76,3 +76,4 @@ Merchant verification requirements differ by country (e.g. Liberia sole propriet
 - [Fees](/api/fees) — gateway and platform fee schedules
 - [Error catalog](/reference/error-catalog) — common validation and execution errors
 - [Glossary](/reference/glossary) — term definitions
+

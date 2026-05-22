@@ -8,13 +8,9 @@ icon: "users"
 keywords: ["Dollr counterparty API", "Dollr API"]
 ---
 
-# Counterparties
-
 A counterparty links a [party](/api/parties) to your merchant with a relationship type (`CUSTOMER`, `SUPPLIER`, `EMPLOYEE`, `BENEFICIARY`, `OTHER`).
 
-<Note>
 **Try in API Reference:** [Create counterparty](/api-reference/counterparties/create-counterparty) · [List](/api-reference/counterparties/list-counterparties) · [Retrieve](/api-reference/counterparties/retrieve-counterparties)
-</Note>
 
 ## When to use
 
@@ -33,3 +29,4 @@ curl -X POST "https://api.heydollr.app/v1/counterparties/create" \
 
 - [Parties](/api/parties) · [Invoices](/api/invoices) · [Orders](/api/orders)
 - [Parties & counterparties (concept)](/concepts/parties-and-counterparties)
+

@@ -8,13 +8,9 @@ icon: "tower-broadcast"
 keywords: ["Dollr realtime API", "Dollr API", "Dollr live payment status"]
 ---
 
-# Realtime Keys
-
 Short-lived tokens for subscribing to live payment events — alternative to polling [status](/api/status).
 
-<Note>
 **Try in API Reference:** [Collection realtime key](/api-reference/realtime-keys/get-collection-realtime-key)
-</Note>
 
 ## When to use
 
@@ -37,3 +33,4 @@ curl -X POST "https://api.heydollr.app/v1/realtime-keys/collection" \
 
 - [Realtime status guide](/guides/realtime-status)
 - [Sessions & executions](/concepts/sessions-and-executions)
+

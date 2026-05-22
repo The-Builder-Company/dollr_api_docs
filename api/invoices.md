@@ -8,13 +8,9 @@ icon: "file-invoice"
 keywords: ["Dollr invoice API", "Dollr payment link", "Dollr API", "Dollr billing API"]
 ---
 
-# Invoices
-
 Formal billing documents with auto-generated invoice numbers, due dates, and line items. Publish before collecting payment.
 
-<Note>
 **Try in API Reference:** [Create](/api-reference/invoices/create-invoice) · [Add item](/api-reference/invoices/add-invoice-item) · [Publish](/api-reference/invoices/publish-invoice) · [Receipt](/api-reference/invoices/retrieve-invoice-receipt-by-id)
-</Note>
 
 ## When to use
 
@@ -23,13 +19,15 @@ Formal billing documents with auto-generated invoice numbers, due dates, and lin
 
 ## Lifecycle
 
-| Status | Meaning |
-|--------|---------|
-| `IDLE` | Draft — editable |
-| `ACTIVE` | Published — ready to pay |
-| `PROCESSING` | Payment in flight |
-| `PAID` | Settled |
-| `CANCELED` | No longer payable |
+
+| Status       | Meaning                  |
+| ------------ | ------------------------ |
+| `IDLE`       | Draft — editable         |
+| `ACTIVE`     | Published — ready to pay |
+| `PROCESSING` | Payment in flight        |
+| `PAID`       | Settled                  |
+| `CANCELED`   | No longer payable        |
+
 
 ## Typical flow
 
@@ -57,3 +55,4 @@ curl -X POST "https://api.heydollr.app/v1/invoices/create" \
 
 - [Quick Start](/quickstart) · [Orders](/api/orders) · [Checkouts](/api/checkouts)
 - [Parties & counterparties](/concepts/parties-and-counterparties)
+

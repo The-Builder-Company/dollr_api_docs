@@ -8,22 +8,20 @@ icon: "link"
 keywords: ["Dollr checkout session", "Dollr API", "Dollr payment session"]
 ---
 
-# Sessions
-
 A **session** records intent to move money. Create the right session type, then [execute](/api/executions) before it expires.
 
-<Note>
 **Try in API Reference:** [Checkout](/api-reference/sessions/create-checkout-session) · [Payout](/api-reference/sessions/create-payout-session) · [Transfer](/api-reference/sessions/create-transfer-session) · [Refund](/api-reference/sessions/create-refund-session)
-</Note>
 
 ## Session types
 
-| Type | Endpoint | Use with execution |
-|------|----------|-------------------|
+
+| Type     | Endpoint                     | Use with execution               |
+| -------- | ---------------------------- | -------------------------------- |
 | Checkout | `POST /v1/sessions/checkout` | `POST /v1/executions/collection` |
-| Payout | `POST /v1/sessions/payout` | `POST /v1/executions/payout` |
-| Transfer | `POST /v1/sessions/transfer` | `POST /v1/executions/transfer` |
-| Refund | `POST /v1/sessions/refund` | `POST /v1/executions/refund` |
+| Payout   | `POST /v1/sessions/payout`   | `POST /v1/executions/payout`     |
+| Transfer | `POST /v1/sessions/transfer` | `POST /v1/executions/transfer`   |
+| Refund   | `POST /v1/sessions/refund`   | `POST /v1/executions/refund`     |
+
 
 Checkout sessions require `source_id` + `source_type` (`INVOICE` or `ORDER`).
 
@@ -40,3 +38,4 @@ curl -X POST "https://api.heydollr.app/v1/sessions/checkout" \
 
 - [Sessions & executions (concept)](/concepts/sessions-and-executions)
 - [Integration guide](/guides/integration)
+

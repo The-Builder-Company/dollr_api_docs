@@ -8,13 +8,9 @@ icon: "link"
 keywords: ["Dollr payment link", "Dollr API", "Dollr hosted checkout"]
 ---
 
-# Payment Links
-
 Turn published invoices or orders into shareable URLs customers can pay without a Dollr account.
 
-<Note>
 **Try in API Reference:** [Payment link](/api-reference/links/get-payment-link) · [Receipt link](/api-reference/links/get-receipt-link)
-</Note>
 
 ## When to use
 
@@ -27,3 +23,4 @@ Requires the source to be published (`ACTIVE` or later). See [Invoices](/api/inv
 
 - [Quick Start](/quickstart) — `as_payment_link: true` on create
 - [Integration guide](/guides/integration)
+

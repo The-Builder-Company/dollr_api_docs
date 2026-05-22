@@ -8,38 +8,37 @@ icon: "boxes-stacked"
 keywords: ["Dollr API SDK", "Dollr API client libraries"]
 ---
 
-# SDKs
-
 ## Official Dollr SDKs
 
-<Warning>
 Official Dollr SDKs are currently in active development. They are not yet available for production use. Use the REST API directly in the meantime — see the [Quick Start](/quickstart) for a step-by-step guide.
-</Warning>
 
 The following SDKs are being built and maintained by the Dollr team. They will wrap the REST API with idiomatic, language-native interfaces, handle token refresh automatically, and include typed request/response models.
 
-<CardGroup cols={2}>
-  <Card title="Node.js / TypeScript" icon="node-js" iconType="brands">
-    **Status:** In development
+**Status:** In development
 
-    A TypeScript-first SDK for Node.js and browser environments with full type safety.
-  </Card>
-  <Card title="Python" icon="python" iconType="brands">
-    **Status:** In development
+```
+A TypeScript-first SDK for Node.js and browser environments with full type safety.
+```
 
-    A Python SDK with async support, Pydantic models, and auto token refresh built in.
-  </Card>
-  <Card title="PHP" icon="php" iconType="brands">
-    **Status:** Planned
+**Status:** In development
 
-    A PHP SDK compatible with Laravel and other popular frameworks.
-  </Card>
-  <Card title="Go" icon="golang" iconType="brands">
-    **Status:** Planned
+```
+A Python SDK with async support, Pydantic models, and auto token refresh built in.
+```
 
-    A Go SDK with idiomatic interfaces and context-aware requests.
-  </Card>
-</CardGroup>
+**Status:** Planned
+
+```
+A PHP SDK compatible with Laravel and other popular frameworks.
+```
+
+**Status:** Planned
+
+```
+A Go SDK with idiomatic interfaces and context-aware requests.
+```
+
+
 
 Official SDKs will be published on each language's package registry (npm, PyPI, Packagist, pkg.go.dev) and linked here when available.
 
@@ -47,9 +46,7 @@ Official SDKs will be published on each language's package registry (npm, PyPI, 
 
 ## Community SDKs
 
-<Note>
 Community SDKs are built and maintained by third-party developers. Dollr does not officially support or guarantee these packages. Always review the code and test thoroughly before using in production.
-</Note>
 
 No community SDKs have been submitted yet.
 
@@ -61,17 +58,4 @@ No community SDKs have been submitted yet.
 
 Until official SDKs are available, you can build your integration directly against the REST API.
 
-<CardGroup cols={2}>
-  <Card title="Quick Start" icon="rocket" href="/quickstart">
-    Get from zero to a working payment collection in under 10 minutes.
-  </Card>
-  <Card title="OpenAPI Spec" icon="braces" href="https://api.heydollr.app/openapi.json">
-    Import the spec into Postman, Insomnia, or any code generator.
-  </Card>
-  <Card title="Integration Guide" icon="map" href="/guides/integration">
-    Full end-to-end walkthrough of every flow type.
-  </Card>
-  <Card title="Error Handling" icon="triangle-exclamation" href="/guides/error-handling">
-    Retry logic, idempotency, and error response patterns.
-  </Card>
-</CardGroup>
+Get from zero to a working payment collection in under 10 minutes. Import the spec into Postman, Insomnia, or any code generator. Full end-to-end walkthrough of every flow type. Retry logic, idempotency, and error response patterns.

@@ -8,9 +8,7 @@ icon: "book"
 keywords: ["Dollr API glossary", "Dollr API terms"]
 ---
 
-# Glossary
 
-Definitions for all key terms used across the Dollr API.
 
 ---
 
@@ -38,7 +36,7 @@ A `client_id` and `client_secret` pair generated in the Merchant Portal under **
 **Collection**
 An operation type where funds flow *into* your merchant wallet from a customer. Initiated via a checkout session and executed via `POST /v1/executions/collection`.
 
-<span id="counterparty">**Counterparty**</span>
+**Counterparty**
 A record that links an existing [Party](#party) to your merchant account with a defined [relationship type](#relationship-type). For the direct invoice and order flows in these docs, a counterparty is required before creating invoices or orders. Checkout-source creation (`POST /v1/checkouts/create`) can create or match the Party and Counterparty automatically. A counterparty answers "who is this party to me?" (customer, supplier, employee, etc.).
 
 **CREDIT_CARD**
@@ -51,7 +49,7 @@ All currency codes follow ISO 4217 — three uppercase letters (e.g., `USD`, `LR
 
 ## E
 
-<span id="execution">**Execution**</span>
+**Execution**
 The API call that triggers actual movement of funds. Executions require an active [Session](#session) and a unique [Reference ID](#reference-id). Four execution types exist: `COLLECTION`, `PAYOUT`, `TRANSFER`, `REFUND`. See the [Executions](/api/executions) page.
 
 **ExecutionResponse**
@@ -67,8 +65,8 @@ For Bearer tokens: the number of **minutes** until the token expires. For Realti
 **Fee Bearer**
 Controls who absorbs transaction fees:
 
-- **`PAYER`** — The customer pays fees on top of the invoice total. The merchant receives the full invoiced amount.
-- **`PAYEE`** — The merchant absorbs the fees. The customer pays the invoice total; the merchant receives less after deductions.
+- `**PAYER`** — The customer pays fees on top of the invoice total. The merchant receives the full invoiced amount.
+- `**PAYEE**` — The merchant absorbs the fees. The customer pays the invoice total; the merchant receives less after deductions.
 
 **FX Fee**
 A foreign exchange conversion fee charged when the payer's currency differs from the payee's currency. Visible in prediction and receipt responses as `fx_fee`.
@@ -135,12 +133,14 @@ Payment method identifier for MTN Mobile Money in Rwanda. Routed via PawaPay.
 **Operation Type**
 Describes the direction and nature of a transaction:
 
-| Type | Description |
-|---|---|
+
+| Type         | Description                                    |
+| ------------ | ---------------------------------------------- |
 | `COLLECTION` | Collect funds from a customer into your wallet |
-| `PAYOUT` | Send funds from your wallet to a recipient |
-| `TRANSFER` | Move funds between Dollr wallets |
-| `REFUND` | Return funds from a completed collection |
+| `PAYOUT`     | Send funds from your wallet to a recipient     |
+| `TRANSFER`   | Move funds between Dollr wallets               |
+| `REFUND`     | Return funds from a completed collection       |
+
 
 **Order**
 An informal payment document without a formal invoice number or due date. Suited for retail and e-commerce. Follows the same lifecycle as invoices. See [Orders](/api/orders).
@@ -161,7 +161,7 @@ An owner type representing a formally registered company or NGO. Requires KYB ve
 **PAID**
 A terminal document status. The invoice or order has been successfully paid. A receipt is available after this state is reached.
 
-<span id="party">**Party**</span>
+**Party**
 A contact record representing a person or entity — identified by name, phone number, and optionally email and country code. Parties are the people your business transacts with. A Party becomes meaningful in context through a [Counterparty](#counterparty) relationship. See [Parties](/api/parties).
 
 **PAWAPAY**
@@ -188,32 +188,34 @@ Provider identifier for internal Dollr wallet transfers. No external gateway inv
 **PROCESSING**
 An intermediate document or execution status. Funds movement has been initiated but the payment provider has not yet confirmed the result. Mobile money transactions may remain in this state for several minutes. Do not cancel or retry during this window.
 
-<span id="provider">**Provider**</span>
+**Provider**
 The payment network or gateway routing the transaction. Note: `provider` identifies the routing network (for example `PAWAPAY`, `STRIPE`, `PLATFORM`), while `payment_method` identifies the instrument used (for example `MTN_MOMO_LBR`, `ORANGE_MONEY_RWA`, `CREDIT_CARD`). Keep these concepts distinct when mapping examples and request fields.
 
-| Provider | Description |
-|---|---|
-| `PAWAPAY` | Mobile money gateway (MTN, Orange, Airtel) |
-| `STRIPE` | International card processing |
-| `PLATFORM` | Internal Dollr wallet balance |
+
+| Provider   | Description                                |
+| ---------- | ------------------------------------------ |
+| `PAWAPAY`  | Mobile money gateway (MTN, Orange, Airtel) |
+| `STRIPE`   | International card processing              |
+| `PLATFORM` | Internal Dollr wallet balance              |
+
 
 ---
 
 ## R
 
 **Realtime Key**
-A short-lived token (expires in seconds) used to subscribe to live payment status push updates for an active checkout session. Eliminates the need to poll `GET /v1/status/*`. See [Realtime Keys](/api/realtime-keys).
+A short-lived token (expires in seconds) used to subscribe to live payment status push updates for an active checkout session. Eliminates the need to poll `GET /v1/status/`*. See [Realtime Keys](/api/realtime-keys).
 
 **Receipt**
 A post-payment document available once an invoice or order reaches `PAID` status. Contains the full fee breakdown, FX rate, provider transaction ID, and line items.
 
-<span id="reference-id">**Reference ID**</span>
+**Reference ID**
 A UUID v4 string you generate and supply with every execution call. This is your **idempotency key** — it identifies the transaction uniquely in Dollr's system. If a network error occurs, query `GET /v1/status/\{type\}/\{reference_id\}` with the original reference ID before generating a new one and retrying. Never reuse a reference ID for a different transaction.
 
 **Refund**
 An operation that returns funds to a customer from a previously completed collection. Requires creating a refund session with the original `payment_intent_id` and then executing via `POST /v1/executions/refund`.
 
-<span id="relationship-type">**Relationship Type**</span>
+**Relationship Type**
 Describes how a counterparty relates to your merchant account:
 
 `CUSTOMER` `SUPPLIER` `EMPLOYEE` `FRIEND` `FAMILY` `DONOR` `DONEE` `CONTACT` `SERVICE_PROVIDER` `PARTNER` `BENEFICIARY`
@@ -222,7 +224,7 @@ Describes how a counterparty relates to your merchant account:
 
 ## S
 
-<span id="session">**Session**</span>
+**Session**
 Declares payment intent before funds move. A session captures what you intend to do (checkout, payout, transfer, refund), with whom, and for how much. Sessions expire if not executed within the specified window. See [Sessions](/api/sessions).
 
 **Source Type**
