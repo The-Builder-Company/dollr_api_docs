@@ -4,6 +4,7 @@ description: "Retrieve merchant profile and configuration from the API."
 
 icon: "building"
 
+
 keywords: ["Dollr merchant API", "Dollr API"]
 ---
 

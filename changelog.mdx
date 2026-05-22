@@ -1,22 +1,43 @@
 ---
 title: "Changelog"
-description: "Dollr API and developer documentation updates — new features, fixes, and integration notes."
+description: "Dollr API and SDK release notes — Added, Changed, Fixed, and Security updates."
 icon: "list"
+
 
 keywords: ["Dollr API changelog", "Dollr release notes", "Dollr API updates"]
 ---
 
 # Changelog
 
-Product and documentation updates for the Dollr Open API and [docs.heydollr.app](https://docs.heydollr.app).
+Release notes for the [Dollr Open API](https://api.heydollr.app) and [developer documentation](https://docs.heydollr.app).
 
-<Update label="May 2026" description="Dollr API v1" tags={["API"]}>
-  **Dollr API v1** is live at [https://api.heydollr.app](https://api.heydollr.app).
+<Accordion title="How to Read This Changelog">
+  Each release is documented with:
 
-  - Collect mobile money (Liberia, Rwanda) and cards
-  - Invoices, orders, checkout shortcut, payment links
-  - Payouts, transfers, refunds
-  - OAuth 2.0 client credentials
+  * **Added** — New features and capabilities
+  * **Changed** — Modifications to existing functionality
+  * **Deprecated** — Features that will be removed in future versions
+  * **Removed** — Features that have been removed
+  * **Fixed** — Bug fixes and corrections
+  * **Security** — Security-related improvements
+
+  Sections that do not apply to a release are omitted.
+
+  ## Version format
+
+  Dollr API versions use **major** releases for the public REST API (currently **v1** at `https://api.heydollr.app`). Check the [OpenAPI spec](https://api.heydollr.app/openapi.json) and this changelog before upgrading integrations.
+
+  Subscribe to updates: [changelog RSS](/changelog/rss.xml)
+</Accordion>
+
+<Update label="May 2026" description="v1.0.0" tags={["API"]}>
+  ### Added
+
+  * **Dollr API v1** is live at [https://api.heydollr.app](https://api.heydollr.app)
+  * Collect **mobile money** (Liberia, Rwanda) and **cards**
+  * **Invoices**, **orders**, **checkout shortcut**, and **payment links**
+  * **Payouts**, **transfers**, and **refunds**
+  * **OAuth 2.0** client credentials for API access
 
   Get started: [Quick Start](/quickstart) · [Merchant Dashboard](https://merchant.heydollr.app)
 </Update>

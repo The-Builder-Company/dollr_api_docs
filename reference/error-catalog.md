@@ -4,6 +4,7 @@ description: "Common Dollr API error messages, causes, and recommended actions b
 
 icon: "triangle-exclamation"
 
+
 keywords: ["Dollr API error catalog", "Dollr API errors", "Dollr troubleshooting"]
 ---
 

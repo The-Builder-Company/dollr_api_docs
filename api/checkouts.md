@@ -4,6 +4,7 @@ description: "Create checkout sources directly from payer details without a prio
 
 icon: "bag-shopping"
 
+
 keywords: ["Dollr checkout API", "Dollr collect payment", "Dollr API"]
 ---
 

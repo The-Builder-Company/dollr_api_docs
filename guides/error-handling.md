@@ -4,6 +4,7 @@ description: "Best practices for handling errors, retries, idempotency, and when
 
 icon: "triangle-exclamation"
 
+
 keywords: ["Dollr API errors", "Dollr error handling", "Dollr API troubleshooting"]
 ---
 

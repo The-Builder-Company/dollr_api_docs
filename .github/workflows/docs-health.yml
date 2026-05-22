@@ -34,6 +34,8 @@ jobs:
             "/reference/error-catalog"
             "/reference/examples"
             "/changelog"
+            "/agentic-development"
+            "/agentic-development/start-here"
             "/reference/status-and-incidents"
             "/api/parties"
             "/api/executions"

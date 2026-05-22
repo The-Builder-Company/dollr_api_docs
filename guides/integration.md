@@ -4,6 +4,7 @@ description: "End-to-end walkthrough of collection, payout, transfer, and refund
 
 icon: "map"
 
+
 keywords: ["Dollr API integration guide", "Dollr collect API", "Dollr payout API"]
 ---
 

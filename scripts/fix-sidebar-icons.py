@@ -63,9 +63,9 @@ PAGE_ICONS: dict[str, tuple[str, str | None]] = {
     "reference/glossary.md": ("book", None),
     "reference/support.md": ("life-ring", None),
     "reference/error-catalog.md": ("triangle-exclamation", None),
-    "vibe-coding/index.mdx": ("wand-magic-sparkles", None),
-    "vibe-coding/start-here.mdx": ("compass", None),
-    "vibe-coding/prompt-library.mdx": ("comments", None),
+    "agentic-development/index.mdx": ("wand-magic-sparkles", None),
+    "agentic-development/start-here.mdx": ("compass", None),
+    "agentic-development/prompt-library.mdx": ("comments", None),
 }
 
 

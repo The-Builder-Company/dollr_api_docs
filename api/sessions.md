@@ -4,6 +4,7 @@ description: "Declare checkout, payout, transfer, or refund intent before execut
 
 icon: "link"
 
+
 keywords: ["Dollr checkout session", "Dollr API", "Dollr payment session"]
 ---
 

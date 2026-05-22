@@ -4,6 +4,7 @@ description: "Generate hosted payment and receipt URLs for invoices and orders."
 
 icon: "link"
 
+
 keywords: ["Dollr payment link", "Dollr API", "Dollr hosted checkout"]
 ---
 

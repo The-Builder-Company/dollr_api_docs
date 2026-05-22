@@ -4,6 +4,7 @@ description: "Register customer or recipient wallets and cards for collections a
 
 icon: "wallet"
 
+
 keywords: ["Dollr payment account", "Dollr wallet API", "Dollr API"]
 ---
 

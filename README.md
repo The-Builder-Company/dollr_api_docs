@@ -46,7 +46,7 @@ After deploy, [.github/workflows/docs-health.yml](.github/workflows/docs-health.
 | Tab               | Content                                                                                    |
 | ----------------- | ------------------------------------------------------------------------------------------ |
 | **Documentation** | Collapsible sidebar groups (Getting Started, Guides, Core concepts, stack, KB, Resources) |
-| **Build with AI** | Vibe Coding, stack guides, AI resources — nested collapsible groups                        |
+| **Build with AI** | Agentic development, stack guides, AI resources — nested collapsible groups               |
 | **Changelog**     | `changelog.mdx` — prepend new `<Update>` entries; merge to `main` to publish (see below)   |
 | **API Reference** | OpenAPI-generated interactive endpoints (collapsible under **Endpoints**)                |
 

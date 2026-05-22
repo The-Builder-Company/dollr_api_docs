@@ -285,20 +285,21 @@ KEYWORDS: dict[str, list[str]] = {
         "Dollr API errors",
         "Dollr troubleshooting",
     ],
-    "vibe-coding/index.mdx": [
+    "agentic-development/index.mdx": [
+        "Dollr agentic development",
         "Dollr API AI integration",
-        "Dollr vibe coding",
+        "Dollr MCP",
         "Dollr developer docs",
     ],
-    "vibe-coding/start-here.mdx": [
+    "agentic-development/start-here.mdx": [
         "Dollr API Cursor",
         "Dollr llms.txt setup",
         "Dollr MCP",
     ],
-    "vibe-coding/prompt-library.mdx": [
+    "agentic-development/prompt-library.mdx": [
         "Dollr API prompts",
         "Dollr integration prompts",
-        "Dollr AI coding",
+        "Dollr agentic development",
     ],
 }
 

@@ -100,7 +100,7 @@
       {
         "anchor": "Build with AI",
         "icon": "wand-magic-sparkles",
-        "url": "/vibe-coding"
+        "url": "/agentic-development"
       }
     ],
     "tabs": [
@@ -261,13 +261,13 @@
             "icon": "wand-magic-sparkles",
             "pages": [
               {
-                "group": "Vibe Coding",
+                "group": "Agentic development",
                 "icon": "wand-magic-sparkles",
                 "expanded": true,
                 "pages": [
-                  "vibe-coding/index",
-                  "vibe-coding/start-here",
-                  "vibe-coding/prompt-library"
+                  "agentic-development/index",
+                  "agentic-development/start-here",
+                  "agentic-development/prompt-library"
                 ]
               },
               {
@@ -345,7 +345,7 @@
         "items": [
           { "label": "Quick Start", "href": "/quickstart" },
           { "label": "Changelog", "href": "/changelog" },
-          { "label": "Build with AI", "href": "/vibe-coding" },
+          { "label": "Build with AI", "href": "/agentic-development" },
           { "label": "Collect with Node.js", "href": "/guides/collect-with-nodejs" },
           { "label": "Payments by Market", "href": "/reference/payments-by-market" },
           { "label": "Knowledge Base", "href": "/knowledge-base" },
@@ -376,7 +376,9 @@
     { "source": "/docs/api-conventions", "destination": "/api-conventions" },
     { "source": "/docs/concepts/:path*", "destination": "/concepts/:path*" },
     { "source": "/docs/knowledge-base/:path*", "destination": "/knowledge-base/:path*" },
-    { "source": "/docs/vibe-coding/:path*", "destination": "/vibe-coding/:path*" },
+    { "source": "/docs/vibe-coding/:path*", "destination": "/agentic-development/:path*" },
+    { "source": "/vibe-coding", "destination": "/agentic-development" },
+    { "source": "/vibe-coding/:path*", "destination": "/agentic-development/:path*" },
     { "source": "/docs/changelog", "destination": "/changelog" }
   ],
   "errors": {
