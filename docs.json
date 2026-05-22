@@ -1,7 +1,7 @@
 {
   "$schema": "https://mintlify.com/schema.json",
   "name": "Dollr Developer Docs",
-  "description": "Official API documentation for Dollr — accept payments, send payouts, and move money across Africa with a single unified API.",
+  "description": "Dollr is a payment infrastructure platform for businesses operating in Africa. It provides a single unified REST API to collect payments, send payouts, process transfers, and issue refunds — abstracting mobile money operators and card networks into a clean, consistent interface.",
   "theme": "mint",
   "icons": {
     "library": "fontawesome"
