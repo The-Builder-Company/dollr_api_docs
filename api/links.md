@@ -24,7 +24,7 @@ Requires the source to be published (`ACTIVE` or later). See [Invoices](/api/inv
 
 | Parameter | Required | Description |
 |-----------|----------|-------------|
-| `source_type` | Yes | `INVOICE` or `ORDER` |
+| `source_type` | Yes | `INVOICE` or `ORDER` (`SUBSCRIPTION` reserved — not yet supported) |
 | `source_number` | Yes | Document number (e.g. `INV-2025-0042`) |
 
 ## Payment link

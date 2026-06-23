@@ -42,6 +42,8 @@ A Go SDK with idiomatic interfaces and context-aware requests.
 
 Official SDKs will be published on each language's package registry (npm, PyPI, Packagist, pkg.go.dev) and linked here when available.
 
+**Want early access?** Email [dev@heydollr.app](mailto:dev@heydollr.app) with your stack and use case to join the SDK waitlist.
+
 ---
 
 ## Community SDKs

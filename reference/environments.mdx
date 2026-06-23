@@ -1,0 +1,99 @@
+---
+title: "Environments"
+description: "Production API base URL, credentials, verification gates, and how to test integrations safely."
+
+icon: "server"
+
+
+keywords: ["Dollr API sandbox", "Dollr test environment", "Dollr API keys", "Dollr production"]
+---
+
+## Production
+
+| Setting | Value |
+|---------|--------|
+| **Base URL** | `https://api.heydollr.app` |
+| **API version** | `v1` (path prefix on every request) |
+| **OpenAPI spec** | [api.heydollr.app/openapi.json](https://api.heydollr.app/openapi.json) |
+| **Docs** | [docs.heydollr.app](https://docs.heydollr.app) |
+| **Merchant portal** | [merchant.heydollr.app](https://merchant.heydollr.app) |
+
+All examples in this documentation use production unless stated otherwise.
+
+## API credentials
+
+1. Register at [merchant.heydollr.app](https://merchant.heydollr.app)
+2. Complete identity verification (KYC/KYB — typically 1–72 hours)
+3. Go to **Settings → Developer → API Keys**
+4. Create a **Client ID** and **Client Secret** (secret shown once — store in a vault)
+
+Exchange credentials for a Bearer token:
+
+```http
+POST /v1/jwt/client/obtain/token
+```
+
+See [Authentication](/authentication). Tokens expire after `expires_in` **minutes**.
+
+## Verification gates
+
+Until your merchant account is fully verified, some features may return **403 Forbidden**:
+
+| Feature | Gate |
+|---------|------|
+| API key generation | Verification required |
+| Payouts | Fully verified merchant |
+| Payment links / hosted checkout | May be restricted during onboarding |
+| Refunds | Verification required |
+
+See [Forbidden / unverified](/knowledge-base/forbidden-403-unverified).
+
+## Sandbox and test mode
+
+Dollr does **not** publish a separate public sandbox base URL in this documentation. To test safely in production:
+
+| Approach | When to use |
+|----------|-------------|
+| **[Hosted checkout](/guides/hosted-checkout)** with small real amounts | Fastest path to a working payment |
+| **Low-value live transactions** | MoMo and card with minimal amounts in supported currencies |
+| **OpenAPI playground** | Validate request shapes without executing (API Reference tab) |
+
+If you need a dedicated staging environment or test credentials, contact [dev@heydollr.app](mailto:dev@heydollr.app) or your Dollr account manager.
+
+<Warning>
+Never use production Client Secrets in client-side code, public repos, or mobile apps. Server-side only.
+</Warning>
+
+## Realtime (Supabase) credentials
+
+Live payment status via [Realtime keys](/guides/realtime-status) uses Supabase Realtime. In addition to your Dollr Bearer token flow, you need:
+
+| Credential | Source |
+|------------|--------|
+| `SUPABASE_URL` | Merchant portal → **Settings → Developer** (Realtime section) |
+| `SUPABASE_ANON_KEY` | Same section |
+
+If these are not visible in your portal yet, email [dev@heydollr.app](mailto:dev@heydollr.app).
+
+## Stripe (API-embedded cards only)
+
+If you build your own card UI with [Collect with card](/guides/collect-with-card), Dollr routes cards through **Stripe**. You do **not** connect your own Stripe account — Dollr provides the publishable key for Elements:
+
+| Variable | Source |
+|----------|--------|
+| `NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY` | Merchant portal → **Settings → Developer** or provided during card enablement |
+
+For hosted checkout, you do **not** need Stripe keys — Dollr handles card collection on the hosted page.
+
+## Environment checklist
+
+- [ ] Client ID and Client Secret in server env vars (not `NEXT_PUBLIC_*`)
+- [ ] Token refresh before expiry (`expires_in` is minutes)
+- [ ] Verification complete for payouts / refunds
+- [ ] Realtime Supabase vars (if using live status UI)
+- [ ] Stripe publishable key (only for API-embedded card UI)
+
+## Related
+
+- [Authentication](/authentication) · [API conventions](/api-conventions)
+- [Examples & tools](/reference/examples) · [Support](/reference/support)

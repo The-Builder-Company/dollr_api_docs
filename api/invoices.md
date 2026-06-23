@@ -137,6 +137,20 @@ curl "https://api.heydollr.app/v1/invoices/receipt/number/INV-2025-0042" \
 
 Available once status is `PAID`. Includes fee breakdown, FX, provider, and line items.
 
+## State transitions
+
+| From | Action | To | Notes |
+|------|--------|-----|-------|
+| — | Create | `IDLE` | Draft, editable |
+| `IDLE` | Add/update/remove items | `IDLE` | |
+| `IDLE` | Publish | `ACTIVE` | Locked for editing |
+| `ACTIVE` | Customer pays | `PROCESSING` | Payment in flight |
+| `PROCESSING` | Settles | `PAID` | Final |
+| `IDLE` or `ACTIVE` | Cancel | `CANCELED` | Not payable |
+| `PROCESSING` | — | — | Do not cancel; wait for payment result |
+
+Cannot edit line items after publish. Cannot cancel while `PROCESSING`.
+
 ## Related
 
 - [Hosted checkout](/guides/hosted-checkout) · [Quick Start](/quickstart) · [Orders](/api/orders)

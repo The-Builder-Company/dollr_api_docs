@@ -1,0 +1,39 @@
+---
+title: "Insufficient wallet balance"
+description: "Payout or transfer failed because the source wallet does not have enough funds."
+
+icon: "wallet"
+
+
+keywords: ["Dollr wallet balance", "Dollr payout failed", "Dollr insufficient funds"]
+---
+
+## Symptom
+
+Payout or transfer execution returns `FAILED`, or status polling shows failure with wallet-related messages.
+
+## Cause
+
+Payouts debit your Dollr **wallet** (see `wallet_id` on payout session response). If the wallet balance is too low for the payout amount plus fees, execution fails.
+
+## Fix
+
+1. Check wallet balance in [merchant.heydollr.app](https://merchant.heydollr.app) → **Wallets** or **Balances**
+2. Ensure collected funds have settled into the wallet you are debiting
+3. Retry with a new payout session and a **new** `reference_id` only after confirming the prior attempt did not land (poll status first)
+
+## Prevention
+
+- Preview fees with [Predictions](/api/predictions) before payout
+- Use `fee_bearer` awareness — payouts may include gateway fees
+- For large payouts, test with a small amount first
+
+## Payout session note
+
+You send `payout_account_id`, `amount`, and `currency` on session create. Dollr selects the debiting wallet and returns `wallet_id` in the response — you do not pass `wallet_id` on create.
+
+## Related
+
+- [Payout with Node.js](/guides/payout-with-nodejs)
+- [Payout passcode errors](/knowledge-base/payout-passcode-error)
+- [Transfers & refunds overview](/concepts/transfer-and-refund)

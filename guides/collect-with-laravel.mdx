@@ -110,7 +110,7 @@ Use Laravel’s **HTTP client** (Guzzle) from a controller, job, or action — n
     ```php
     $status = $http->get("/v1/status/collection/$referenceId")->json('status');
     ```
-    Use [realtime status](/guides/realtime-status) or webhooks for production UX instead of tight polling loops.
+    Use [Payment status patterns](/guides/payment-status-patterns) — poll status in a queued job or use [realtime keys](/guides/realtime-status) for live UI. Dollr does not expose inbound webhooks in the Open API.
   </Step>
 </Steps>
 

@@ -119,6 +119,7 @@
                 "pages": [
                   "index",
                   "quickstart",
+                  "reference/environments",
                   "guides/choose-integration",
                   "authentication",
                   "api-conventions"
@@ -134,6 +135,7 @@
                   "guides/collect-with-card",
                   "guides/payout-with-nodejs",
                   "guides/integration",
+                  "guides/payment-status-patterns",
                   "guides/realtime-status",
                   "guides/error-handling"
                 ]
@@ -149,7 +151,9 @@
                     "expanded": false,
                     "pages": [
                       "concepts/parties-and-counterparties",
-                      "concepts/sessions-and-executions"
+                      "concepts/sessions-and-executions",
+                      "concepts/currency-and-fx",
+                      "concepts/transfer-and-refund"
                     ]
                   },
                   {
@@ -228,6 +232,9 @@
                       "knowledge-base/duplicate-reference-id",
                       "knowledge-base/session-expired-or-invalid",
                       "knowledge-base/payment-processing-status",
+                      "knowledge-base/card-3ds-failed",
+                      "knowledge-base/payout-passcode-error",
+                      "knowledge-base/insufficient-wallet-balance",
                       "knowledge-base/rate-limit-429",
                       "knowledge-base/server-error-5xx"
                     ]
@@ -241,6 +248,7 @@
                 "icon": "bookmark",
                 "expanded": false,
                 "pages": [
+                  "reference/environments",
                   "reference/payments-by-market",
                   "reference/status-and-incidents",
                   "reference/examples",

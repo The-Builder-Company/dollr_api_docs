@@ -13,7 +13,11 @@ import InvoiceOrOrder from '/snippets/invoice-or-order.mdx';
 
 <InvoiceOrOrder />
 
-Call the Dollr API from **server-only** code — Route Handlers (`app/api/...`), Server Actions, or `getServerSideProps`. Never call Dollr with your Client Secret from the browser.
+<Info>
+**Fastest path for Next.js:** [Hosted checkout](/guides/hosted-checkout) — create a checkout source server-side and redirect to `url`. No Stripe or payment-account setup required.
+</Info>
+
+Call the Dollr API from **server-only** code for API-embedded flows. Never expose your Client Secret in the browser.
 
 <Note>
 **API Reference:** [Obtain token](/api-reference/jwt/client-obtain-token) · [Collect](/api-reference/executions/collect)
@@ -21,15 +25,58 @@ Call the Dollr API from **server-only** code — Route Handlers (`app/api/...`),
 
 ## Prerequisites
 
-- Next.js 14+ (App Router) or Pages Router with server routes
-- Environment variables in `.env.local` (not prefixed with `NEXT_PUBLIC_`):
+- Next.js 14+ (App Router)
+- Environment variables in `.env.local` (not `NEXT_PUBLIC_` except Stripe publishable key for card UI):
 
 ```
 DOLLR_CLIENT_ID=...
 DOLLR_CLIENT_SECRET=...
 ```
 
-## Steps
+## Option A — Hosted checkout (recommended)
+
+```typescript
+// app/actions/checkout.ts
+"use server";
+
+const BASE = "https://api.heydollr.app";
+
+async function dollrHeaders() {
+  const { access_token } = await fetch(`${BASE}/v1/jwt/client/obtain/token`, {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({
+      client_id: process.env.DOLLR_CLIENT_ID,
+      client_secret: process.env.DOLLR_CLIENT_SECRET,
+    }),
+  }).then((r) => r.json());
+  return { Authorization: `Bearer ${access_token}`, "Content-Type": "application/json" };
+}
+
+export async function createHostedCheckout() {
+  const headers = await dollrHeaders();
+  const checkout = await fetch(`${BASE}/v1/checkouts/create`, {
+    method: "POST",
+    headers,
+    body: JSON.stringify({
+      mode: "HOSTED",
+      source_kind: "ORDER",
+      party_name: "Amara Kamara",
+      party_phone: "231771234567",
+      currency: "USD",
+      items: [{ name: "T-Shirt", currency: "USD", amount: 25 }],
+      success_url: `${process.env.SITE_URL}/checkout/success`,
+      cancel_url: `${process.env.SITE_URL}/checkout/cancel`,
+    }),
+  }).then((r) => r.json());
+
+  return checkout.url; // redirect customer here
+}
+```
+
+On your success page, verify server-side with `GET /v1/status/source` before fulfilling — see [Hosted checkout](/guides/hosted-checkout#fulfillment-security).
+
+## Option B — API-embedded collection
 
 <Steps>
   <Step title="Route Handler — obtain token">
@@ -52,40 +99,8 @@ DOLLR_CLIENT_SECRET=...
     }
     ```
   </Step>
-  <Step title="Server-side collect action">
-    ```typescript
-    // app/actions/collect.ts
-    "use server";
-
-    const BASE = "https://api.heydollr.app";
-
-    async function dollrHeaders() {
-      const tokenRes = await fetch(`${BASE}/v1/jwt/client/obtain/token`, {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          client_id: process.env.DOLLR_CLIENT_ID,
-          client_secret: process.env.DOLLR_CLIENT_SECRET,
-        }),
-      });
-      const tokenData = await tokenRes.json();
-      return {
-        Authorization: `Bearer ${tokenData.access_token}`,
-        "Content-Type": "application/json",
-      };
-    }
-
-    export async function createInvoiceCollection() {
-      const headers = await dollrHeaders();
-      // POST parties → counterparties → invoices → publish → session → execute
-    }
-    ```
-  </Step>
-  <Step title="Idempotency key">
-    ```typescript
-    const referenceId = crypto.randomUUID();
-    // Persist referenceId in your DB before calling /v1/executions/collection
-    ```
+  <Step title="Server Action — full collect flow">
+    Follow [Quick Start](/quickstart) steps: party → counterparty → invoice → publish → session → payment account → execute. Or use [Collect with card](/guides/collect-with-card) for Stripe Elements.
   </Step>
   <Step title="Poll from a Route Handler">
     ```typescript
@@ -113,4 +128,3 @@ Do not expose `DOLLR_CLIENT_SECRET` to Client Components. Use Route Handlers or 
 import StackGuideFooter from '/snippets/stack-guide-footer.mdx';
 
 <StackGuideFooter />
-

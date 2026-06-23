@@ -1,0 +1,84 @@
+---
+title: "Currency & FX"
+description: "How invoice currency, payer currency, execution currency, and fee predictions work together."
+
+icon: "coins"
+
+
+keywords: ["Dollr FX", "Dollr multi-currency", "Dollr API currency", "Dollr fee prediction"]
+---
+
+Dollr supports collecting in currencies that differ from your invoice or order currency (for example, invoice in `USD`, payer pays in `LRD` via mobile money). Predictions tell you the amounts **before** you execute; receipts show what actually settled.
+
+## Three amounts to track
+
+| Concept | Where it appears | Meaning |
+|---------|------------------|---------|
+| **Source total** | Invoice/order `currency` + `total_amount` | What you billed |
+| **Payer amount** | Prediction + execution + receipt | What the customer pays (including fees if `fee_bearer: PAYER`) |
+| **Payee amount** | Prediction + execution + receipt | What you receive after fees and FX |
+
+## Fee bearer
+
+Set on invoice/order create (`PAYER` or `PAYEE`):
+
+- **`PAYER`** — Customer pays platform/gateway fees on top of the source total
+- **`PAYEE`** — You absorb fees; customer pays the listed total
+
+Preview with predictions before executing.
+
+## Which `currency` on execute?
+
+For `POST /v1/executions/collection`, pass the **currency the payer is paying in** — typically the `target_currency` from your prediction, not necessarily the invoice currency.
+
+**Example:** Invoice `USD 100`, payer uses MTN MoMo in `LRD`:
+
+1. Call predictions with `base_currency=USD`, `target_currency=LRD`
+2. Use returned `payer_currency` / amounts to show the customer the LRD total
+3. Execute with `"currency": "LRD"` (payer currency)
+
+```bash
+curl "https://api.heydollr.app/v1/predictions/payment-source/amount-and-fees?source_type=INVOICE&source_id=101&target_currency=LRD&payment_method=MTN_MOMO_LBR&provider=PAWAPAY" \
+  -H "Authorization: Bearer YOUR_ACCESS_TOKEN"
+```
+
+For a published source, `payment-source/amount-and-fees` uses the source total as the base — you only choose `target_currency` and payment routing.
+
+## Standalone amount prediction
+
+When you know the base amount upfront:
+
+```bash
+curl "https://api.heydollr.app/v1/predictions/amount-and-fees?base_amount=100&base_currency=USD&target_currency=LRD&payment_method=MTN_MOMO_LBR&operation_type=COLLECTION&provider=PAWAPAY&fee_bearer=PAYER" \
+  -H "Authorization: Bearer YOUR_ACCESS_TOKEN"
+```
+
+Response fields:
+
+| Field | Description |
+|-------|-------------|
+| `payer_amount` / `payer_currency` | Customer pays |
+| `payee_amount` / `payee_currency` | You receive |
+| `platform_fee` | Dollr platform fee |
+| `gateway_fee` | MoMo/card gateway fee |
+| `fx_fee` | FX conversion fee (if applicable) |
+
+## Hosted checkout
+
+On [hosted checkout](/guides/hosted-checkout), Dollr handles currency selection and FX on the payment page. You still verify settlement via `GET /v1/status/source` or receipt endpoints.
+
+## Receipt reconciliation
+
+After `PAID`, use:
+
+```http
+GET /v1/invoices/receipt/{id}
+```
+
+Receipts include `payer_amount`, `payee_amount`, `fx_rate`, `fx_currency_from`, `fx_currency_to`, and fee breakdowns.
+
+## Related
+
+- [Predictions](/api/predictions) · [Fees](/api/fees)
+- [Payments by market](/reference/payments-by-market)
+- [Sessions & executions](/concepts/sessions-and-executions)

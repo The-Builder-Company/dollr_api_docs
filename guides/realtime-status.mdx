@@ -5,46 +5,48 @@ description: "Subscribe to live payment updates with Dollr realtime keys instead
 icon: "tower-broadcast"
 
 
-keywords: ["Dollr payment status", "Dollr realtime API", "Dollr live updates"]
+keywords: ["Dollr payment status", "Dollr realtime API", "Dollr Supabase realtime"]
 ---
 
-**Realtime keys** are short-lived tokens for subscribing to live payment events on a checkout session. Use them when you want immediate UI updates without polling `GET /v1/status/*`.
+**Realtime keys** are short-lived tokens for subscribing to live payment events on a checkout session. Dollr uses **Supabase Realtime** under the hood.
 
 <Note>
 **API Reference:** [Collection realtime key](/api-reference/realtime-keys/get-collection-realtime-key)
 </Note>
 
 <Info>
-The Dollr Open API does not expose inbound webhook endpoints. For server-to-server notifications, use realtime keys on your frontend or poll `GET /v1/status/*` from your backend.
+The Dollr Open API does **not** expose inbound HTTP webhooks. For backend fulfillment, see [Payment status patterns](/guides/payment-status-patterns).
 </Info>
 
 ## When to use
 
 | Approach | Best for |
 |----------|----------|
-| **Polling** | Few payments, simple cron-style checks |
-| **Realtime keys** | Checkout UI, dashboards, high-volume status updates |
-| **Hosted checkout** | Redirect + `GET /v1/status/source` on your success page |
+| **Polling** | Simple backends; few concurrent payments |
+| **Realtime keys** | Live checkout UI while customer approves MoMo or card |
+| **Hosted checkout + source status** | Success page verification |
 
-See also [Status & incidents](/reference/status-and-incidents) for operational context.
+## Prerequisites
 
-## Obtain a collection realtime key
+| Credential | Source |
+|------------|--------|
+| Dollr Bearer token | [Authentication](/authentication) |
+| `SUPABASE_URL` | [Environments](/reference/environments) — merchant portal Developer settings |
+| `SUPABASE_ANON_KEY` | Same section |
+
+## Step 1 — Obtain a collection realtime key
 
 ```http
 POST /v1/realtime-keys/collection
 ```
 
-| Field | Required | Description |
-|-------|----------|-------------|
-| `session_id` | Yes | Checkout session ID |
-| `source_type` | Yes | `INVOICE` or `ORDER` |
-| `reference_id` | Yes | Your UUID v4 for this subscription |
+| Field | Type | Required | Description |
+|-------|------|----------|-------------|
+| `session_id` | **integer** | Yes | Checkout session ID from `POST /v1/sessions/checkout` |
+| `source_type` | string | Yes | `INVOICE` or `ORDER` |
+| `reference_id` | string | Yes | Your UUID v4 (same as execution idempotency key) |
 
-Response includes `access_token` and `expires_in` (**seconds**).
-
-<CodeGroup>
-
-```bash cURL
+```bash
 curl -X POST "https://api.heydollr.app/v1/realtime-keys/collection" \
   -H "Authorization: Bearer YOUR_ACCESS_TOKEN" \
   -H "Content-Type: application/json" \
@@ -55,32 +57,84 @@ curl -X POST "https://api.heydollr.app/v1/realtime-keys/collection" \
   }'
 ```
 
-```javascript Node.js
-import { randomUUID } from "crypto";
+**Response:**
 
-const rt = await fetch("https://api.heydollr.app/v1/realtime-keys/collection", {
-  method: "POST",
-  headers: {
-    Authorization: `Bearer ${process.env.DOLLR_TOKEN}`,
-    "Content-Type": "application/json",
-  },
-  body: JSON.stringify({
-    session_id: 55,
-    source_type: "INVOICE",
-    reference_id: randomUUID(),
-  }),
-}).then((r) => r.json());
+| Field | Description |
+|-------|-------------|
+| `access_token` | Short-lived JWT for Supabase Realtime auth |
+| `expires_in` | Token lifetime in **seconds** |
+
+<Warning>
+`session_id` is an **integer** here. Execution endpoints expect `session_id` as a **string** — see [API conventions](/api-conventions#resource-id-types).
+</Warning>
+
+## Step 2 — Connect with Supabase Realtime
+
+```javascript
+import { createClient } from "@supabase/supabase-js";
+
+const supabase = createClient(
+  process.env.SUPABASE_URL,
+  process.env.SUPABASE_ANON_KEY,
+  {
+    auth: { autoRefreshToken: false, persistSession: false },
+    accessToken: async () => realtimeKey.access_token,
+  }
+);
+supabase.realtime.setAuth(realtimeKey.access_token);
+
+const channel = supabase.channel(
+  `payment-intent:${sessionId}:${referenceId}`
+);
+
+channel
+  .on(
+    "postgres_changes",
+    {
+      event: "*",
+      schema: "public",
+      table: "checkout_payment_intent_public_status",
+      filter: `reference_id=eq.${referenceId}`,
+    },
+    (payload) => {
+      const row = payload.new;
+      console.log("Status update:", row);
+      // Update your UI — then verify via GET /v1/status/collection/{reference_id}
+    }
+  )
+  .subscribe((status) => {
+    if (status === "SUBSCRIBED") console.log("Watching payment");
+    if (status === "CHANNEL_ERROR") fallbackToPolling();
+  });
 ```
 
-</CodeGroup>
+### Channel naming
 
-<Tip>
-Still generate and store an execution `reference_id` for idempotency and fallback polling if the realtime connection drops.
-</Tip>
+```
+payment-intent:{session_id}:{reference_id}
+```
+
+### Table
+
+`checkout_payment_intent_public_status` — filtered by `reference_id`.
+
+## Step 3 — Fallback to polling
+
+If realtime disconnects or times out:
+
+```http
+GET /v1/status/collection/{reference_id}
+```
+
+Always persist `reference_id` before execute. Use realtime for **UX**; use status API for **fulfillment decisions**.
+
+## Timeout guidance
+
+Subscribe for up to **30 seconds** after execute, then fall back to polling. MoMo payments may take several minutes in `PROCESSING`.
 
 ## Related
 
-- [Hosted checkout](/guides/hosted-checkout)
-- [Realtime Keys API concept](/api/realtime-keys)
-- [Transaction status](/api/status)
+- [Payment status patterns](/guides/payment-status-patterns)
+- [Realtime Keys API](/api/realtime-keys)
+- [Environments](/reference/environments)
 - [Sessions & executions](/concepts/sessions-and-executions)

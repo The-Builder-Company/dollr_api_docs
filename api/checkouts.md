@@ -63,6 +63,17 @@ curl -X POST "https://api.heydollr.app/v1/checkouts/create" \
 
 After creating a checkout source, continue with [sessions](/api/sessions) → [payment accounts](/api/payment-accounts) → [executions](/api/executions). See [Quick Start](/quickstart).
 
+## Checkout `mode` values
+
+| Mode | Behavior |
+|------|----------|
+| `HOSTED` | Returns `url` — customer pays on Dollr page (MoMo + card). See [Hosted checkout](/guides/hosted-checkout). |
+| Other values | Contact Dollr if you need a non-hosted integration mode. Default API-embedded flow: create source without `HOSTED`, then session → payment account → execute. |
+
+## `url` vs `hosted_path_or_token`
+
+Use **`url`** for customer redirects. `hosted_path_or_token` is for internal Dollr routing — prefer `url` unless support directs otherwise.
+
 ## Optional fields
 
 `party_name`, `party_email`, `party_relationship`, `reference_id`, `note`, `due_date`, `expires_at`, `counterparty_id`.

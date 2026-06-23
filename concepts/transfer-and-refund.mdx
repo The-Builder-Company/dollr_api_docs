@@ -1,0 +1,106 @@
+---
+title: "Transfers & Refunds"
+description: "Overview of wallet transfers and payment refunds — prerequisites and API entry points."
+
+icon: "rotate-left"
+
+
+keywords: ["Dollr transfer API", "Dollr refund API", "Dollr wallet transfer"]
+---
+
+<Note>
+Full step-by-step guides for transfers and refunds are not yet published. Use this page for prerequisites and the **API Reference** tab for request/response fields.
+</Note>
+
+Both flows follow the same **session → execute → poll status** pattern as collections and payouts.
+
+## Transfer (wallet to counterparty)
+
+Move funds from your Dollr wallet to a counterparty's wallet.
+
+### Prerequisites
+
+- Fully verified merchant account
+- Funded source **wallet** (`wallet_id`)
+- Recipient [counterparty](/api/counterparties) with relationship type (e.g. `BENEFICIARY`)
+
+### Flow
+
+| Step | Endpoint |
+|------|----------|
+| 1. Create session | `POST /v1/sessions/transfer` |
+| 2. Execute | `POST /v1/executions/transfer` |
+| 3. Poll status | `GET /v1/status/transfer/{reference_id}` |
+
+### Session payload (required)
+
+| Field | Description |
+|-------|-------------|
+| `from_wallet_id` | Your Dollr wallet to debit |
+| `to_counterparty_id` | Recipient counterparty |
+| `amount` | Positive amount |
+| `currency` | ISO 4217 |
+| `expires_at` | Session expiry (ISO 8601) |
+
+### Execution payload
+
+| Field | Description |
+|-------|-------------|
+| `session_id` | From session create |
+| `reference_id` | UUID v4 (generate before HTTP call) |
+
+**API Reference:** [Transfer session](/api-reference/sessions/create-transfer-session) · [Transfer](/api-reference/executions/transfer)
+
+---
+
+## Refund (reverse a collection)
+
+Return funds to a customer from a previously completed payment.
+
+### Prerequisites
+
+- Fully verified merchant account
+- Original payment intent ID from the completed collection
+- Sufficient balance to cover refund amount
+
+### Flow
+
+| Step | Endpoint |
+|------|----------|
+| 1. Create session | `POST /v1/sessions/refund` |
+| 2. Execute | `POST /v1/executions/refund` |
+| 3. Poll status | `GET /v1/status/refund/{reference_id}` |
+
+### Session payload (required)
+
+| Field | Description |
+|-------|-------------|
+| `original_payment_intent_id` | Integer ID from the original successful collection |
+| `amount` | Refund amount (partial or full) |
+| `expires_at` | Session expiry |
+| `reason` | Optional note |
+
+### Execution payload
+
+| Field | Description |
+|-------|-------------|
+| `session_id` | From session create |
+| `reference_id` | UUID v4 |
+
+**API Reference:** [Refund session](/api-reference/sessions/create-refund-session) · [Refund](/api-reference/executions/refund)
+
+---
+
+## Where to find key IDs
+
+| ID | How to obtain |
+|----|----------------|
+| `wallet_id` | Returned on payout session create; visible in merchant portal wallet section |
+| `original_payment_intent_id` | From collection execution response or transaction history in merchant portal |
+| `to_counterparty_id` | [Create counterparty](/api/counterparties) linked to recipient party |
+
+## Related
+
+- [Sessions & executions](/concepts/sessions-and-executions)
+- [Payout with Node.js](/guides/payout-with-nodejs) — similar session/execute pattern
+- [Forbidden 403](/knowledge-base/forbidden-403-unverified)

@@ -1,6 +1,6 @@
 ---
 title: "Collect with Card"
-description: "Accept card payments via the Dollr API with Stripe 3D Secure in your own UI."
+description: "Accept card payments via the Dollr API with Stripe Elements in your own UI."
 
 icon: "credit-card"
 
@@ -8,26 +8,31 @@ icon: "credit-card"
 keywords: ["Dollr card payments", "Dollr Stripe", "Dollr credit card API", "Dollr 3DS"]
 ---
 
-Collect card payments from **your own checkout UI** using Stripe Elements and the Dollr execution API. For a Dollr-hosted card form (no Stripe integration on your side), use [Hosted checkout](/guides/hosted-checkout) instead.
+Build your own checkout UI with **Stripe Elements** and Dollr's collection API. Dollr routes cards through Stripe — you do **not** connect your own Stripe account.
+
+<Info>
+**Prefer less integration work?** Use [Hosted checkout](/guides/hosted-checkout) — customers enter card details on Dollr's page with no Stripe setup on your side.
+</Info>
 
 <Note>
-**API Reference:** [Card provider info](/api-reference/predictions/predict-card-provider-info) · [Collect](/api-reference/executions/collect) · [Collection status](/api-reference/status/get-collection-status)
+**API Reference:** [Card provider info](/api-reference/predictions/predict-card-provider-info) · [Collect](/api-reference/executions/collect)
 </Note>
 
 ## Prerequisites
 
-- Published invoice or order (or checkout source from `POST /v1/checkouts/create`)
-- Stripe.js / Stripe Elements on your frontend
+- Published invoice or order (or checkout source)
+- Dollr **Stripe publishable key** from [Environments](/reference/environments) (`NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY`)
+- `@stripe/stripe-js` and `@stripe/react-stripe-js` in your frontend
 - Server-side Dollr API credentials
 
 ## Flow overview
 
-1. Create checkout session (`POST /v1/sessions/checkout`)
-2. Collect card details with Stripe Elements → obtain `payment_method_id`
-3. `GET /v1/predictions/card-provider-info` to validate routing
-4. `POST /v1/payment-accounts/create?operation_type=COLLECTION` with card method
-5. `POST /v1/executions/collection` with stored UUID `reference_id`
-6. If `requires_action` is true, complete 3DS with `client_secret`
+1. `POST /v1/sessions/checkout`
+2. Stripe Elements → `stripe.createPaymentMethod()` → `paymentMethod.id`
+3. `GET /v1/predictions/card-provider-info?payment_method_id=pm_xxx`
+4. `POST /v1/payment-accounts/create` with `CREDIT_CARD` / `STRIPE` (no phone number)
+5. `POST /v1/executions/collection`
+6. If `requires_action`, complete 3DS with `client_secret`
 7. Poll `GET /v1/status/collection/{reference_id}`
 
 ## Step 1 — Checkout session
@@ -39,18 +44,43 @@ curl -X POST "https://api.heydollr.app/v1/sessions/checkout" \
   -d '{"source_id": 101, "source_type": "INVOICE"}'
 ```
 
-## Step 2 — Card provider prediction
+## Step 2 — Stripe Elements (frontend)
 
-After Stripe Elements returns a `payment_method_id`:
+```javascript
+import { loadStripe } from "@stripe/stripe-js";
+import { Elements, CardNumberElement, useStripe, useElements } from "@stripe/react-stripe-js";
+
+const stripePromise = loadStripe(process.env.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY);
+
+// Inside your form submit handler:
+const stripe = useStripe();
+const elements = useElements();
+const cardNumber = elements.getElement(CardNumberElement);
+
+const { paymentMethod, error } = await stripe.createPaymentMethod({
+  type: "card",
+  card: cardNumber,
+  billing_details: { name: accountName },
+});
+
+if (error) throw error;
+const paymentMethodId = paymentMethod.id; // pm_xxx — send to your server
+```
+
+Card data never touches your server — Stripe tokenizes it in the browser.
+
+## Step 3 — Card provider prediction (server)
 
 ```bash
 curl "https://api.heydollr.app/v1/predictions/card-provider-info?payment_method_id=pm_xxx&operation_type=COLLECTION&provider=STRIPE" \
   -H "Authorization: Bearer YOUR_ACCESS_TOKEN"
 ```
 
-Use the returned `payment_method`, `gateway_provider`, and `currencies` when creating the payment account.
+Confirms `payment_method`, `gateway_provider`, `currencies`, and `brand`.
 
-## Step 3 — Payment account
+## Step 4 — Payment account
+
+Create a **new** payment account per card attempt (do not reuse MoMo-style caching):
 
 ```bash
 curl -X POST "https://api.heydollr.app/v1/payment-accounts/create?operation_type=COLLECTION" \
@@ -64,9 +94,9 @@ curl -X POST "https://api.heydollr.app/v1/payment-accounts/create?operation_type
   }'
 ```
 
-## Step 4 — Execute collection
+For cards, omit `insensitive_account_number`. The Stripe `payment_method_id` is used at prediction time — Dollr links routing via provider + method.
 
-Generate and store a UUID v4 **before** the HTTP call:
+## Step 5 — Execute collection
 
 ```bash
 curl -X POST "https://api.heydollr.app/v1/executions/collection" \
@@ -80,34 +110,20 @@ curl -X POST "https://api.heydollr.app/v1/executions/collection" \
   }'
 ```
 
-## Step 5 — Handle 3D Secure
+Pass `currency` as the **payer currency** — see [Currency & FX](/concepts/currency-and-fx).
 
-The execution response may include:
-
-```json
-{
-  "status": "PROCESSING",
-  "requires_action": true,
-  "client_secret": "pi_xxx_secret_xxx"
-}
-```
-
-When `requires_action` is `true`, pass `client_secret` to Stripe.js on your frontend to complete card authentication:
+## Step 6 — Handle 3D Secure
 
 ```javascript
-const stripe = Stripe(process.env.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY);
-
-const { error } = await stripe.confirmCardPayment(execution.client_secret);
-if (error) {
-  console.error(error.message);
-} else {
-  // Poll Dollr status until COMPLETED
+if (execution.requires_action && execution.client_secret) {
+  const { error } = await stripe.confirmCardPayment(execution.client_secret);
+  if (error) { /* show error */ }
 }
 ```
 
-Do not call execute again with a new `reference_id` while status is `PROCESSING`.
+See [Card 3DS failed](/knowledge-base/card-3ds-failed).
 
-## Step 6 — Poll status
+## Step 7 — Poll status
 
 ```bash
 curl "https://api.heydollr.app/v1/status/collection/550e8400-e29b-41d4-a716-446655440000" \
@@ -116,8 +132,6 @@ curl "https://api.heydollr.app/v1/status/collection/550e8400-e29b-41d4-a716-4466
 
 ## Preview fees
 
-Before executing, preview card fees:
-
 ```bash
 curl "https://api.heydollr.app/v1/predictions/amount-and-fees?base_amount=250&base_currency=USD&target_currency=USD&payment_method=CREDIT_CARD&operation_type=COLLECTION&provider=STRIPE&fee_bearer=PAYER" \
   -H "Authorization: Bearer YOUR_ACCESS_TOKEN"
@@ -125,7 +139,6 @@ curl "https://api.heydollr.app/v1/predictions/amount-and-fees?base_amount=250&ba
 
 ## Related
 
-- [Hosted checkout](/guides/hosted-checkout) — card payments without Stripe integration
-- [Payments by market](/reference/payments-by-market) — `CREDIT_CARD` / `STRIPE`
-- [Executions](/api/executions) · [Predictions](/api/predictions)
-- [Quick Start](/quickstart)
+- [Hosted checkout](/guides/hosted-checkout) — no Stripe integration required
+- [Currency & FX](/concepts/currency-and-fx) · [Environments](/reference/environments)
+- [Payment status patterns](/guides/payment-status-patterns)

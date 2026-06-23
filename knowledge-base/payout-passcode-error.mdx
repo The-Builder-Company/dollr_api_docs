@@ -1,0 +1,69 @@
+---
+title: "Payout passcode errors"
+description: "Fix payout execution failures related to merchant passcode verification."
+
+icon: "lock"
+
+
+keywords: ["Dollr payout passcode", "Dollr payout failed", "Dollr passcode error"]
+---
+
+## Symptom
+
+`POST /v1/executions/payout` returns **422** or **403**, or payout status is `FAILED` immediately.
+
+## Cause
+
+Payout execution requires a **`passcode`** object — merchant verification plus device metadata. Missing or incorrect passcode is the most common payout integration mistake.
+
+## Set up your passcode
+
+1. Log in to [merchant.heydollr.app](https://merchant.heydollr.app)
+2. Go to **Settings → Security** (or **Profile → Passcode**)
+3. Create or reset your merchant passcode
+4. Link the passcode to the phone number you will send in `passcode.token.phone`
+
+If you cannot find passcode settings, contact [dev@heydollr.app](mailto:dev@heydollr.app).
+
+## Required payload shape
+
+```json
+{
+  "session_id": "42",
+  "payout_account_id": "18",
+  "reference_id": "550e8400-e29b-41d4-a716-446655440000",
+  "passcode": {
+    "token": {
+      "phone": "231771234567",
+      "code": "your-passcode"
+    },
+    "device": {
+      "name": "Payout Server",
+      "type": "SERVER",
+      "platform": "NODE",
+      "user_agent": "my-app/1.0",
+      "client_ip": "203.0.113.10"
+    }
+  }
+}
+```
+
+| Field | Notes |
+|-------|-------|
+| `token.code` | Your merchant passcode (required) |
+| `token.phone` | Phone tied to passcode in portal |
+| `token.user_id` | Alternative to phone if your account uses user ID |
+| `device.*` | All device fields required for audit |
+
+## Checklist
+
+- [ ] Merchant account fully verified ([403 guide](/knowledge-base/forbidden-403-unverified))
+- [ ] Passcode created in merchant portal
+- [ ] `phone` matches portal registration
+- [ ] `payout_account_id` matches session create payload
+- [ ] `reference_id` is UUID v4, stored before HTTP call
+
+## Related
+
+- [Payout with Node.js](/guides/payout-with-nodejs)
+- [Insufficient wallet balance](/knowledge-base/insufficient-wallet-balance)

@@ -1,0 +1,85 @@
+---
+title: "Payment Status Patterns"
+description: "How to detect completed payments on your backend — polling, realtime keys, and what Dollr does not offer yet."
+
+icon: "bell"
+
+
+keywords: ["Dollr webhooks", "Dollr payment notifications", "Dollr polling", "Dollr realtime"]
+---
+
+The Dollr Open API does **not** expose inbound HTTP webhooks for payment events. Choose a pattern below based on your architecture.
+
+## Option comparison
+
+| Pattern | Best for | Server load | Complexity |
+|---------|----------|-------------|------------|
+| **Hosted checkout + server verify** | Payment links, simple stores | Low | Low |
+| **Poll execution status** | API-embedded checkout, few payments | Medium | Low |
+| **Poll source status** | Hosted checkout success page | Low | Low |
+| **Realtime keys (Supabase)** | Live checkout UI in browser | Low server, client subscribes | Medium |
+
+There is no webhook URL to register in the Open API today. Do not wait for a push callback — implement one of the patterns below.
+
+## Pattern 1 — Hosted checkout (recommended)
+
+Customer pays on Dollr's page. Your backend verifies before fulfilling:
+
+```
+1. Create hosted checkout → redirect to url
+2. Customer lands on success_url
+3. YOUR SERVER calls GET /v1/status/source?source_type=INVOICE&source_id={id}
+4. Fulfill only when status === "PAID"
+```
+
+<Warning>
+Never fulfill an order based on `success_url` redirect alone. The customer can close the tab before payment completes.
+</Warning>
+
+See [Hosted checkout — Fulfillment security](/guides/hosted-checkout#fulfillment-security).
+
+## Pattern 2 — Poll execution status (API-embedded)
+
+After `POST /v1/executions/collection`:
+
+```
+1. Store reference_id in your DB before the HTTP call
+2. Poll GET /v1/status/collection/{reference_id} every 2–5s
+3. Stop on COMPLETED or FAILED
+4. Back off during PROCESSING (MoMo can take several minutes)
+```
+
+Use a background job or queue — not a tight loop on the request thread.
+
+See [Payment processing status](/knowledge-base/payment-processing-status).
+
+## Pattern 3 — Realtime keys (browser)
+
+For live UI updates while the customer waits on your checkout page:
+
+1. `POST /v1/realtime-keys/collection` → short-lived `access_token`
+2. Subscribe via Supabase Realtime (see [Realtime status](/guides/realtime-status))
+3. Fall back to polling if the connection drops
+
+Your **backend** should still verify with `GET /v1/status/collection/{reference_id}` before fulfilling — treat realtime events as UX hints, not the sole source of truth.
+
+## Pattern 4 — Cron reconciliation
+
+For high volume or missed callbacks:
+
+```
+Every N minutes:
+  SELECT pending orders FROM your_db
+  For each: GET /v1/status/source or /v1/status/collection/{reference_id}
+  Update order state
+```
+
+## Laravel / framework note
+
+Use polling or realtime keys — not webhooks. If your framework guide mentions webhooks, follow this page instead.
+
+## Related
+
+- [Realtime status](/guides/realtime-status) · [Transaction status](/api/status)
+- [Error handling](/guides/error-handling)
+- [Environments](/reference/environments)

@@ -28,6 +28,14 @@ curl "https://api.heydollr.app/v1/merchants/merchant-info?merchant_id=42&merchan
 
 **Response fields:** `id`, `name`, `type`, `email`, `phone`.
 
+## Where to find `merchant_id`
+
+1. Log in to [merchant.heydollr.app](https://merchant.heydollr.app)
+2. Open **Settings → Business** or **Organization profile**
+3. Copy your merchant / organization ID
+
+`merchant_type` is `ORGANIZATION` for registered businesses or `MICRO_ORGANIZATION` for sole proprietors — match your account type.
+
 ## Related
 
 - [Authentication](/authentication)

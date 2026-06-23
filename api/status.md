@@ -10,6 +10,8 @@ keywords: ["Dollr payment status", "Dollr API", "Dollr collection status"]
 
 Query execution progress with the `reference_id` you stored at execute time. Query payment **source** status (invoice/order) separately when building receipts or UI.
 
+`source_type` values: `INVOICE`, `ORDER`. `SUBSCRIPTION` appears in the API schema but is **not publicly supported** yet.
+
 **Try in API Reference:** [Collection](/api-reference/status/get-collection-status) · [Payout](/api-reference/status/get-payout-status) · [Source status](/api-reference/status/get-payment-source-status)
 
 ## Execution status endpoints

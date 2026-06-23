@@ -188,10 +188,10 @@ const cp = await fetch(`${BASE_URL}/v1/counterparties/create`, {
 }).then(r => r.json());
 
 const counterpartyId = cp.id;
+```
 
 > **Note:**
 > This step is required for the direct invoice flow shown here. If you use the checkout-source shortcut (`POST /v1/checkouts/create`), Dollr can create or match the Party and Counterparty automatically from payer details.
-
 
 ---
 
@@ -286,7 +286,7 @@ For e-commerce or retail checkouts, swap invoice endpoints for orders and use `s
 curl -X POST "https://api.heydollr.app/v1/orders/create" \
   -H "Authorization: Bearer YOUR_ACCESS_TOKEN" \
   -H "Content-Type: application/json" \
-  -d '{"counterparty_id": 15, "currency": "USD", "note": "Order #1042", "fee_bearer": "PAYER"}'
+  -d '{"counterparty_id": 15, "currency": "USD", "note": "Order #1042", "fee_bearer": "PAYER", "as_payment_link": true}'
 
 # Add items → publish → checkout session with source_type ORDER
 ```

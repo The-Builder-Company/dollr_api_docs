@@ -42,6 +42,8 @@ curl -X POST "https://api.heydollr.app/v1/counterparties/create" \
   -d '{"relationship_type": "CUSTOMER", "party_id": 42}'
 ```
 
+`party_id` is optional in the API if Dollr can resolve the party another way — for document-first flows, always pass `party_id` from [party create](/api/parties).
+
 ## List
 
 ```bash

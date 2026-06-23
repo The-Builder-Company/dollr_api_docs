@@ -148,6 +148,19 @@ Payouts require a **fully verified** merchant account. If you receive **403**, s
 
 \* Provide `phone` or `user_id` on `token` as required by your merchant account setup.
 
+## Obtain your payout passcode
+
+1. Log in to [merchant.heydollr.app](https://merchant.heydollr.app)
+2. Go to **Settings → Security** (or **Profile → Passcode**)
+3. Create or reset your merchant passcode
+4. Use the same phone in `passcode.token.phone` as registered in the portal
+
+If passcode settings are not visible, your account may need full verification — see [Forbidden 403](/knowledge-base/forbidden-403-unverified). Troubleshooting: [Payout passcode errors](/knowledge-base/payout-passcode-error).
+
+## Wallet funding
+
+Payouts debit your Dollr wallet (`wallet_id` appears on the session response). Ensure sufficient balance before executing — see [Insufficient wallet balance](/knowledge-base/insufficient-wallet-balance).
+
 ## Related
 
 - [Integration guide — Payout](/guides/integration#issue-a-payout)

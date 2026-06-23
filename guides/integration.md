@@ -194,7 +194,7 @@ Pass `payout_account_id`, `amount`, and `currency`. The response includes `expir
 POST /v1/executions/payout
 ```
 
-Pass `session_id`, `payout_account_id`, a freshly generated `reference_id` (UUID v4), and **`passcode`** (merchant verification with device metadata). See [Payout with Node.js](/guides/payout-with-nodejs) for the full payload shape.
+Pass `session_id`, `payout_account_id`, a freshly generated `reference_id` (UUID v4), and **`passcode`** (merchant verification with device metadata). Set up your passcode in the merchant portal — see [Payout passcode errors](/knowledge-base/payout-passcode-error) and [Payout with Node.js](/guides/payout-with-nodejs).
 
 ### Step 6 — Monitor Status
 

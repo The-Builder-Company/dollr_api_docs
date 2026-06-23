@@ -144,6 +144,45 @@ GET /v1/links/receipt?source_type=INVOICE&source_number={invoice_number}
 | [Realtime keys](/guides/realtime-status) | Live UI updates on your success page |
 | `GET /v1/invoices/receipt/{id}` | Full receipt with fees and line items |
 
+## Fulfillment security
+
+<Warning>
+**Never fulfill an order when the customer hits `success_url` alone.** They may close the tab before payment completes, or navigate to success URL manually.
+</Warning>
+
+**Correct pattern:**
+
+1. Customer completes payment on Dollr hosted page
+2. Customer redirected to your `success_url` (optional UX)
+3. **Your server** calls `GET /v1/status/source?source_type=INVOICE&source_id={id}`
+4. Fulfill only when `status === "PAID"`
+
+```javascript
+// app/api/orders/confirm/route.ts
+export async function POST(req: Request) {
+  const { sourceId, sourceType } = await req.json();
+  const status = await fetch(
+    `https://api.heydollr.app/v1/status/source?source_type=${sourceType}&source_id=${sourceId}`,
+    { headers: { Authorization: `Bearer ${token}` } }
+  ).then((r) => r.json());
+
+  if (status.status !== "PAID") {
+    return Response.json({ ready: false, status: status.status });
+  }
+  // Safe to fulfill — mark order complete in your DB
+  return Response.json({ ready: true });
+}
+```
+
+Run a background reconciliation job for orders stuck in pending — see [Payment status patterns](/guides/payment-status-patterns).
+
+## `url` vs `hosted_path_or_token`
+
+| Field | Use |
+|-------|-----|
+| `url` | **Preferred** — full hosted payment URL. Redirect or link customers here. |
+| `hosted_path_or_token` | Internal path or token for Dollr-hosted infrastructure. Use `url` unless Dollr support directs you otherwise. |
+
 ## Expiration
 
 Hosted checkout sources may include `expires_at`. After expiry, generate a new checkout source or re-fetch the payment link if the source is still `ACTIVE`.

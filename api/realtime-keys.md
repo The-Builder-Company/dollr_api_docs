@@ -8,29 +8,33 @@ icon: "tower-broadcast"
 keywords: ["Dollr realtime API", "Dollr API", "Dollr live payment status"]
 ---
 
-Short-lived tokens for subscribing to live payment events — alternative to polling [status](/api/status).
+Short-lived tokens for subscribing to live payment events via **Supabase Realtime** — alternative to polling [status](/api/status).
 
 **Try in API Reference:** [Collection realtime key](/api-reference/realtime-keys/get-collection-realtime-key)
 
 ## When to use
 
-Live checkout UI, POS displays, or dashboards that need immediate updates when MoMo or card payments complete.
+Live checkout UI while the customer approves MoMo or completes card 3DS. Not a replacement for server-side fulfillment verification — see [Payment status patterns](/guides/payment-status-patterns).
 
-## Minimal example
+## Request
 
-```bash
-curl -X POST "https://api.heydollr.app/v1/realtime-keys/collection" \
-  -H "Authorization: Bearer YOUR_ACCESS_TOKEN" \
-  -H "Content-Type: application/json" \
-  -d '{
-    "session_id": 55,
-    "source_type": "INVOICE",
-    "reference_id": "550e8400-e29b-41d4-a716-446655440000"
-  }'
-```
+| Field | Type | Description |
+|-------|------|-------------|
+| `session_id` | integer | Checkout session ID |
+| `source_type` | string | `INVOICE` or `ORDER` |
+| `reference_id` | string | UUID v4 |
+
+## Response
+
+| Field | Description |
+|-------|-------------|
+| `access_token` | JWT for Supabase Realtime (`expires_in` is **seconds**) |
+
+## After obtaining the token
+
+Connect with Supabase client, channel `payment-intent:{session_id}:{reference_id}`, table `checkout_payment_intent_public_status`. Full walkthrough: [Realtime status](/guides/realtime-status).
 
 ## Related
 
-- [Realtime status guide](/guides/realtime-status)
+- [Environments](/reference/environments) — Supabase URL and anon key
 - [Sessions & executions](/concepts/sessions-and-executions)
-

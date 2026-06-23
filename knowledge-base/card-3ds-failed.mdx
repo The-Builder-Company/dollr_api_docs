@@ -1,0 +1,67 @@
+---
+title: "Card 3DS or requires_action"
+description: "Handle Stripe authentication when collection execution returns requires_action and client_secret."
+
+icon: "credit-card"
+
+
+keywords: ["Dollr 3DS", "Dollr Stripe", "Dollr requires_action", "Dollr card failed"]
+---
+
+## Symptom
+
+`POST /v1/executions/collection` returns:
+
+```json
+{
+  "status": "PROCESSING",
+  "requires_action": true,
+  "client_secret": "pi_xxx_secret_xxx"
+}
+```
+
+Or the payment stays in `PROCESSING` and the customer did not complete card authentication.
+
+## Cause
+
+International cards often require **3D Secure (3DS)**. Dollr returns `client_secret` so your frontend can complete authentication with Stripe.js.
+
+<Info>
+[Hosted checkout](/guides/hosted-checkout) handles 3DS automatically — this article applies to [API-embedded card](/guides/collect-with-card) integrations only.
+</Info>
+
+## Fix
+
+1. Pass `client_secret` to Stripe.js on your frontend:
+
+```javascript
+const stripe = Stripe(process.env.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY);
+const { error, paymentIntent } = await stripe.confirmCardPayment(client_secret);
+
+if (error) {
+  console.error(error.message); // Show to customer
+} else if (paymentIntent?.status === "succeeded") {
+  // Poll Dollr status — do not assume success from Stripe alone
+}
+```
+
+2. Poll Dollr execution status with your stored `reference_id`:
+
+```http
+GET /v1/status/collection/{reference_id}
+```
+
+3. Do **not** call execute again with a new `reference_id` while status is `PROCESSING`.
+
+## Common failures
+
+| Stripe error | Action |
+|--------------|--------|
+| `authentication_required` | Customer must complete 3DS — call `confirmCardPayment` |
+| `card_declined` | Ask customer to try another card |
+| Missing publishable key | Set `NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY` from [Environments](/reference/environments) |
+
+## Related
+
+- [Collect with card](/guides/collect-with-card)
+- [Payment processing status](/knowledge-base/payment-processing-status)

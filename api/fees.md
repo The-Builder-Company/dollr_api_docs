@@ -55,6 +55,20 @@ curl "https://api.heydollr.app/v1/fees/tiers" \
 
 Returns all platform fee tiers with `name`, `is_default`, and timestamps.
 
+## Discover your fee tier
+
+```bash
+# List all tiers
+curl "https://api.heydollr.app/v1/fees/tiers" \
+  -H "Authorization: Bearer YOUR_ACCESS_TOKEN"
+
+# Your assigned tier
+curl "https://api.heydollr.app/v1/fees/merchant-tier?owner_type=ORGANIZATION&owner_id=42" \
+  -H "Authorization: Bearer YOUR_ACCESS_TOKEN"
+```
+
+Use the tier `name` from merchant-tier response as `fee_tier_name` in platform fee queries. Default tier name is often `default` for new merchants.
+
 ## Related
 
 - [Predictions](/api/predictions)

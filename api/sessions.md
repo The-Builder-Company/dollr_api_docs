@@ -25,6 +25,18 @@ A **session** records intent to move money. Create the right session type, then 
 
 Checkout sessions require `source_id` + `source_type` (`INVOICE` or `ORDER`).
 
+## Session lifetime
+
+Sessions are short-lived. Create a session immediately before execute — do not cache session IDs across user sessions.
+
+| Session type | Typical use |
+|--------------|-------------|
+| Checkout | Created when customer starts payment; execute collection before expiry |
+| Payout | Response includes `expires_at` — execute payout before that timestamp |
+| Transfer / Refund | You provide `expires_at` on create |
+
+If execute returns session errors, see [Session expired](/knowledge-base/session-expired-or-invalid).
+
 ## Minimal example (checkout)
 
 ```bash

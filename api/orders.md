@@ -108,6 +108,10 @@ curl "https://api.heydollr.app/v1/orders/receipt/number/ORD-2025-0099" \
   -H "Authorization: Bearer YOUR_ACCESS_TOKEN"
 ```
 
+## State transitions
+
+Same as invoices: `IDLE` → `ACTIVE` → `PROCESSING` → `PAID` | `CANCELED`. Do not cancel during `PROCESSING`.
+
 ## Related
 
 - [Hosted checkout](/guides/hosted-checkout) · [Invoices](/api/invoices) · [Sessions](/api/sessions)

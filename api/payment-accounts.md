@@ -66,6 +66,16 @@ curl -X POST "https://api.heydollr.app/v1/payment-accounts/create?operation_type
 
 See [Collect with card](/guides/collect-with-card) for the full card flow.
 
+## Reusing payment accounts
+
+| Method | Reuse? | Guidance |
+|--------|--------|----------|
+| Mobile money | Yes | Cache per party + phone + method; reuse `id` across collections for same wallet |
+| Card | No | Create a new payment account per card attempt |
+| Payout | Yes | Reuse beneficiary account for repeat payouts to same party |
+
+Payment accounts include `is_active` — inactive accounts cannot be used in executions.
+
 ## Related
 
 - [Hosted checkout](/guides/hosted-checkout) · [Payments by market](/reference/payments-by-market)
