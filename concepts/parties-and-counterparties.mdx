@@ -12,7 +12,7 @@ keywords: ["Dollr party API", "Dollr counterparty API", "Dollr API"]
 A **party** is a contact record — a person or entity identified by name, phone, and optional email/country.
 
 <Note>
-**API Reference:** [Create party](/api-reference/parties/create-party) · [List parties](/api-reference/parties/list-parties)
+**API Reference:** [Create party](/api-reference/parties/create-party) · [List parties](/api-reference/parties/list-parties) · [Retrieve party](/api-reference/parties/retrieve-parties)
 </Note>
 
 Use parties for anyone you collect from or pay out to.
@@ -27,13 +27,20 @@ A **counterparty** links a party to **your merchant account** with a relationshi
 | `SUPPLIER` | You pay them |
 | `EMPLOYEE` | Payroll |
 | `BENEFICIARY` | Payout recipient |
-| `OTHER` | General association |
+| `FRIEND` | Personal contact |
+| `FAMILY` | Family member |
+| `DONOR` | Donation source |
+| `DONEE` | Donation recipient |
+| `CONTACT` | General contact |
+| `SERVICE_PROVIDER` | Vendor or contractor |
+| `PARTNER` | Business partner |
+| `SELF` | Your own entity |
 
 Invoices and orders in the document-first flow require a `counterparty_id`.
 
 ## Checkout shortcut
 
-`POST /v1/checkouts/create` can create or match party and counterparty from payer details in one request. See [Collect via checkout](/guides/collect-via-checkout).
+`POST /v1/checkouts/create` can create or match party and counterparty from payer details in one request. See [Collect via checkout](/guides/collect-via-checkout) or [Hosted checkout](/guides/hosted-checkout).
 
 <Info>
 Customers do **not** need a Dollr account to pay via a payment link — they complete payment in the browser with mobile money or card.
@@ -47,7 +54,7 @@ Customers do **not** need a Dollr account to pay via a payment link — they com
 | Due date | Supported | Optional |
 | Best for | B2B billing, formal invoices | E-commerce, retail |
 
-Both can be published and collected through checkout sessions.
+Both can be published and collected through checkout sessions or [hosted checkout](/guides/hosted-checkout).
 
 ## Related
 

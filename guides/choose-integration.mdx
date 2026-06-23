@@ -1,6 +1,6 @@
 ---
 title: "Choose Your Integration"
-description: "Pick the right Dollr API flow — invoice collection, direct checkout, payouts, or realtime updates."
+description: "Pick the right Dollr API flow — hosted checkout, invoice collection, payouts, or realtime updates."
 
 icon: "route"
 
@@ -15,32 +15,36 @@ Use this page to pick a starting path. Every flow uses the same [authentication]
 
 | Path | Best when | Start here |
 |------|-----------|------------|
-| **Invoice / order (document-first)** | You issue formal bills or e-commerce orders; you control line items and publish timing | [Quick Start](/quickstart) · [Node.js](/guides/collect-with-nodejs) · [Python](/guides/collect-with-python) · [Django](/guides/collect-with-django) · [Ruby](/guides/collect-with-ruby) · [PHP](/guides/collect-with-php) · [Java](/guides/collect-with-java) · [Go](/guides/collect-with-go) · [Rust](/guides/collect-with-rust) · [.NET](/guides/collect-with-dotnet) · [Next.js](/guides/collect-with-nextjs) · [Laravel](/guides/collect-with-laravel) |
-| **Direct checkout** | You want one API call to create source + session from payer details | [Collect via checkout](/guides/collect-via-checkout) |
-| **Payment link only** | Customer pays via hosted link; minimal backend | [Payment links](/api/links) + [Invoices](/api/invoices) |
+| **Hosted checkout** | Customer pays on Dollr page with mobile money or card; minimal backend | [Hosted checkout](/guides/hosted-checkout) |
+| **Invoice / order (document-first)** | You issue formal bills or e-commerce orders; you control line items and publish timing | [Quick Start](/quickstart) · [Node.js](/guides/collect-with-nodejs) |
+| **Direct checkout** | One API call to create source from payer details | [Collect via checkout](/guides/collect-via-checkout) |
+| **Payment link only** | Share a URL for a published invoice/order | [Payment links](/api/links) |
+| **Card in your UI** | Stripe Elements in your own checkout | [Collect with card](/guides/collect-with-card) |
 
 <Steps>
-  <Step title="Document-first">
+  <Step title="Hosted (fastest)">
+    `POST /v1/checkouts/create` with `mode: "HOSTED"` → redirect to `url` → customer pays with MoMo or card.
+  </Step>
+  <Step title="Document-first (API-embedded)">
     Party → counterparty → invoice/order → publish → checkout session → payment account → execute → poll status.
   </Step>
-  <Step title="Checkout shortcut">
-    `POST /v1/checkouts/create` with payer + line items → session → payment account → execute.
+  <Step title="Checkout shortcut (API-embedded)">
+    `POST /v1/checkouts/create` → session → payment account → execute.
   </Step>
 </Steps>
 
-## Payouts & transfers (money out)
+## Payouts (money out)
 
 | Path | Best when | Start here |
 |------|-----------|------------|
 | **Payout** | Send to a mobile wallet or registered account | [Payout with Node.js](/guides/payout-with-nodejs) · [Integration guide](/guides/integration#issue-a-payout) |
-| **Transfer** | Move between Dollr wallets | [Integration guide](/guides/integration) |
-| **Refund** | Reverse a prior collection | [Integration guide](/guides/integration) |
 
 ## Status updates
 
 | Path | Best when | Start here |
 |------|-----------|------------|
-| **Polling** | Simple backends; few concurrent payments | `GET /v1/status/collection/\{reference_id\}` — [Status](/api/status) |
+| **Polling** | Simple backends; few concurrent payments | `GET /v1/status/collection/{reference_id}` — [Status](/api/status) |
+| **Source status** | Hosted checkout success page | `GET /v1/status/source` — [Hosted checkout](/guides/hosted-checkout) |
 | **Realtime keys** | Live UI; reduce polling load | [Realtime status](/guides/realtime-status) |
 
 ## Markets & methods
@@ -52,10 +56,10 @@ Optional: `GET /v1/predictions/mmo-provider-info` to infer MoMo operator from ph
 ## Try it yourself
 
 <CardGroup cols={2}>
+  <Card title="Hosted checkout" icon="window-maximize" href="/guides/hosted-checkout">
+    Mobile money and card on a Dollr payment page.
+  </Card>
   <Card title="API Reference playground" icon="play" href="/api-reference/executions/collect">
     Run collect, payout, and status calls interactively.
-  </Card>
-  <Card title="Examples & Postman" icon="code" href="/reference/examples">
-    Sample requests and external collections.
   </Card>
 </CardGroup>

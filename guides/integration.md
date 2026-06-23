@@ -1,6 +1,6 @@
 ---
 title: "Integration Guide"
-description: "End-to-end walkthrough of collection, payout, transfer, and refund flows."
+description: "End-to-end walkthrough of collection and payout flows."
 
 icon: "map"
 
@@ -8,13 +8,15 @@ icon: "map"
 keywords: ["Dollr API integration guide", "Dollr collect API", "Dollr payout API"]
 ---
 
-**API Reference flows:** [Collect](/api-reference/executions/collect) · [Payout](/api-reference/executions/payout) · [Transfer](/api-reference/executions/transfer) · [Refund](/api-reference/executions/refund)
+**API Reference flows:** [Collect](/api-reference/executions/collect) · [Payout](/api-reference/executions/payout)
 
-## Collect Payment via Invoice
+For **hosted checkout** (customer pays on a Dollr page with mobile money or card), see [Hosted checkout](/guides/hosted-checkout) — you can skip payment-account registration and server-side execution.
 
-This guide covers the document-first collection flow (party → counterparty → invoice → session → payment account → execution). To create a checkout source directly from payer details, see API Reference → Checkouts.
+## Collect Payment via Invoice (API-embedded)
 
-The standard flow for invoicing a customer and collecting payment via mobile money.
+This guide covers the document-first collection flow (party → counterparty → invoice → session → payment account → execution). To create a checkout source directly from payer details, see [Collect via checkout](/guides/collect-via-checkout).
+
+The standard flow for invoicing a customer and collecting payment via mobile money or card from your own UI.
 
 ### Step 1 — Authenticate
 
@@ -70,15 +72,33 @@ Transitions the invoice from `IDLE` to `ACTIVE`. Editing is locked after this po
 GET /v1/predictions/amount-and-fees
 ```
 
-Validate fee calculations and FX rates before funds move.
+Validate fee calculations and FX rates before funds move. Required query params include `base_amount`, `base_currency`, `target_currency`, `payment_method`, `operation_type`, `provider`, and `fee_bearer`.
 
-### Step 8 — (Optional) Detect MMO from Phone
+For a published invoice or order, use:
+
+```http
+GET /v1/predictions/payment-source/amount-and-fees
+```
+
+Pass `source_type` (`INVOICE` or `ORDER`), `source_id`, `target_currency`, `payment_method`, and `provider`.
+
+### Step 8 — (Optional) Detect payment method
+
+**Mobile money:**
 
 ```http
 GET /v1/predictions/mmo-provider-info
 ```
 
 Pass the customer's phone number to get the recommended `payment_method` and `gateway_provider`.
+
+**Card:**
+
+```http
+GET /v1/predictions/card-provider-info
+```
+
+Pass `payment_method_id` (from your Stripe Elements integration) and `operation_type=COLLECTION`.
 
 ### Step 9 — Create a Checkout Session
 
@@ -94,7 +114,7 @@ Pass `source_id: invoice.id` and `source_type: "INVOICE"`. Store the returned `s
 POST /v1/payment-accounts/create?operation_type=COLLECTION
 ```
 
-Register the customer's mobile wallet. Store the returned `payment_account.id`.
+Register the customer's mobile wallet or card. Store the returned `payment_account.id`.
 
 ### Step 11 — Execute the Collection
 
@@ -106,8 +126,9 @@ POST /v1/executions/collection
 
 Generate a UUID v4 and persist it **before** calling this endpoint. If the HTTP response is lost due to a network error, you will need this ID to query the transaction status before retrying.
 
-
 Pass `session_id`, `payment_account_id`, `currency`, and your pre-generated `reference_id`.
+
+For **card** payments, the response may include `requires_action: true` and a `client_secret` for Stripe 3D Secure. Complete authentication in your UI before polling status.
 
 ### Step 12 — Monitor Status
 
@@ -117,6 +138,12 @@ GET /v1/status/collection/{reference_id}
 
 Poll for status, or use a Realtime Key (`POST /v1/realtime-keys/collection`) for live push updates. Mobile money payments may remain in `PROCESSING` for several minutes — do not cancel or retry during this window.
 
+You can also check source lifecycle:
+
+```http
+GET /v1/status/source?source_type=INVOICE&source_id={id}
+```
+
 ### Step 13 — Retrieve Receipt
 
 ```http
@@ -125,6 +152,13 @@ GET /v1/orders/receipt/{id}
 ```
 
 Retrieve the receipt once the collection execution is successful and the source status is `PAID`. The receipt includes amounts, fees, FX rate, provider, and line items. Use `/v1/invoices/receipt/\{id\}` for invoices and `/v1/orders/receipt/\{id\}` for orders.
+
+Receipts are also available by document number:
+
+```http
+GET /v1/invoices/receipt/number/{invoice_number}
+GET /v1/orders/receipt/number/{order_number}
+```
 
 ---
 
@@ -144,13 +178,15 @@ Confirm the recipient has a Party and Counterparty record, or create them.
 POST /v1/payment-accounts/create?operation_type=PAYOUT
 ```
 
+Register the beneficiary's mobile wallet. Use [MMO prediction](/api/predictions) to resolve `method` and `provider` from phone.
+
 ### Step 4 — Create a Payout Session
 
 ```http
 POST /v1/sessions/payout
 ```
 
-Pass `wallet_id`, `payment_account_id`, `amount`, `currency`, and `expires_at`.
+Pass `payout_account_id`, `amount`, and `currency`. The response includes `expires_at` and the debiting `wallet_id`.
 
 ### Step 5 — Execute the Payout
 
@@ -158,7 +194,7 @@ Pass `wallet_id`, `payment_account_id`, `amount`, `currency`, and `expires_at`.
 POST /v1/executions/payout
 ```
 
-Pass `session_id` and a freshly generated `reference_id` (UUID v4).
+Pass `session_id`, `payout_account_id`, a freshly generated `reference_id` (UUID v4), and **`passcode`** (merchant verification with device metadata). See [Payout with Node.js](/guides/payout-with-nodejs) for the full payload shape.
 
 ### Step 6 — Monitor Status
 
@@ -167,4 +203,3 @@ GET /v1/status/payout/{reference_id}
 ```
 
 ---
-

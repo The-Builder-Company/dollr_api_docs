@@ -5,7 +5,7 @@ description: "Subscribe to live payment updates with Dollr realtime keys instead
 icon: "tower-broadcast"
 
 
-keywords: ["Dollr API webhooks", "Dollr payment status", "Dollr realtime API"]
+keywords: ["Dollr payment status", "Dollr realtime API", "Dollr live updates"]
 ---
 
 **Realtime keys** are short-lived tokens for subscribing to live payment events on a checkout session. Use them when you want immediate UI updates without polling `GET /v1/status/*`.
@@ -14,12 +14,17 @@ keywords: ["Dollr API webhooks", "Dollr payment status", "Dollr realtime API"]
 **API Reference:** [Collection realtime key](/api-reference/realtime-keys/get-collection-realtime-key)
 </Note>
 
+<Info>
+The Dollr Open API does not expose inbound webhook endpoints. For server-to-server notifications, use realtime keys on your frontend or poll `GET /v1/status/*` from your backend.
+</Info>
+
 ## When to use
 
 | Approach | Best for |
 |----------|----------|
 | **Polling** | Few payments, simple cron-style checks |
 | **Realtime keys** | Checkout UI, dashboards, high-volume status updates |
+| **Hosted checkout** | Redirect + `GET /v1/status/source` on your success page |
 
 See also [Status & incidents](/reference/status-and-incidents) for operational context.
 
@@ -75,6 +80,7 @@ Still generate and store an execution `reference_id` for idempotency and fallbac
 
 ## Related
 
+- [Hosted checkout](/guides/hosted-checkout)
 - [Realtime Keys API concept](/api/realtime-keys)
 - [Transaction status](/api/status)
 - [Sessions & executions](/concepts/sessions-and-executions)

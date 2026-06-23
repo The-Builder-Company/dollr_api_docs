@@ -12,14 +12,27 @@ Payment accounts bind a [party](/api/parties) to a `method` + `provider` (e.g. `
 
 **Try in API Reference:** [Create payment account](/api-reference/payment-accounts/create-payment-account)
 
+<Info>
+For **hosted checkout**, you do not need to create payment accounts — Dollr collects payment details on the hosted page. See [Hosted checkout](/guides/hosted-checkout).
+</Info>
+
 ## When to use
 
-- **Collections:** register the payer's MoMo wallet or card before `executions/collection`
+- **Collections (API-embedded):** register the payer's MoMo wallet or card before `executions/collection`
 - **Payouts:** register the beneficiary account before `executions/payout`
 
-Use `?operation_type=COLLECTION` or `PAYOUT` on create. Infer MoMo operator from phone via [Predictions](/api/predictions).
+## Operation types
 
-## Minimal example
+Pass `operation_type` as a query parameter:
+
+| Value | Use |
+|-------|-----|
+| `COLLECTION` | Customer paying you |
+| `PAYOUT` | You sending to a beneficiary |
+| `TRANSFER` | Wallet-to-wallet transfers |
+| `REFUND` | Refunding a prior collection |
+
+## Mobile money example
 
 ```bash
 curl -X POST "https://api.heydollr.app/v1/payment-accounts/create?operation_type=COLLECTION" \
@@ -35,8 +48,25 @@ curl -X POST "https://api.heydollr.app/v1/payment-accounts/create?operation_type
   }'
 ```
 
+Infer MoMo operator from phone via [Predictions](/api/predictions).
+
+## Card example
+
+```bash
+curl -X POST "https://api.heydollr.app/v1/payment-accounts/create?operation_type=COLLECTION" \
+  -H "Authorization: Bearer YOUR_ACCESS_TOKEN" \
+  -H "Content-Type: application/json" \
+  -d '{
+    "account_name": "Customer Card",
+    "provider": "STRIPE",
+    "method": "CREDIT_CARD",
+    "party_id": 42
+  }'
+```
+
+See [Collect with card](/guides/collect-with-card) for the full card flow.
+
 ## Related
 
-- [Payments by market](/reference/payments-by-market)
+- [Hosted checkout](/guides/hosted-checkout) · [Payments by market](/reference/payments-by-market)
 - [Quick Start](/quickstart)
-

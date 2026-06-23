@@ -8,7 +8,7 @@ icon: "arrow-up-right"
 keywords: ["Dollr payout API", "Dollr API Node.js", "Dollr mobile money payout"]
 ---
 
-Send funds to a recipient’s registered wallet using **payout sessions** and **executions**. For collection, see [Collect with Node.js](/guides/collect-with-nodejs).
+Send funds to a recipient's registered wallet using **payout sessions** and **executions**. For collection, see [Collect with Node.js](/guides/collect-with-nodejs).
 
 <Note>
 **API Reference:** [Payout session](/api-reference/sessions/create-payout-session) · [Payout](/api-reference/executions/payout) · [Payout status](/api-reference/status/get-payout-status)
@@ -23,15 +23,16 @@ Payouts require a **fully verified** merchant account. If you receive **403**, s
 - Node.js 18+ with `fetch` (or undici)
 - Recipient [party](/api/parties) and [counterparty](/api/counterparties) (or create them first)
 - [Payment account](/api/payment-accounts) for the recipient with `operation_type=PAYOUT`
+- Merchant **passcode** verification (required on payout execute)
 - Server-side only — never expose Client Secret in the browser
 
 ## Flow overview
 
-1. Authenticate → Bearer token  
-2. Ensure party / counterparty exist  
-3. `POST /v1/payment-accounts/create?operation_type=PAYOUT`  
-4. `POST /v1/sessions/payout`  
-5. `POST /v1/executions/payout` with stored UUID `reference_id`  
+1. Authenticate → Bearer token
+2. Ensure party / counterparty exist
+3. `POST /v1/payment-accounts/create?operation_type=PAYOUT`
+4. `POST /v1/sessions/payout` with `payout_account_id`, `amount`, `currency`
+5. `POST /v1/executions/payout` with `session_id`, `payout_account_id`, `reference_id`, and `passcode`
 6. `GET /v1/status/payout/:reference_id`
 
 ## Steps
@@ -82,15 +83,13 @@ Payouts require a **fully verified** merchant account. If you receive **403**, s
       method: "POST",
       headers,
       body: JSON.stringify({
-        wallet_id: walletId,
-        payment_account_id: String(account.id),
+        payout_account_id: account.id,
         amount: 100.0,
         currency: "USD",
-        expires_at: new Date(Date.now() + 3600000).toISOString(),
       }),
     }).then((r) => r.json());
     ```
-    Field names must match [API Reference](/api-reference/sessions/create-payout-session) for your environment.
+    The session response includes `expires_at` and `wallet_id` (the source wallet Dollr debits). You do **not** send `wallet_id` or `expires_at` on create.
   </Step>
   <Step title="Execute payout">
     ```javascript
@@ -101,11 +100,25 @@ Payouts require a **fully verified** merchant account. If you receive **403**, s
       headers,
       body: JSON.stringify({
         session_id: String(session.id),
+        payout_account_id: String(account.id),
         reference_id: referenceId,
+        passcode: {
+          token: {
+            phone: "231771234567",
+            code: process.env.MERCHANT_PASSCODE,
+          },
+          device: {
+            name: "Payout Server",
+            type: "SERVER",
+            platform: "NODE",
+            user_agent: "dollr-payout/1.0",
+            client_ip: "203.0.113.10",
+          },
+        },
       }),
     }).then((r) => r.json());
     ```
-    Persist `referenceId` in your database **before** awaiting the response.
+    Persist `referenceId` in your database **before** awaiting the response. The `passcode` object is **required** — it verifies the merchant authorizing the payout.
   </Step>
   <Step title="Poll status">
     ```javascript
@@ -119,6 +132,21 @@ Payouts require a **fully verified** merchant account. If you receive **403**, s
     Do not submit a second payout with a new `reference_id` while status is `PROCESSING`.
   </Step>
 </Steps>
+
+## Passcode payload
+
+| Field | Required | Description |
+|-------|----------|-------------|
+| `passcode.token.code` | Yes | Merchant passcode |
+| `passcode.token.phone` | No* | Phone tied to the passcode |
+| `passcode.token.user_id` | No* | User identifier alternative to phone |
+| `passcode.device.name` | Yes | Device label for audit |
+| `passcode.device.type` | Yes | e.g. `SERVER`, `MOBILE` |
+| `passcode.device.platform` | Yes | e.g. `NODE`, `IOS` |
+| `passcode.device.user_agent` | Yes | Client user agent string |
+| `passcode.device.client_ip` | Yes | Originating IP address |
+
+\* Provide `phone` or `user_id` on `token` as required by your merchant account setup.
 
 ## Related
 

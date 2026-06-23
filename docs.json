@@ -129,7 +129,9 @@
                 "icon": "map",
                 "expanded": false,
                 "pages": [
+                  "guides/hosted-checkout",
                   "guides/collect-via-checkout",
+                  "guides/collect-with-card",
                   "guides/payout-with-nodejs",
                   "guides/integration",
                   "guides/realtime-status",

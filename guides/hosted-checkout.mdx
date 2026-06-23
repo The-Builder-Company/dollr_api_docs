@@ -1,0 +1,156 @@
+---
+title: "Hosted Checkout"
+description: "Let customers pay with mobile money or card on a Dollr-hosted payment page."
+
+icon: "window-maximize"
+
+
+keywords: ["Dollr hosted checkout", "Dollr payment link", "Dollr card checkout", "Dollr mobile money checkout"]
+---
+
+**Hosted checkout** sends your customer to a Dollr payment page where they complete payment with **mobile money** or **card** — no Dollr account required. Dollr handles method selection, wallet prompts, and card authentication on the hosted UI.
+
+Use this when you want the fastest path to accepting payments without building your own payment form or calling `executions/collection` from your server.
+
+<Note>
+**API Reference:** [Create checkout source](/api-reference/checkouts/create-checkout-source) · [Payment link](/api-reference/links/get-payment-link)
+</Note>
+
+## Hosted vs API-embedded
+
+| | Hosted checkout | API-embedded ([Quick Start](/quickstart)) |
+|---|-----------------|-------------------------------------------|
+| Who collects payment details | Dollr hosted page | Your app / website |
+| Server calls after publish | Share `url` or payment link | Session → payment account → execute |
+| Mobile money | Customer enters phone on hosted page | You register wallet via API |
+| Cards | Customer enters card on hosted page | You integrate Stripe Elements + execute |
+| Best for | Payment links, simple integrations | Custom checkout UX, in-app flows |
+
+## Path A — One-call checkout source
+
+Create everything in a single request with `mode: "HOSTED"`:
+
+```http
+POST /v1/checkouts/create
+```
+
+```bash
+curl -X POST "https://api.heydollr.app/v1/checkouts/create" \
+  -H "Authorization: Bearer YOUR_ACCESS_TOKEN" \
+  -H "Content-Type: application/json" \
+  -d '{
+    "mode": "HOSTED",
+    "source_kind": "INVOICE",
+    "party_name": "Amara Kamara",
+    "party_phone": "231771234567",
+    "party_email": "amara@example.com",
+    "currency": "USD",
+    "items": [
+      { "name": "Consulting", "currency": "USD", "amount": 250 }
+    ],
+    "success_url": "https://yourstore.com/checkout/success",
+    "cancel_url": "https://yourstore.com/checkout/cancel"
+  }'
+```
+
+**Response fields you need:**
+
+| Field | Description |
+|-------|-------------|
+| `url` | Full hosted payment URL — redirect or link the customer here |
+| `hosted_path_or_token` | Path or token for the hosted session (if building your own redirect) |
+| `source_id` | Invoice or order ID for status queries |
+| `source_number` | Human-readable document number |
+| `success_url` / `cancel_url` | Redirect targets after payment or cancellation |
+
+Redirect the customer to `url`. They choose **mobile money** or **card** on the hosted page and complete payment there.
+
+<Warning>
+Request body uses `source_kind`; status and link APIs use `source_type` for the same concept (`INVOICE` or `ORDER`).
+</Warning>
+
+## Path B — Invoice or order + payment link
+
+For document-first flows where you control line items and publish timing:
+
+1. Create and publish an [invoice](/api/invoices) or [order](/api/orders) with `as_payment_link: true`
+2. Fetch the hosted URL:
+
+```http
+GET /v1/links/pay?source_type=INVOICE&source_number={invoice_number}
+```
+
+```bash
+curl "https://api.heydollr.app/v1/links/pay?source_type=INVOICE&source_number=INV-2025-0042" \
+  -H "Authorization: Bearer YOUR_ACCESS_TOKEN"
+```
+
+Response: `{ "url": "https://..." }` — share or redirect to this URL.
+
+## Mobile money on hosted checkout
+
+On the hosted page, the customer:
+
+1. Selects their mobile money operator (or Dollr infers it from phone)
+2. Enters their wallet phone number
+3. Approves the USSD / in-app prompt from their carrier
+
+You do **not** need to call `predictions/mmo-provider-info`, `payment-accounts/create`, or `executions/collection` for hosted flows.
+
+<Info>
+For API-embedded MoMo collection (your own UI), see [Quick Start](/quickstart) and [Predictions](/api/predictions).
+</Info>
+
+## Cards on hosted checkout
+
+On the hosted page, the customer:
+
+1. Selects **card** as the payment method
+2. Enters card details on Dollr's secure card form (Stripe-powered)
+3. Completes 3D Secure if required
+
+You do **not** need Stripe Elements, `client_secret`, or server-side card execution for hosted flows.
+
+<Info>
+For API-embedded card collection (Stripe Elements in your app), see [Collect with card](/guides/collect-with-card).
+</Info>
+
+## Redirect URLs
+
+Set `success_url` and `cancel_url` when creating a hosted checkout source:
+
+- **`success_url`** — customer lands here after a successful payment
+- **`cancel_url`** — customer lands here if they abandon checkout
+
+Query your backend or call `GET /v1/status/source` to confirm payment before fulfilling the order:
+
+```http
+GET /v1/status/source?source_type=INVOICE&source_id={source_id}
+```
+
+## Receipt link
+
+After payment, fetch a receipt URL for the customer:
+
+```http
+GET /v1/links/receipt?source_type=INVOICE&source_number={invoice_number}
+```
+
+## Monitor payment status
+
+| Approach | When to use |
+|----------|-------------|
+| `GET /v1/status/source` | Check if invoice/order is `PAID` (simple backends) |
+| [Realtime keys](/guides/realtime-status) | Live UI updates on your success page |
+| `GET /v1/invoices/receipt/{id}` | Full receipt with fees and line items |
+
+## Expiration
+
+Hosted checkout sources may include `expires_at`. After expiry, generate a new checkout source or re-fetch the payment link if the source is still `ACTIVE`.
+
+## Related
+
+- [Collect via checkout](/guides/collect-via-checkout) — API shortcut without manual party setup
+- [Payment links](/api/links) · [Checkouts](/api/checkouts)
+- [Choose your integration](/guides/choose-integration)
+- [Quick Start](/quickstart) — API-embedded collection

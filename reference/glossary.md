@@ -213,12 +213,12 @@ A post-payment document available once an invoice or order reaches `PAID` status
 A UUID v4 string you generate and supply with every execution call. This is your **idempotency key** — it identifies the transaction uniquely in Dollr's system. If a network error occurs, query `GET /v1/status/\{type\}/\{reference_id\}` with the original reference ID before generating a new one and retrying. Never reuse a reference ID for a different transaction.
 
 **Refund**
-An operation that returns funds to a customer from a previously completed collection. Requires creating a refund session with the original `payment_intent_id` and then executing via `POST /v1/executions/refund`.
+An operation that returns funds to a customer from a previously completed collection. Requires creating a refund session with the original `original_payment_intent_id` and then executing via `POST /v1/executions/refund`.
 
 **Relationship Type**
 Describes how a counterparty relates to your merchant account:
 
-`CUSTOMER` `SUPPLIER` `EMPLOYEE` `FRIEND` `FAMILY` `DONOR` `DONEE` `CONTACT` `SERVICE_PROVIDER` `PARTNER` `BENEFICIARY`
+`CUSTOMER` `SUPPLIER` `EMPLOYEE` `FRIEND` `FAMILY` `DONOR` `DONEE` `CONTACT` `SERVICE_PROVIDER` `PARTNER` `BENEFICIARY` `SELF`
 
 ---
 
@@ -266,4 +266,4 @@ The compliance process confirming a merchant's identity (KYC for individuals, KY
 Payment method identifier for Dollr internal wallet balance. Used for transfers between platform wallets. Provider is `PLATFORM`.
 
 **Wallet**
-A Dollr-managed balance account tied to a merchant entity. Wallets hold funds in a specific currency. Statuses: `ACTIVE`, `RESTRICTED`, `FROZEN`, `CLOSED`. Wallets are the source for payout and transfer sessions (`wallet_id`).
+A Dollr-managed balance account tied to a merchant entity. Wallets hold funds in a specific currency. Statuses: `ACTIVE`, `RESTRICTED`, `FROZEN`, `CLOSED`. Payout sessions return `wallet_id` in the response (the debiting wallet); you do not send `wallet_id` when creating a payout session.

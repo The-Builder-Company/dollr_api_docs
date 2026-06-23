@@ -10,24 +10,36 @@ keywords: ["Dollr checkout session", "Dollr payment execution", "Dollr API"]
 
 ## Session
 
-A **session** declares intent to run an operation: **checkout** (collect), **payout**, **transfer**, or **refund**. Create a session against a payment source (invoice, order, or checkout-created source), then execute it before the session expires.
+A **session** declares intent to run an operation: **checkout** (collect) or **payout**. Create a session against a payment source (invoice, order, or checkout-created source), then execute it before the session expires.
 
 <Note>
 **API Reference:** [Checkout session](/api-reference/sessions/create-checkout-session) · [Payout session](/api-reference/sessions/create-payout-session)
 </Note>
 
+<Info>
+**Hosted checkout** skips server-side sessions and executions — the customer pays on a Dollr page. See [Hosted checkout](/guides/hosted-checkout).
+</Info>
+
 ## Execution
 
-An **execution** submits an active session and moves funds. You must pass:
+An **execution** submits an active session and moves funds.
+
+**Collection** requires:
 
 - `session_id`
 - `payment_account_id` (registered wallet or card)
 - `currency`
 - `reference_id` — UUID v4 you generate **before** the HTTP call
 
+**Payout** requires `session_id`, `payout_account_id`, `reference_id`, and `passcode` (merchant verification with device metadata).
+
 <Warning>
 `reference_id` is your idempotency key. If the network fails, poll status with the **same** `reference_id` before retrying. Never mint a new UUID until you confirm the original attempt did not land.
 </Warning>
+
+## Card 3D Secure
+
+Collection executions for cards may return `requires_action: true` and a `client_secret`. Complete Stripe authentication in your UI before polling status. See [Collect with card](/guides/collect-with-card).
 
 ## Two status models
 
@@ -45,7 +57,11 @@ GET /v1/status/collection/{reference_id}
 GET /v1/status/payout/{reference_id}
 ```
 
-Replace the path segment with the UUID you stored at execute time.
+For hosted checkout, you can also check source status:
+
+```http
+GET /v1/status/source?source_type=INVOICE&source_id={id}
+```
 
 ## Fee bearer
 
@@ -54,7 +70,7 @@ Replace the path segment with the UUID you stored at execute time.
 
 ## Related
 
-- [Parties & counterparties](/concepts/parties-and-counterparties)
+- [Hosted checkout](/guides/hosted-checkout) · [Parties & counterparties](/concepts/parties-and-counterparties)
 - [Realtime status](/guides/realtime-status) — push updates instead of polling
 - [Executions API concept](/api/executions) · [Status](/api/status)
 - [Quick Start](/quickstart)

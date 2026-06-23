@@ -10,16 +10,16 @@ keywords: ["Dollr party API", "Dollr API", "Dollr customer record"]
 
 Parties are contact records — name, phone, optional email and country — for anyone you collect from or pay out to.
 
-**Try in API Reference:** [Create Party](/api-reference/parties/create-party) · [List Parties](/api-reference/parties/list-parties) · [Retrieve Party](/api-reference/parties/retrieve-parties)
+**Try in API Reference:** [Create](/api-reference/parties/create-party) · [List](/api-reference/parties/list-parties) · [Retrieve](/api-reference/parties/retrieve-parties)
 
 ## When to use
 
 - Document-first flows: create a party before a [counterparty](/api/counterparties) and invoice/order.
-- Payouts and transfers: identify the recipient before registering a payment account.
+- Payouts: identify the recipient before registering a payment account.
 
-Skip manual party creation when using [Collect via checkout](/guides/collect-via-checkout) — Dollr can match or create the payer from checkout fields.
+Skip manual party creation when using [Hosted checkout](/guides/hosted-checkout) or [Collect via checkout](/guides/collect-via-checkout) — Dollr can match or create the payer from checkout fields.
 
-## Minimal example
+## Create
 
 ```bash
 curl -X POST "https://api.heydollr.app/v1/parties/create" \
@@ -35,9 +35,21 @@ curl -X POST "https://api.heydollr.app/v1/parties/create" \
 
 Phone numbers use E.164 **without** the leading `+`. See [API conventions](/api-conventions).
 
+## List
+
+```bash
+curl "https://api.heydollr.app/v1/parties/list?fullname=Amara" \
+  -H "Authorization: Bearer YOUR_ACCESS_TOKEN"
+```
+
+## Retrieve
+
+```bash
+curl "https://api.heydollr.app/v1/parties/retrieve/42" \
+  -H "Authorization: Bearer YOUR_ACCESS_TOKEN"
+```
+
 ## Related
 
 - [Parties & counterparties (concept)](/concepts/parties-and-counterparties)
-- [Quick Start](/quickstart) · [Collect with Node.js](/guides/collect-with-nodejs)
-- [Counterparties](/api/counterparties)
-
+- [Quick Start](/quickstart) · [Counterparties](/api/counterparties)
